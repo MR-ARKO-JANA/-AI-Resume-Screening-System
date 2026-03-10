@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Screening Result - AI Recruiter</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/dashboard-ultra.css">
+    <link rel="stylesheet" href="../css/result-ultra.css">
+</head>
+
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="logo-section">
+            <div class="logo-icon">🤖</div>
+            <h2>AI Recruiter</h2>
+            <span class="version">v2.0 Pro</span>
+        </div>
+        <nav class="nav-menu">
+            <div class="nav-section">
+                <span class="nav-label">MAIN MENU</span>
+                <ul>
+                    <li onclick="window.location.href='/dashboard'">
+                        <i class="fas fa-th-large"></i>
+                        <span>Dashboard</span>
+                    </li>
+                    <li onclick="window.location.href='/dashboard'">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <span>Upload Resume</span>
+                    </li>
+                    <li class="active" onclick="window.location.href='/result'">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Results</span>
+                    </li>
+                    <li onclick="window.location.href='/candidates'">
+                        <i class="fas fa-users"></i>
+                        <span>Shortlisted</span>
+                        <span class="badge success">New</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="nav-section">
+                <span class="nav-label">SETTINGS</span>
+                <ul>
+                    <li onclick="window.location.href='/settings'">
+                        <i class="fas fa-cog"></i>
+                        <span>Settings</span>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="storage-info">
+                <div class="storage-header">
+                    <i class="fas fa-database"></i>
+                    <span>Storage</span>
+                </div>
+                <div class="storage-bar">
+                    <div class="storage-fill" style="width: 68%;"></div>
+                </div>
+                <span class="storage-text">68 MB of 100 MB used</span>
+            </div>
+            <button class="upgrade-btn">
+                <i class="fas fa-crown"></i>
+                Upgrade to Pro
+            </button>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Navbar -->
+        <header class="navbar">
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search candidates, resumes...">
+                <kbd>Ctrl</kbd> + <kbd>K</kbd>
+            </div>
+            <div class="navbar-actions">
+                <button class="icon-btn">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-dot"></span>
+                </button>
+                <button class="icon-btn">
+                    <i class="fas fa-envelope"></i>
+                </button>
+                <div class="user-profile">
+                    <img src="../images/user_img.webp" alt="User">
+                    <div class="user-info">
+                        <span class="user-name">HR Manager</span>
+                        <span class="user-role">Admin</span>
+                    </div>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+        </header>
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div>
+                <h1><i class="fas fa-chart-line"></i> Screening Result</h1>
+                <p class="page-subtitle">Detailed AI-powered analysis of candidate resume</p>
+            </div>
+            <div class="header-actions">
+                <button class="btn-export" id="downloadPDF">
+                    <i class="fas fa-file-pdf"></i> Download PDF Report
+                </button>
+                <button class="btn-back" onclick="window.location.href='/dashboard'">
+                    <i class="fas fa-arrow-left"></i> Back to Dashboard
+                </button>
+            </div>
+        </div>
+
+        <!-- Summary Cards -->
+        <section class="summary">
+            <div class="summary-card score">
+                <div class="card-icon purple">
+                    <i class="fas fa-percentage"></i>
+                </div>
+                <div class="card-content">
+                    <h3>Match Score</h3>
+                    <p>87%</p>
+                    <span class="card-trend positive"><i class="fas fa-arrow-up"></i> High Match</span>
+                </div>
+            </div>
+            <div class="summary-card status">
+                <div class="card-icon green">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="card-content">
+                    <h3>Status</h3>
+                    <p class="selected">Shortlisted</p>
+                    <span class="card-trend positive"><i class="fas fa-star"></i> Recommended</span>
+                </div>
+            </div>
+            <div class="summary-card experience">
+                <div class="card-icon blue">
+                    <i class="fas fa-briefcase"></i>
+                </div>
+                <div class="card-content">
+                    <h3>Experience</h3>
+                    <p>Fresher</p>
+                    <span class="card-trend"><i class="fas fa-graduation-cap"></i> Entry Level</span>
+                </div>
+            </div>
+            <div class="summary-card confidence">
+                <div class="card-icon orange">
+                    <i class="fas fa-brain"></i>
+                </div>
+                <div class="card-content">
+                    <h3>AI Confidence</h3>
+                    <p>93%</p>
+                    <span class="card-trend positive"><i class="fas fa-bolt"></i> Very High</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Scoring Breakdown -->
+        <section class="scoring-breakdown">
+            <div class="section-header">
+                <h2><i class="fas fa-chart-pie"></i> Scoring Breakdown (Transparent AI)</h2>
+                <button class="btn-secondary" id="downloadPDF">
+                    <i class="fas fa-download"></i> Export Report
+                </button>
+            </div>
+            <div class="breakdown-container">
+                <div class="breakdown-item">
+                    <h3>Skill Match (60%)</h3>
+                    <p id="skillBreakdown">Loading...</p>
+                    <div class="progress-bar">
+                        <div id="skillProgress" class="progress-fill"></div>
+                    </div>
+                </div>
+                <div class="breakdown-item">
+                    <h3>Keyword Match (30%)</h3>
+                    <p id="keywordBreakdown">Loading...</p>
+                    <div class="progress-bar">
+                        <div id="keywordProgress" class="progress-fill"></div>
+                    </div>
+                </div>
+                <div class="breakdown-item">
+                    <h3>Experience (10%)</h3>
+                    <p id="experienceBreakdown">Loading...</p>
+                    <div class="progress-bar">
+                        <div id="experienceProgress" class="progress-fill"></div>
+                    </div>
+                </div>
+            </div>
+            <p id="scoringExplanation" style="margin-top: 20px; font-style: italic; color: #64748b;"></p>
+        </section>
+
+        <!-- Resume Preview -->
+        <section class="resume-preview">
+            <div class="section-header">
+                <h2><i class="fas fa-file-pdf"></i> Resume Preview</h2>
+            </div>
+            <div class="preview-box">
+                <div class="file-info">
+                    <i class="fas fa-file-pdf file-icon"></i>
+                    <div>
+                        <p class="file-name">Resume.pdf</p>
+                        <span class="file-size">2.4 MB • Uploaded today</span>
+                    </div>
+                </div>
+                <div class="preview-actions">
+                    <button class="btn-view"><i class="fas fa-eye"></i> View Resume</button>
+                    <button class="btn-download"><i class="fas fa-download"></i></button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills -->
+        <section class="skills">
+            <div class="section-header">
+                <h2><i class="fas fa-code"></i> Skill Match</h2>
+                <span class="skill-count">10 skills found</span>
+            </div>
+            <div class="skill"><span>Python</span>
+                <div class="bar">
+                    <div style="width:90%"></div>
+                </div>
+            </div>
+            <div class="skill"><span>Machine Learning</span>
+                <div class="bar">
+                    <div style="width:85%"></div>
+                </div>
+            </div>
+            <div class="skill"><span>SQL</span>
+                <div class="bar">
+                    <div style="width:75%"></div>
+                </div>
+            </div>
+            <div class="skill"><span>Communication</span>
+                <div class="bar">
+                    <div style="width:70%"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- AI Recommendation -->
+        <section class="recommendation">
+            <div class="section-header">
+                <h2><i class="fas fa-lightbulb"></i> AI Recommendation</h2>
+                <span class="recommendation-badge positive">
+                    <i class="fas fa-thumbs-up"></i> Recommended
+                </span>
+            </div>
+            <p>Candidate matches most of the required skills. Strong technical background with good learning potential.
+                Recommended for technical interview.</p>
+        </section>
+
+        <!-- Actions -->
+        <section class="actions">
+            <button class="btn-primary-action">
+                <i class="fas fa-check"></i> Shortlist Candidate
+            </button>
+            <button class="btn-reject">
+                <i class="fas fa-times"></i> Reject
+            </button>
+            <button class="btn-schedule">
+                <i class="fas fa-calendar-alt"></i> Schedule Interview
+            </button>
+        </section>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+    <script src="../js/result-ultra.js"></script>
+</body>
+
+</html>

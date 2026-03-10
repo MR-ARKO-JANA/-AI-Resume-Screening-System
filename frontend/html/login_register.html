@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/log_regi.css">
+    <title>AI Recruiter - Login</title>
+</head>
+<body>
+    <div class="container">
+        <div class="brand">
+            <h1>🤖 AI Recruiter</h1>
+            <p>Smart Resume Screening Platform</p>
+        </div>
+        
+        <div id="login-section" class="form-section">
+            <h2>Welcome Back</h2>
+            <p class="subtitle">Sign in to continue screening</p>
+            <form action="/login" method="post">
+                <div class="input-group">
+                    <label for="login-email">Email Address</label>
+                    <input type="email" id="login-email" name="email" placeholder="your@email.com" required>
+                </div>
+                <div class="input-group">
+                    <label for="login-password">Password</label>
+                    <input type="password" id="login-password" name="password" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="btn-primary">Sign In</button>
+            </form>
+            <div class="switch-form">
+                Don't have an account? <a href="#" onclick="switchToRegister()">Create one</a>
+            </div>
+        </div>
+        
+        <div id="register-section" class="form-section" style="display:none;">
+            <h2>Get Started</h2>
+            <p class="subtitle">Create your account</p>
+            <form action="/register" method="post">
+                <div class="input-group">
+                    <label for="register-name">Full Name</label>
+                    <input type="text" id="register-name" name="name" placeholder="John Doe" required>
+                </div>
+                <div class="input-group">
+                    <label for="register-email">Email Address</label>
+                    <input type="email" id="register-email" name="email" placeholder="your@email.com" required>
+                </div>
+                <div class="input-group">
+                    <label for="register-password">Password</label>
+                    <input type="password" id="register-password" name="password" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="btn-primary">Create Account</button>
+            </form>
+            <div class="switch-form">
+                Already have an account? <a href="#" onclick="switchToLogin()">Sign in</a>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function switchToRegister(){
+            document.getElementById('login-section').style.display = 'none';
+            document.getElementById('register-section').style.display = 'block';
+        }
+        function switchToLogin(){
+            document.getElementById('register-section').style.display = 'none';
+            document.getElementById('login-section').style.display = 'block';
+        }
+    </script>
+</body>
+</html>

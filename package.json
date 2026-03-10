@@ -1,0 +1,44 @@
+{
+  "name": "ai-resume-scanner",
+  "version": "1.0.0",
+  "description": "AI-powered resume screening system that automatically analyzes and ranks candidates",
+  "license": "MIT",
+  "author": "Arko Jana",
+  "type": "commonjs",
+  "main": "backend/server.js",
+  "scripts": {
+    "start": "node backend/server.js",
+    "dev": "nodemon backend/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "ai",
+    "resume",
+    "screening",
+    "nlp",
+    "recruitment",
+    "hr-tech"
+  ],
+  "dependencies": {
+    "@google/generative-ai": "^0.24.1",
+    "bcrypt": "^6.0.0",
+    "cookie-parser": "^1.4.7",
+    "dotenv": "^16.6.1",
+    "express": "^5.2.1",
+    "express-validator": "^7.3.1",
+    "jsonwebtoken": "^9.0.3",
+    "jspdf": "^4.2.0",
+    "jspdf-autotable": "^5.0.7",
+    "mongoose": "^9.1.5",
+    "multer": "^2.0.2",
+    "natural": "^8.1.0",
+    "pdf-parse": "^1.1.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  },
+  "engines": {
+    "node": ">=14.0.0",
+    "npm": ">=6.0.0"
+  }
+}
