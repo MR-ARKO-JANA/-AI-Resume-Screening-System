@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Lookup - AI Recruiter</title>
+    <meta name="description" content="Look up candidate profiles from GitHub and LinkedIn for comprehensive screening">
+    <link rel="stylesheet" href="../css/dashboard-ultra.css">
+    <link rel="stylesheet" href="../css/profile-lookup.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="logo-section">
+            <div class="logo-icon">
+                <i class="fas fa-robot"></i>
+            </div>
+            <h2>AI Recruiter</h2>
+            <span class="version">v2.0 Pro</span>
+        </div>
+
+        <nav class="nav-menu">
+            <div class="nav-section">
+                <span class="nav-label">MAIN</span>
+                <ul>
+                    <li onclick="window.location.href='/dashboard'">
+                        <i class="fas fa-home"></i>
+                        <span>Dashboard</span>
+                    </li>
+                    <li onclick="window.location.href='/result'">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Results</span>
+                    </li>
+                    <li onclick="window.location.href='/candidates'">
+                        <i class="fas fa-users"></i>
+                        <span>Candidates</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="nav-section">
+                <span class="nav-label">TOOLS</span>
+                <ul>
+                    <li class="active">
+                        <i class="fas fa-search-plus"></i>
+                        <span>Profile Lookup</span>
+                        <span class="badge new">NEW</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-briefcase"></i>
+                        <span>Jobs</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-chart-bar"></i>
+                        <span>Analytics</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="nav-section">
+                <span class="nav-label">SETTINGS</span>
+                <ul>
+                    <li onclick="window.location.href='/settings'">
+                        <i class="fas fa-cog"></i>
+                        <span>Settings</span>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="storage-info">
+                <div class="storage-header">
+                    <i class="fas fa-database"></i>
+                    <span>Storage</span>
+                </div>
+                <div class="storage-bar">
+                    <div class="storage-fill" style="width: 65%"></div>
+                </div>
+                <span class="storage-text">6.5 GB of 10 GB used</span>
+            </div>
+            <button class="upgrade-btn">
+                <i class="fas fa-crown"></i>
+                Upgrade to Pro
+            </button>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Navbar -->
+        <header class="navbar">
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search resumes, candidates, jobs...">
+                <kbd>Ctrl</kbd> + <kbd>K</kbd>
+            </div>
+            <div class="navbar-actions">
+                <button class="icon-btn" title="Notifications">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-dot"></span>
+                </button>
+                <button class="icon-btn" title="Messages">
+                    <i class="fas fa-envelope"></i>
+                </button>
+                <div class="user-profile">
+                    <img src="../images/user_img.webp" alt="User">
+                    <div class="user-info">
+                        <span class="user-name">Arko Jana</span>
+                        <span class="user-role">HR Manager</span>
+                    </div>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+        </header>
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div>
+                <h1><i class="fas fa-user-secret"></i> Candidate Profile Lookup</h1>
+                <p class="page-subtitle">Deep-dive into candidate's GitHub activity & LinkedIn profile using AI</p>
+            </div>
+        </div>
+
+        <!-- Input Section -->
+        <div class="lookup-input-section">
+            <div class="input-grid">
+                <div class="input-group">
+                    <label><i class="fab fa-github"></i> GitHub Profile URL</label>
+                    <input type="url" id="githubUrl" placeholder="https://github.com/username" autocomplete="off">
+                </div>
+                <div class="input-group">
+                    <label><i class="fab fa-linkedin"></i> LinkedIn Profile URL</label>
+                    <input type="url" id="linkedinUrl" placeholder="https://linkedin.com/in/username" autocomplete="off">
+                </div>
+                <div class="input-group linkedin-textarea-group">
+                    <label><i class="fab fa-linkedin"></i> Paste LinkedIn Profile Content <span style="font-weight: 400; color: #94a3b8; font-size: 12px;">(optional — for AI analysis)</span></label>
+                    <textarea id="linkedinText" placeholder="Copy-paste the candidate's LinkedIn 'About', 'Experience', 'Certifications' sections here...
+
+Our Gemini AI will extract:
+• Past work experience & companies
+• Certifications & licenses
+• Key skills & highlights
+• Education background"></textarea>
+                    <p class="textarea-hint"><i class="fas fa-lightbulb"></i> Tip: Copy text from the LinkedIn profile page and paste it here for AI-powered analysis</p>
+                </div>
+            </div>
+            <button class="btn-check-profile" id="checkBtn" onclick="checkProfile()">
+                <i class="fas fa-search"></i>
+                Check Candidate Profile
+                <span class="btn-shine"></span>
+            </button>
+        </div>
+
+        <!-- Error Message -->
+        <div class="error-message" id="errorMessage">
+            <i class="fas fa-exclamation-circle"></i>
+            <span id="errorText"></span>
+        </div>
+
+        <!-- Loading State -->
+        <div class="profile-loading" id="loadingState">
+            <div class="loading-pulse">
+                <i class="fas fa-search"></i>
+            </div>
+            <h3>Analyzing Candidate Profile...</h3>
+            <p>Fetching GitHub data & running AI analysis</p>
+        </div>
+
+        <!-- Results Section -->
+        <div class="profile-results" id="profileResults">
+
+            <!-- GitHub Profile Card -->
+            <div class="github-profile-card" id="githubProfileCard">
+                <img class="profile-avatar" id="profileAvatar" src="" alt="Avatar">
+                <div class="profile-details">
+                    <h2 id="profileName"></h2>
+                    <p class="username" id="profileUsername"></p>
+                    <p class="bio" id="profileBio"></p>
+                    <div class="profile-meta">
+                        <span id="profileLocation"><i class="fas fa-map-marker-alt"></i> <span></span></span>
+                        <span id="profileCompany"><i class="fas fa-building"></i> <span></span></span>
+                        <span id="profileJoined"><i class="fas fa-calendar"></i> <span></span></span>
+                    </div>
+                </div>
+                <a class="profile-link" id="profileLink" href="#" target="_blank">
+                    <i class="fab fa-github"></i> View on GitHub
+                </a>
+            </div>
+
+            <!-- Stats Grid -->
+            <div class="profile-stats-grid">
+                <div class="profile-stat-card">
+                    <div class="stat-icon-mini"><i class="fas fa-code-branch"></i></div>
+                    <h3 id="statRepos">0</h3>
+                    <p>Repositories</p>
+                </div>
+                <div class="profile-stat-card">
+                    <div class="stat-icon-mini"><i class="fas fa-star"></i></div>
+                    <h3 id="statStars">0</h3>
+                    <p>Total Stars</p>
+                </div>
+                <div class="profile-stat-card">
+                    <div class="stat-icon-mini"><i class="fas fa-user-friends"></i></div>
+                    <h3 id="statFollowers">0</h3>
+                    <p>Followers</p>
+                </div>
+                <div class="profile-stat-card">
+                    <div class="stat-icon-mini"><i class="fas fa-user-plus"></i></div>
+                    <h3 id="statFollowing">0</h3>
+                    <p>Following</p>
+                </div>
+            </div>
+
+            <!-- Top Projects + Commit Graph -->
+            <div class="profile-content-grid">
+                <!-- Top 5 Projects -->
+                <div class="content-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-trophy"></i> Top 5 Projects</h3>
+                    </div>
+                    <div class="project-list" id="projectList">
+                        <!-- Filled by JS -->
+                    </div>
+                </div>
+
+                <!-- Commit Activity Graph -->
+                <div class="content-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-chart-area"></i> Commit Activity (12 Months)</h3>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="commitChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Languages -->
+                <div class="content-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-code"></i> Languages Used</h3>
+                    </div>
+                    <div class="lang-grid" id="langGrid">
+                        <!-- Filled by JS -->
+                    </div>
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="content-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-history"></i> Recent Activity</h3>
+                    </div>
+                    <div class="activity-timeline" id="activityTimeline">
+                        <!-- Filled by JS -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- LinkedIn Results -->
+            <div class="linkedin-results" id="linkedinResults">
+                <!-- LinkedIn Header -->
+                <div class="linkedin-header-card">
+                    <div class="linkedin-icon-big">
+                        <i class="fab fa-linkedin-in"></i>
+                    </div>
+                    <div class="linkedin-header-info">
+                        <h2 id="linkedinName">LinkedIn Insights</h2>
+                        <p class="headline" id="linkedinHeadline"></p>
+                        <p class="location-role" id="linkedinRole"></p>
+                    </div>
+                </div>
+
+                <div class="profile-content-grid">
+                    <!-- Work Experience -->
+                    <div class="content-card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-briefcase"></i> Work Experience</h3>
+                        </div>
+                        <div class="experience-list" id="experienceList">
+                            <!-- Filled by JS -->
+                        </div>
+                    </div>
+
+                    <!-- Certifications -->
+                    <div class="content-card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-certificate"></i> Certifications</h3>
+                        </div>
+                        <div class="cert-grid" id="certGrid">
+                            <!-- Filled by JS -->
+                        </div>
+                    </div>
+
+                    <!-- Education -->
+                    <div class="content-card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-graduation-cap"></i> Education</h3>
+                        </div>
+                        <div class="education-list" id="educationList">
+                            <!-- Filled by JS -->
+                        </div>
+                    </div>
+
+                    <!-- Key Highlights + Skills -->
+                    <div class="content-card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-lightbulb"></i> Key Highlights</h3>
+                        </div>
+                        <div class="highlights-list" id="highlightsList">
+                            <!-- Filled by JS -->
+                        </div>
+                        <div style="margin-top: 20px;">
+                            <h4 style="font-size: 14px; font-weight: 700; color: var(--dark); margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+                                <i class="fas fa-tags" style="color: var(--primary);"></i> Skills
+                            </h4>
+                            <div class="skills-cloud" id="skillsCloud">
+                                <!-- Filled by JS -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- LinkedIn URL Link (shown if URL provided but no text pasted) -->
+        <div class="content-card" id="linkedinLinkCard" style="display: none; margin-top: 24px;">
+            <div class="card-header">
+                <h3><i class="fab fa-linkedin" style="color: #0a66c2;"></i> LinkedIn Profile</h3>
+            </div>
+            <p style="color: #64748b; margin-bottom: 16px;">Open the candidate's LinkedIn profile to review their background:</p>
+            <a id="linkedinDirectLink" href="#" target="_blank" style="display: inline-flex; align-items: center; gap: 10px; padding: 12px 24px; background: linear-gradient(135deg, #0a66c2, #004182); color: white; border-radius: 12px; text-decoration: none; font-weight: 600; transition: all 0.3s ease; box-shadow: 0 8px 20px rgba(10, 102, 194, 0.3);">
+                <i class="fab fa-linkedin-in"></i> Open LinkedIn Profile
+            </a>
+        </div>
+    </main>
+
+    <script src="../js/profile-lookup.js"></script>
+</body>
+
+</html>

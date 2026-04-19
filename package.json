@@ -7,8 +7,8 @@
   "type": "commonjs",
   "main": "backend/server.js",
   "scripts": {
-    "start": "node backend/server.js",
-    "dev": "nodemon backend/server.js",
+    "start": "node ./backend/server.js",
+    "dev": "nodemon ./backend/server.js",
     "test": "jest"
   },
   "keywords": [
