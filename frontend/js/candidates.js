@@ -159,9 +159,8 @@ function resetModal() {
     switchTab('lookup', document.getElementById('tabLookup'));
 
     // Reset inputs
-    document.getElementById('modalGithubUrl').value = '';
-    document.getElementById('modalLinkedinUrl').value = '';
-    document.getElementById('modalLinkedinText').value = '';
+    document.getElementById('modalGithubUrl').value = currentCandidate.githubUrl || '';
+    document.getElementById('modalLinkedinUrl').value = currentCandidate.linkedinUrl || '';
 
     // Hide results
     document.getElementById('githubResultsContent').style.display = 'none';
@@ -202,10 +201,9 @@ function switchTab(tabName, btn) {
 async function analyzeCandidate() {
     const githubUrl = document.getElementById('modalGithubUrl').value.trim();
     const linkedinUrl = document.getElementById('modalLinkedinUrl').value.trim();
-    const linkedinText = document.getElementById('modalLinkedinText').value.trim();
 
-    if (!githubUrl && !linkedinText && !linkedinUrl) {
-        showModalError('Please enter a GitHub URL, LinkedIn URL, or paste profile content');
+    if (!githubUrl && !linkedinUrl) {
+        showModalError('Please enter a GitHub or LinkedIn URL');
         return;
     }
 
@@ -219,9 +217,8 @@ async function analyzeCandidate() {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 candidateId: currentCandidateId,
-                githubUrl,
-                linkedinUrl,
-                linkedinText
+                githubUrl: githubUrl || '',
+                linkedinUrl: linkedinUrl || ''
             })
         });
 

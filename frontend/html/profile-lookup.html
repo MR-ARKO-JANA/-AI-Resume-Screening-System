@@ -137,16 +137,8 @@
                     <label><i class="fab fa-linkedin"></i> LinkedIn Profile URL</label>
                     <input type="url" id="linkedinUrl" placeholder="https://linkedin.com/in/username" autocomplete="off">
                 </div>
-                <div class="input-group linkedin-textarea-group">
-                    <label><i class="fab fa-linkedin"></i> Paste LinkedIn Profile Content <span style="font-weight: 400; color: #94a3b8; font-size: 12px;">(optional — for AI analysis)</span></label>
-                    <textarea id="linkedinText" placeholder="Copy-paste the candidate's LinkedIn 'About', 'Experience', 'Certifications' sections here...
-
-Our Gemini AI will extract:
-• Past work experience & companies
-• Certifications & licenses
-• Key skills & highlights
-• Education background"></textarea>
-                    <p class="textarea-hint"><i class="fas fa-lightbulb"></i> Tip: Copy text from the LinkedIn profile page and paste it here for AI-powered analysis</p>
+                <div class="input-group" style="grid-column: 1 / -1;">
+                    <!-- Spacer or future input -->
                 </div>
             </div>
             <button class="btn-check-profile" id="checkBtn" onclick="checkProfile()">
@@ -325,16 +317,6 @@ Our Gemini AI will extract:
             </div>
         </div>
 
-        <!-- LinkedIn URL Link (shown if URL provided but no text pasted) -->
-        <div class="content-card" id="linkedinLinkCard" style="display: none; margin-top: 24px;">
-            <div class="card-header">
-                <h3><i class="fab fa-linkedin" style="color: #0a66c2;"></i> LinkedIn Profile</h3>
-            </div>
-            <p style="color: #64748b; margin-bottom: 16px;">Open the candidate's LinkedIn profile to review their background:</p>
-            <a id="linkedinDirectLink" href="#" target="_blank" style="display: inline-flex; align-items: center; gap: 10px; padding: 12px 24px; background: linear-gradient(135deg, #0a66c2, #004182); color: white; border-radius: 12px; text-decoration: none; font-weight: 600; transition: all 0.3s ease; box-shadow: 0 8px 20px rgba(10, 102, 194, 0.3);">
-                <i class="fab fa-linkedin-in"></i> Open LinkedIn Profile
-            </a>
-        </div>
     </main>
 
     <script src="../js/profile-lookup.js"></script>

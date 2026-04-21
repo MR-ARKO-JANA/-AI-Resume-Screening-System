@@ -20,11 +20,10 @@ const LANG_COLORS = {
 async function checkProfile() {
     const githubUrl = document.getElementById('githubUrl').value.trim();
     const linkedinUrl = document.getElementById('linkedinUrl').value.trim();
-    const linkedinText = document.getElementById('linkedinText').value.trim();
 
     // Validate at least one input
-    if (!githubUrl && !linkedinUrl && !linkedinText) {
-        showError('Please enter at least a GitHub URL, LinkedIn URL, or text');
+    if (!githubUrl && !linkedinUrl) {
+        showError('Please enter at least a GitHub or LinkedIn URL');
         return;
     }
 
@@ -54,9 +53,9 @@ async function checkProfile() {
             promises.push(Promise.resolve(null));
         }
 
-        // Analyze LinkedIn text or URL with AI
-        if ((linkedinText && linkedinText.length >= 50) || linkedinUrl) {
-            promises.push(analyzeLinkedIn(linkedinText, linkedinUrl));
+        // Analyze LinkedIn URL with AI
+        if (linkedinUrl) {
+            promises.push(analyzeLinkedIn(linkedinUrl));
         } else {
             promises.push(Promise.resolve(null));
         }
@@ -71,11 +70,6 @@ async function checkProfile() {
 
         if (linkedinData) {
             renderLinkedInResults(linkedinData);
-        }
-
-        // Show LinkedIn link if URL provided but no text analysis
-        if (linkedinUrl && !linkedinData) {
-            showLinkedInLink(linkedinUrl);
         }
 
         showResults();
@@ -102,11 +96,11 @@ async function fetchGitHubProfile(username) {
     return data;
 }
 
-async function analyzeLinkedIn(text, url) {
+async function analyzeLinkedIn(url) {
     const res = await fetch('/api/profile/linkedin-analyze', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ linkedinText: text, linkedinUrl: url })
+        body: JSON.stringify({ linkedinUrl: url })
     });
     const data = await res.json();
     if (data.error) throw new Error(data.error);
@@ -445,15 +439,7 @@ function renderLinkedInResults(data) {
     container.classList.add('active');
 }
 
-// ============================================================
-// LinkedIn Link Card
-// ============================================================
-function showLinkedInLink(url) {
-    const card = document.getElementById('linkedinLinkCard');
-    const link = document.getElementById('linkedinDirectLink');
-    link.href = url;
-    card.style.display = 'block';
-}
+// Removed LinkedIn Link Card logic
 
 // ============================================================
 // Utility Functions
@@ -501,7 +487,6 @@ function showResults() { document.getElementById('profileResults').classList.add
 function hideResults() {
     document.getElementById('profileResults').classList.remove('active');
     document.getElementById('linkedinResults').classList.remove('active');
-    document.getElementById('linkedinLinkCard').style.display = 'none';
 }
 function showError(msg) {
     const el = document.getElementById('errorMessage');

@@ -147,10 +147,10 @@ function getEventMessage(event) {
 // ================================
 exports.analyzeLinkedIn = async (req, res) => {
     try {
-        const { linkedinText, linkedinUrl } = req.body;
-        let contentToAnalyze = linkedinText;
+        const { linkedinUrl } = req.body;
+        let contentToAnalyze = null;
 
-        if (!contentToAnalyze && linkedinUrl) {
+        if (linkedinUrl) {
             const rapidapiKey = process.env.RAPIDAPI_KEY;
             const proxycurlKey = process.env.PROXYCURL_API_KEY;
             
@@ -159,25 +159,12 @@ exports.analyzeLinkedIn = async (req, res) => {
                 try {
                     let response;
                     if (rapidapiKey) {
-                        response = await fetch(`https://fresh-linkedin-profile-data.p.rapidapi.com/get-linkedin-profile?linkedin_url=${encodeURIComponent(linkedinUrl)}`, {
+                        response = await fetch(`https://linkedin-data-api.p.rapidapi.com/get-profile-data-by-url?url=${encodeURIComponent(linkedinUrl)}`, {
                             headers: {
                                 'x-rapidapi-key': rapidapiKey,
-                                'x-rapidapi-host': 'fresh-linkedin-profile-data.p.rapidapi.com'
+                                'x-rapidapi-host': 'linkedin-data-api.p.rapidapi.com'
                             }
                         });
-                        
-                        // Fallback to linkedin-data-api if fresh-linkedin-profile-data is not subscribed
-                        if (!response.ok && response.status !== 200) {
-                            const username = extractLinkedInUsername(linkedinUrl);
-                            if (username) {
-                                response = await fetch(`https://linkedin-data-api.p.rapidapi.com/?username=${username}`, {
-                                    headers: {
-                                        'x-rapidapi-key': rapidapiKey,
-                                        'x-rapidapi-host': 'linkedin-data-api.p.rapidapi.com'
-                                    }
-                                });
-                            }
-                        }
                     } else if (proxycurlKey) {
                         response = await fetch(`https://nubela.co/proxycurl/api/v2/linkedin?url=${encodeURIComponent(linkedinUrl)}`, {
                             headers: {
@@ -216,7 +203,7 @@ exports.analyzeLinkedIn = async (req, res) => {
         }
 
         if (!contentToAnalyze || contentToAnalyze.trim().length < 50 || contentToAnalyze.includes('HTTP Error 999')) {
-            return res.status(400).json({ error: 'Direct LinkedIn scraping is blocked. To enable auto-extract like GitHub, add RAPIDAPI_KEY or PROXYCURL_API_KEY to your .env file. Otherwise, manually paste the profile text.' });
+            return res.status(400).json({ error: 'Direct LinkedIn scraping is blocked. Please ensure your RAPIDAPI_KEY or PROXYCURL_API_KEY has an active subscription to a LinkedIn Profile API.' });
         }
 
         const apiKey = process.env.GEMINI_API_KEY;
@@ -294,7 +281,7 @@ ${contentToAnalyze}`;
 // ================================
 exports.lookupCandidateProfile = async (req, res) => {
     try {
-        const { candidateId, githubUrl, linkedinText, linkedinUrl } = req.body;
+        const { candidateId, githubUrl, linkedinUrl } = req.body;
 
         if (!candidateId) {
             return res.status(400).json({ error: 'Candidate ID is required' });
@@ -373,10 +360,10 @@ exports.lookupCandidateProfile = async (req, res) => {
             }
         }
 
-        // Analyze LinkedIn text or URL if provided
-        let contentToProcess = linkedinText;
+        // Analyze LinkedIn URL if provided
+        let contentToProcess = null;
 
-        if (!contentToProcess && linkedinUrl) {
+        if (linkedinUrl) {
             const rapidapiKey = process.env.RAPIDAPI_KEY;
             const proxycurlKey = process.env.PROXYCURL_API_KEY;
             
@@ -384,25 +371,12 @@ exports.lookupCandidateProfile = async (req, res) => {
                 try {
                     let response;
                     if (rapidapiKey) {
-                        response = await fetch(`https://fresh-linkedin-profile-data.p.rapidapi.com/get-linkedin-profile?linkedin_url=${encodeURIComponent(linkedinUrl)}`, {
+                        response = await fetch(`https://linkedin-data-api.p.rapidapi.com/get-profile-data-by-url?url=${encodeURIComponent(linkedinUrl)}`, {
                             headers: {
                                 'x-rapidapi-key': rapidapiKey,
-                                'x-rapidapi-host': 'fresh-linkedin-profile-data.p.rapidapi.com'
+                                'x-rapidapi-host': 'linkedin-data-api.p.rapidapi.com'
                             }
                         });
-                        
-                        // Fallback to linkedin-data-api if fresh-linkedin-profile-data is not subscribed
-                        if (!response.ok && response.status !== 200) {
-                            const username = extractLinkedInUsername(linkedinUrl);
-                            if (username) {
-                                response = await fetch(`https://linkedin-data-api.p.rapidapi.com/?username=${username}`, {
-                                    headers: {
-                                        'x-rapidapi-key': rapidapiKey,
-                                        'x-rapidapi-host': 'linkedin-data-api.p.rapidapi.com'
-                                    }
-                                });
-                            }
-                        }
                     } else if (proxycurlKey) {
                         response = await fetch(`https://nubela.co/proxycurl/api/v2/linkedin?url=${encodeURIComponent(linkedinUrl)}`, {
                             headers: {
