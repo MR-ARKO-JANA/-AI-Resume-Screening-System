@@ -22,9 +22,9 @@ async function checkProfile() {
     const linkedinUrl = document.getElementById('linkedinUrl').value.trim();
     const linkedinText = document.getElementById('linkedinText').value.trim();
 
-    // Validate at least one URL
-    if (!githubUrl && !linkedinUrl) {
-        showError('Please enter at least a GitHub or LinkedIn URL');
+    // Validate at least one input
+    if (!githubUrl && !linkedinUrl && !linkedinText) {
+        showError('Please enter at least a GitHub URL, LinkedIn URL, or text');
         return;
     }
 
@@ -54,9 +54,9 @@ async function checkProfile() {
             promises.push(Promise.resolve(null));
         }
 
-        // Analyze LinkedIn text with AI
-        if (linkedinText && linkedinText.length >= 50) {
-            promises.push(analyzeLinkedIn(linkedinText));
+        // Analyze LinkedIn text or URL with AI
+        if ((linkedinText && linkedinText.length >= 50) || linkedinUrl) {
+            promises.push(analyzeLinkedIn(linkedinText, linkedinUrl));
         } else {
             promises.push(Promise.resolve(null));
         }
@@ -102,11 +102,11 @@ async function fetchGitHubProfile(username) {
     return data;
 }
 
-async function analyzeLinkedIn(text) {
+async function analyzeLinkedIn(text, url) {
     const res = await fetch('/api/profile/linkedin-analyze', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ linkedinText: text })
+        body: JSON.stringify({ linkedinText: text, linkedinUrl: url })
     });
     const data = await res.json();
     if (data.error) throw new Error(data.error);

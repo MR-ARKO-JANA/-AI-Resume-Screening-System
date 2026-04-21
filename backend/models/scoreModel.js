@@ -42,8 +42,49 @@ const scoreSchema = new mongoose.Schema({
         name: String,
         percentage: Number
     }],
-        scoringBreakdown: {
+    scoringBreakdown: {
         type: Object
+    },
+    candidateName: {
+        type: String,
+        default: ''
+    },
+    githubUrl: {
+        type: String,
+        default: ''
+    },
+    linkedinUrl: {
+        type: String,
+        default: ''
+    },
+    linkedinData: {
+        fullName: String,
+        headline: String,
+        currentRole: String,
+        location: String,
+        summary: String,
+        workExperience: [{
+            title: String,
+            company: String,
+            duration: String,
+            description: String
+        }],
+        certifications: [{
+            name: String,
+            issuer: String,
+            date: String
+        }],
+        education: [{
+            degree: String,
+            school: String,
+            year: String
+        }],
+        skills: [String],
+        keyHighlights: [String]
+    },
+    githubData: {
+        type: Object,
+        default: null
     },
 
     createdDate: {

@@ -4,9 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>All Candidates - AI Recruiter</title>
+    <meta name="description" content="View and manage all screened candidates with GitHub and LinkedIn profile insights">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="../css/dashboard-ultra.css">
     <link rel="stylesheet" href="../css/candidates-ultra.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 </head>
 <body>
     <!-- Sidebar -->
@@ -180,6 +182,214 @@
             </div>
         </div>
     </main>
+
+    <!-- ========== CANDIDATE DETAIL MODAL ========== -->
+    <div class="detail-overlay" id="detailOverlay" onclick="closeDetailModal(event)">
+        <div class="detail-modal" id="detailModal">
+            <!-- Modal Header -->
+            <div class="detail-modal-header">
+                <div class="modal-title-section">
+                    <div class="modal-icon-box">
+                        <i class="fas fa-user-circle"></i>
+                    </div>
+                    <div>
+                        <h2 id="modalCandidateName">Candidate Profile</h2>
+                        <p class="modal-subtitle" id="modalCandidateFile">Deep-dive into candidate's profile</p>
+                    </div>
+                </div>
+                <button class="modal-close-btn" onclick="closeDetailModal()" title="Close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <!-- Tab Navigation -->
+            <div class="modal-tabs">
+                <button class="modal-tab active" onclick="switchTab('lookup', this)" id="tabLookup">
+                    <i class="fas fa-search"></i> Profile Lookup
+                </button>
+                <button class="modal-tab" onclick="switchTab('github', this)" id="tabGithub">
+                    <i class="fab fa-github"></i> GitHub
+                </button>
+                <button class="modal-tab" onclick="switchTab('linkedin', this)" id="tabLinkedin">
+                    <i class="fab fa-linkedin"></i> LinkedIn
+                </button>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="detail-modal-body">
+
+                <!-- TAB: Profile Lookup Input -->
+                <div class="tab-content active" id="tabContentLookup">
+                    <div class="lookup-card">
+                        <div class="lookup-card-header">
+                            <i class="fas fa-radar"></i>
+                            <h3>Analyze Candidate Profile</h3>
+                            <p>Enter GitHub URL and paste LinkedIn content for AI-powered analysis</p>
+                        </div>
+                        <div class="modal-input-grid">
+                            <div class="modal-input-group">
+                                <label><i class="fab fa-github"></i> GitHub Profile URL</label>
+                                <input type="url" id="modalGithubUrl" placeholder="https://github.com/username" autocomplete="off">
+                            </div>
+                            <div class="modal-input-group">
+                                <label><i class="fab fa-linkedin"></i> LinkedIn Profile URL</label>
+                                <input type="url" id="modalLinkedinUrl" placeholder="https://linkedin.com/in/username" autocomplete="off">
+                            </div>
+                            <div class="modal-input-group full-width">
+                                <label><i class="fab fa-linkedin"></i> Paste LinkedIn Profile Content <span class="optional-tag">optional — for AI analysis</span></label>
+                                <textarea id="modalLinkedinText" placeholder="Copy-paste the candidate's LinkedIn 'About', 'Experience', 'Certifications' sections here...
+
+Gemini AI will extract:
+• Past work experience & companies
+• Certifications & licenses
+• Key skills & highlights
+• Education background"></textarea>
+                                <p class="modal-textarea-hint"><i class="fas fa-lightbulb"></i> Tip: Copy text from the LinkedIn profile page and paste it here for AI-powered analysis</p>
+                            </div>
+                        </div>
+                        <button class="modal-analyze-btn" id="modalAnalyzeBtn" onclick="analyzeCandidate()">
+                            <i class="fas fa-search"></i>
+                            Analyze Candidate Profile
+                            <span class="btn-shine"></span>
+                        </button>
+                        <!-- Error -->
+                        <div class="modal-error" id="modalError">
+                            <i class="fas fa-exclamation-circle"></i>
+                            <span id="modalErrorText"></span>
+                        </div>
+                        <!-- Loading -->
+                        <div class="modal-loading" id="modalLoading">
+                            <div class="modal-loading-pulse">
+                                <i class="fas fa-cog fa-spin"></i>
+                            </div>
+                            <p>Analyzing profile with AI...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB: GitHub Results -->
+                <div class="tab-content" id="tabContentGithub">
+                    <!-- Empty state -->
+                    <div class="tab-empty" id="githubEmpty">
+                        <div class="empty-icon"><i class="fab fa-github"></i></div>
+                        <h3>No GitHub Data Yet</h3>
+                        <p>Go to the "Profile Lookup" tab and enter a GitHub URL to analyze</p>
+                    </div>
+
+                    <!-- GitHub Results -->
+                    <div id="githubResultsContent" style="display: none;">
+                        <!-- Profile Card -->
+                        <div class="modal-github-card">
+                            <img class="modal-avatar" id="modalGhAvatar" src="" alt="Avatar">
+                            <div class="modal-gh-info">
+                                <h3 id="modalGhName"></h3>
+                                <p class="modal-gh-username" id="modalGhUsername"></p>
+                                <p class="modal-gh-bio" id="modalGhBio"></p>
+                                <div class="modal-gh-meta">
+                                    <span id="modalGhLocation"><i class="fas fa-map-marker-alt"></i> <span></span></span>
+                                    <span id="modalGhCompany"><i class="fas fa-building"></i> <span></span></span>
+                                </div>
+                            </div>
+                            <a class="modal-gh-link" id="modalGhLink" href="#" target="_blank">
+                                <i class="fab fa-github"></i> View Profile
+                            </a>
+                        </div>
+
+                        <!-- Stats Grid -->
+                        <div class="modal-stats-grid">
+                            <div class="modal-stat repos">
+                                <i class="fas fa-code-branch"></i>
+                                <h4 id="modalStatRepos">0</h4>
+                                <span>Repos</span>
+                            </div>
+                            <div class="modal-stat stars">
+                                <i class="fas fa-star"></i>
+                                <h4 id="modalStatStars">0</h4>
+                                <span>Stars</span>
+                            </div>
+                            <div class="modal-stat followers">
+                                <i class="fas fa-user-friends"></i>
+                                <h4 id="modalStatFollowers">0</h4>
+                                <span>Followers</span>
+                            </div>
+                            <div class="modal-stat following">
+                                <i class="fas fa-user-plus"></i>
+                                <h4 id="modalStatFollowing">0</h4>
+                                <span>Following</span>
+                            </div>
+                        </div>
+
+                        <!-- Projects + Languages Grid -->
+                        <div class="modal-two-col">
+                            <div class="modal-section-card">
+                                <h4><i class="fas fa-trophy"></i> Top Projects</h4>
+                                <div id="modalProjectList" class="modal-project-list"></div>
+                            </div>
+                            <div class="modal-section-card">
+                                <h4><i class="fas fa-code"></i> Languages Used</h4>
+                                <div id="modalLangGrid" class="modal-lang-grid"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB: LinkedIn Results -->
+                <div class="tab-content" id="tabContentLinkedin">
+                    <!-- Empty state -->
+                    <div class="tab-empty" id="linkedinEmpty">
+                        <div class="empty-icon linkedin-empty-icon"><i class="fab fa-linkedin-in"></i></div>
+                        <h3>No LinkedIn Data Yet</h3>
+                        <p>Go to the "Profile Lookup" tab and paste LinkedIn profile content for AI analysis</p>
+                    </div>
+
+                    <!-- LinkedIn Results -->
+                    <div id="linkedinResultsContent" style="display: none;">
+                        <!-- LinkedIn Header -->
+                        <div class="modal-linkedin-header">
+                            <div class="modal-li-icon"><i class="fab fa-linkedin-in"></i></div>
+                            <div class="modal-li-info">
+                                <h3 id="modalLiName">LinkedIn Insights</h3>
+                                <p id="modalLiHeadline"></p>
+                                <p class="modal-li-role" id="modalLiRole"></p>
+                            </div>
+                        </div>
+
+                        <!-- Info Grid -->
+                        <div class="modal-two-col">
+                            <!-- Work Experience -->
+                            <div class="modal-section-card">
+                                <h4><i class="fas fa-briefcase"></i> Work Experience</h4>
+                                <div id="modalExpList" class="modal-exp-list"></div>
+                            </div>
+
+                            <!-- Education -->
+                            <div class="modal-section-card">
+                                <h4><i class="fas fa-graduation-cap"></i> Education</h4>
+                                <div id="modalEduList" class="modal-edu-list"></div>
+                            </div>
+
+                            <!-- Certifications -->
+                            <div class="modal-section-card">
+                                <h4><i class="fas fa-certificate"></i> Certifications</h4>
+                                <div id="modalCertGrid" class="modal-cert-grid"></div>
+                            </div>
+
+                            <!-- Key Highlights + Skills -->
+                            <div class="modal-section-card">
+                                <h4><i class="fas fa-lightbulb"></i> Key Highlights</h4>
+                                <div id="modalHighlights" class="modal-highlights"></div>
+                                <div class="modal-skills-section">
+                                    <h5><i class="fas fa-tags"></i> Skills</h5>
+                                    <div id="modalSkillsCloud" class="modal-skills-cloud"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
 
     <script src="../js/candidates.js"></script>
 </body>
