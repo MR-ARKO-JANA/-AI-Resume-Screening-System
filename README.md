@@ -1,4 +1,5 @@
-# 🤖 AI Resume Screening System
+# 🤖 AI Resume Screening System 
+Deployed Link:- https://ai-resume-scanner-127178207448.us-central1.run.app
 
 An intelligent resume screening platform that uses AI/ML algorithms to automatically analyze and rank candidates based on job requirements.
 
