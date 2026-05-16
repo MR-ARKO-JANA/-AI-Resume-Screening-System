@@ -83,6 +83,37 @@ This system has been meticulously optimized for a "blazing fast" experience:
 5. **Access the application**
    Open [http://localhost:5000](http://localhost:5000) in your browser.
 
+## 🚀 Deployment Guide
+
+This project is fully containerized and production-ready. You can deploy it to any cloud platform that supports Node.js or Docker.
+
+### Option A: Deploying to Render (Recommended)
+Render provides free hosting for Node.js apps and MongoDB.
+1. Create a free account on [Render.com](https://render.com) and connect your GitHub.
+2. Click **New +** > **Web Service**.
+3. Select this repository.
+4. Set the build command: `npm install`
+5. Set the start command: `npm start`
+6. Add the following **Environment Variables**:
+   - `MONGODB_URI` (Your MongoDB Atlas connection string)
+   - `JWT_SECRET` (A strong random string)
+   - `GEMINI_API_KEY` (Your Google Gemini key)
+7. Click **Create Web Service**.
+
+### Option B: Deploying to Google Cloud Run
+This project includes a `Dockerfile` pre-configured for Google Cloud Run.
+1. Install the [Google Cloud CLI](https://cloud.google.com/sdk/docs/install).
+2. Authenticate and set your project:
+   ```bash
+   gcloud auth login
+   gcloud config set project YOUR_PROJECT_ID
+   ```
+3. Deploy directly using the Cloud Run CLI:
+   ```bash
+   gcloud run deploy ai-resume-scanner --source . --port 8080 --allow-unauthenticated
+   ```
+4. Configure your environment variables in the Google Cloud Console under the service settings.
+
 ## 🎯 How It Works
 
 1. **Upload**: Users upload resumes (PDF/DOC/DOCX) and provide a job description.
