@@ -13,8 +13,9 @@
 </head>
 
 <body>
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
     <!-- Sidebar -->
-    <aside class="sidebar">
+    <aside class="sidebar" id="sidebar">
         <div class="logo-section">
             <div class="logo-icon">
                 <i class="fas fa-robot"></i>
@@ -94,6 +95,9 @@
     <main class="main-content">
         <!-- Navbar -->
         <header class="navbar">
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
             <div class="search-bar">
                 <i class="fas fa-search"></i>
                 <input type="text" placeholder="Search resumes, candidates, jobs...">
@@ -320,6 +324,24 @@
     </main>
 
     <script src="../js/profile-lookup.js"></script>
+    <script>
+        // Mobile Sidebar Toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const sidebar = document.getElementById('sidebar');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+        if (mobileMenuBtn && sidebar && sidebarOverlay) {
+            mobileMenuBtn.addEventListener('click', () => {
+                sidebar.classList.add('active');
+                sidebarOverlay.classList.add('active');
+            });
+
+            sidebarOverlay.addEventListener('click', () => {
+                sidebar.classList.remove('active');
+                sidebarOverlay.classList.remove('active');
+            });
+        }
+    </script>
 </body>
 
 </html>
