@@ -26,3 +26,5 @@
 
 - docs: add guide on PDF parser handling limitations: Added troubleshooting details for parsing non-standard PDF formats.
 
+- docs: outline HTML IDs form mismatch corrections: Documented UI corrections made to form and file input element IDs.
+
