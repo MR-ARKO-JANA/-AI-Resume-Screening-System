@@ -10,3 +10,5 @@
 
 - docs: add details for skill occurrence frequency scoring: Documented the algorithm used for frequency-based skill match calculations.
 
+- docs: document deterministic AI confidence score formula: Documented the new deterministic AI confidence scoring formula.
+
