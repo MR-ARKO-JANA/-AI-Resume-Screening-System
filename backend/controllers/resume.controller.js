@@ -66,7 +66,7 @@ exports.uploadResumes = async (req, res) => {
             );
 
             const status = matchScore >= 75 ? "Shortlisted" : matchScore >= 50 ? "Pending" : "Rejected";
-            const aiConfidence = Math.min(matchScore + Math.floor(Math.random() * 10), 95);
+            const aiConfidence = Math.min(80 + Math.round(matchScore * 0.15), 98);
 
             const experienceKeywords = ['year', 'years', 'experience', 'senior', 'lead', 'manager'];
             const hasExperience = experienceKeywords.some(keyword =>

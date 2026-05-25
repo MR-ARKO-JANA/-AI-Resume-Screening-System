@@ -136,6 +136,24 @@ function extractKeywords(text, topN = 20) {
 // (End of similarity calculation)
 
 
+// Helper to count occurrences of a skill and its synonyms in text
+function countSkillOccurrences(text, skill) {
+    const synonyms = SKILL_SYNONYMS[skill] || [skill];
+    let count = 0;
+    const cleanedText = cleanText(text);
+    
+    synonyms.forEach(synonym => {
+        try {
+            const regex = new RegExp('\\b' + synonym.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\b', 'gi');
+            const matches = cleanedText.match(regex);
+            if (matches) {
+                count += matches.length;
+            }
+        } catch (e) {}
+    });
+    return count;
+}
+
 // Get skill match details with percentages
 function getSkillMatchDetails(resumeText, jobDescription) {
     const resumeSkills = extractSkills(resumeText);
@@ -145,18 +163,25 @@ function getSkillMatchDetails(resumeText, jobDescription) {
 
     jobSkills.forEach(skill => {
         const isMatched = resumeSkills.includes(skill);
+        let percentage = 0;
+        if (isMatched) {
+            const occurrences = countSkillOccurrences(resumeText, skill);
+            // 1 occurrence = 80%, 2 occurrences = 90%, 3+ occurrences = 100%
+            percentage = Math.min(70 + occurrences * 10, 100);
+        }
         skillDetails.push({
             name: skill.charAt(0).toUpperCase() + skill.slice(1),
-            percentage: isMatched ? Math.floor(Math.random() * 20) + 80 : Math.floor(Math.random() * 40) + 20
+            percentage: percentage
         });
     });
 
     // If no job skills, return some common skills from resume
     if (skillDetails.length === 0) {
         resumeSkills.slice(0, 5).forEach(skill => {
+            const occurrences = countSkillOccurrences(resumeText, skill);
             skillDetails.push({
                 name: skill.charAt(0).toUpperCase() + skill.slice(1),
-                percentage: Math.floor(Math.random() * 30) + 70
+                percentage: Math.min(70 + occurrences * 10, 100)
             });
         });
     }

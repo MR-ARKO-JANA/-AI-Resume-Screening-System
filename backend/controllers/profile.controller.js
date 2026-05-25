@@ -17,11 +17,14 @@ exports.getGitHubProfile = async (req, res) => {
         // Fetch user profile, repos, and events in parallel
         const [userRes, reposRes, eventsRes] = await Promise.all([
             fetch(`https://api.github.com/users/${username}`, { headers }),
-            fetch(`https://api.github.com/users/${username}/repos?sort=stars&per_page=100&direction=desc`, { headers }),
-            fetch(`https://api.github.com/users/${username}/events/public?per_page=30`, { headers })
+            fetch(`https://api.github.com/users/${username}/repos?sort=updated&per_page=100&direction=desc`, { headers }),
+            fetch(`https://api.github.com/users/${username}/events/public?per_page=100`, { headers })
         ]);
 
         if (!userRes.ok) {
+            if (userRes.status === 403) {
+                return res.status(403).json({ error: 'GitHub API rate limit exceeded. Please configure GITHUB_TOKEN or try again later.' });
+            }
             return res.status(404).json({ error: 'GitHub user not found' });
         }
 
@@ -162,14 +165,31 @@ exports.analyzeLinkedIn = async (req, res) => {
             try {
                 let response;
                 if (rapidapiKey) {
-                    response = await fetch(`https://linkedin-data-api.p.rapidapi.com/get-profile-data-by-url?url=${encodeURIComponent(linkedinUrl)}`, {
+                    // Try Real-Time LinkedIn Scraper API first (user's subscribed API)
+                    console.log('Trying Real-Time LinkedIn Scraper API...');
+                    response = await fetch(`https://real-time-linkedin-scraper.p.rapidapi.com/v1/person?link=${encodeURIComponent(linkedinUrl)}`, {
                         method: 'GET',
                         headers: {
                             'x-rapidapi-key': rapidapiKey,
-                            'x-rapidapi-host': 'linkedin-data-api.p.rapidapi.com',
-                            'Content-Type': 'application/json'
+                            'x-rapidapi-host': 'real-time-linkedin-scraper.p.rapidapi.com'
                         }
                     });
+
+                    if (!response.ok) {
+                        const errText = await response.text();
+                        console.error('Real-Time LinkedIn Scraper returned:', response.status, errText);
+                        
+                        // Fallback to LinkedIn Data API
+                        console.log('Trying LinkedIn Data API fallback...');
+                        response = await fetch(`https://linkedin-data-api.p.rapidapi.com/get-profile-data-by-url?url=${encodeURIComponent(linkedinUrl)}`, {
+                            method: 'GET',
+                            headers: {
+                                'x-rapidapi-key': rapidapiKey,
+                                'x-rapidapi-host': 'linkedin-data-api.p.rapidapi.com',
+                                'Content-Type': 'application/json'
+                            }
+                        });
+                    }
                 } else if (proxycurlKey) {
                     response = await fetch(`https://nubela.co/proxycurl/api/v2/linkedin?url=${encodeURIComponent(linkedinUrl)}`, {
                         headers: {
@@ -180,6 +200,7 @@ exports.analyzeLinkedIn = async (req, res) => {
 
                 if (response && response.ok) {
                     const data = await response.json();
+                    console.log('LinkedIn API success! Got data keys:', Object.keys(data));
                     contentToAnalyze = JSON.stringify(data);
                 } else {
                     const errorText = response ? await response.text() : 'No Response';
@@ -218,7 +239,6 @@ exports.analyzeLinkedIn = async (req, res) => {
         }
 
         const genAI = new GoogleGenerativeAI(apiKey);
-        const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
 
         const prompt = `Analyze this LinkedIn profile content and extract structured information. Return ONLY valid JSON (no markdown, no code blocks) in this exact format:
 {
@@ -260,8 +280,18 @@ exports.analyzeLinkedIn = async (req, res) => {
 LinkedIn Profile Content:
 ${contentToAnalyze}`;
 
-        const result = await model.generateContent(prompt);
-        const responseText = result.response.text();
+        let responseText;
+        try {
+            console.log('Trying gemini-2.0-flash for profile extraction...');
+            const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+            const result = await model.generateContent(prompt);
+            responseText = result.response.text();
+        } catch (err20) {
+            console.warn('gemini-2.0-flash failed, trying gemini-1.5-flash fallback:', err20.message);
+            const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+            const result = await model.generateContent(prompt);
+            responseText = result.response.text();
+        }
 
         // Clean the response - remove markdown code blocks if present
         let cleanJson = responseText.trim();
@@ -334,8 +364,8 @@ exports.lookupCandidateProfile = async (req, res) => {
 
                     const [userRes, reposRes, eventsRes] = await Promise.all([
                         fetch(`https://api.github.com/users/${username}`, { headers }),
-                        fetch(`https://api.github.com/users/${username}/repos?sort=stars&per_page=100&direction=desc`, { headers }),
-                        fetch(`https://api.github.com/users/${username}/events/public?per_page=30`, { headers })
+                        fetch(`https://api.github.com/users/${username}/repos?sort=updated&per_page=100&direction=desc`, { headers }),
+                        fetch(`https://api.github.com/users/${username}/events/public?per_page=100`, { headers })
                     ]);
 
                     if (userRes.ok) {
@@ -403,14 +433,26 @@ exports.lookupCandidateProfile = async (req, res) => {
                 try {
                     let response;
                     if (rapidapiKey) {
-                        response = await fetch(`https://linkedin-data-api.p.rapidapi.com/get-profile-data-by-url?url=${encodeURIComponent(linkedinUrl)}`, {
+                        // Try Real-Time LinkedIn Scraper API first
+                        response = await fetch(`https://real-time-linkedin-scraper.p.rapidapi.com/v1/person?link=${encodeURIComponent(linkedinUrl)}`, {
                             method: 'GET',
                             headers: {
                                 'x-rapidapi-key': rapidapiKey,
-                                'x-rapidapi-host': 'linkedin-data-api.p.rapidapi.com',
-                                'Content-Type': 'application/json'
+                                'x-rapidapi-host': 'real-time-linkedin-scraper.p.rapidapi.com'
                             }
                         });
+
+                        if (!response.ok) {
+                            // Fallback to LinkedIn Data API
+                            response = await fetch(`https://linkedin-data-api.p.rapidapi.com/get-profile-data-by-url?url=${encodeURIComponent(linkedinUrl)}`, {
+                                method: 'GET',
+                                headers: {
+                                    'x-rapidapi-key': rapidapiKey,
+                                    'x-rapidapi-host': 'linkedin-data-api.p.rapidapi.com',
+                                    'Content-Type': 'application/json'
+                                }
+                            });
+                        }
                     } else if (proxycurlKey) {
                         response = await fetch(`https://nubela.co/proxycurl/api/v2/linkedin?url=${encodeURIComponent(linkedinUrl)}`, {
                             headers: {
@@ -458,7 +500,6 @@ exports.lookupCandidateProfile = async (req, res) => {
                 const apiKey = process.env.GEMINI_API_KEY;
                 if (apiKey) {
                     const genAI = new GoogleGenerativeAI(apiKey);
-                    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
 
                     const prompt = `Analyze this LinkedIn profile content and extract structured information. Return ONLY valid JSON (no markdown, no code blocks) in this exact format:
 {
@@ -483,8 +524,20 @@ exports.lookupCandidateProfile = async (req, res) => {
 LinkedIn Profile Content:
 ${contentToProcess}`;
 
-                    const result = await model.generateContent(prompt);
-                    let cleanJson = result.response.text().trim();
+                    let responseText;
+                    try {
+                        console.log('Trying gemini-2.0-flash for candidate lookup...');
+                        const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+                        const result = await model.generateContent(prompt);
+                        responseText = result.response.text();
+                    } catch (err20) {
+                        console.warn('gemini-2.0-flash failed, trying gemini-1.5-flash fallback:', err20.message);
+                        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+                        const result = await model.generateContent(prompt);
+                        responseText = result.response.text();
+                    }
+
+                    let cleanJson = responseText.trim();
                     if (cleanJson.startsWith('```')) {
                         cleanJson = cleanJson.replace(/^```(?:json)?\n?/, '').replace(/\n?```$/, '');
                     }
