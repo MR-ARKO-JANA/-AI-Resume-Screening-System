@@ -12,3 +12,5 @@
 
 - docs: document deterministic AI confidence score formula: Documented the new deterministic AI confidence scoring formula.
 
+- chore: clean up console log outputs in profile controller: Cleaned up obsolete logging patterns in profile controller.
+
