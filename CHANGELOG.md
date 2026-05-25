@@ -8,3 +8,5 @@
 
 - docs: document gemini-1.5-flash fallback capability: Documented how the backend falls back to Gemini 1.5 when Gemini 2.0 hits rate limits.
 
+- docs: add details for skill occurrence frequency scoring: Documented the algorithm used for frequency-based skill match calculations.
+
