@@ -28,3 +28,5 @@
 
 - docs: outline HTML IDs form mismatch corrections: Documented UI corrections made to form and file input element IDs.
 
+- docs: outline CSS dark mode planning steps: Added planning notes on the CSS design tokens for the upcoming dark mode update.
+
