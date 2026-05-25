@@ -30,3 +30,5 @@
 
 - docs: outline CSS dark mode planning steps: Added planning notes on the CSS design tokens for the upcoming dark mode update.
 
+- docs: outline candidate export to CSV implementation: Documented CSV generation and download stream flows for candidate records.
+
