@@ -22,3 +22,5 @@
 
 - docs: outline multer upload folder auto-creation: Documented automated uploads folder creation logic in multer config.
 
+- docs: document dashboard aggregation performance optimizations: Documented MongoDB aggregation pipeline design used for dashboard stats.
+
