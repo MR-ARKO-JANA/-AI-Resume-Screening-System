@@ -20,3 +20,5 @@
 
 - docs: detail Google Cloud Run deployment troubleshooting: Added notes on troubleshooting Cloud Run startup and container build issues.
 
+- docs: outline multer upload folder auto-creation: Documented automated uploads folder creation logic in multer config.
+
