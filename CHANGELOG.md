@@ -14,3 +14,5 @@
 
 - chore: clean up console log outputs in profile controller: Cleaned up obsolete logging patterns in profile controller.
 
+- docs: update API key configuration guidelines: Added instructions for setting environment variables in Cloud Run configuration.
+
