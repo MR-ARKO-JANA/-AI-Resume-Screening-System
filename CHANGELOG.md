@@ -34,3 +34,5 @@
 
 - docs: document cookie-based JWT authentication flows: Documented security architecture of cookie-based JWT authentication flows.
 
+- docs: document user password validation hashing flows: Documented password hashing implementation with bcrypt.
+
