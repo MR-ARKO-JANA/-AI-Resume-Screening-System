@@ -32,3 +32,5 @@
 
 - docs: outline candidate export to CSV implementation: Documented CSV generation and download stream flows for candidate records.
 
+- docs: document cookie-based JWT authentication flows: Documented security architecture of cookie-based JWT authentication flows.
+
