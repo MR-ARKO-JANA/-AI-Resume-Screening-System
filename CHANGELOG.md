@@ -16,3 +16,5 @@
 
 - docs: update API key configuration guidelines: Added instructions for setting environment variables in Cloud Run configuration.
 
+- docs: detail MongoDB Atlas connection verification steps: Documented MongoDB Atlas connection testing and troubleshooting steps.
+
