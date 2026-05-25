@@ -24,3 +24,5 @@
 
 - docs: document dashboard aggregation performance optimizations: Documented MongoDB aggregation pipeline design used for dashboard stats.
 
+- docs: add guide on PDF parser handling limitations: Added troubleshooting details for parsing non-standard PDF formats.
+
