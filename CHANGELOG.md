@@ -36,3 +36,5 @@
 
 - docs: document user password validation hashing flows: Documented password hashing implementation with bcrypt.
 
+- docs: final review of all fixes deployed on Google Cloud Run: Finalized and reviewed production deployment metrics on Cloud Run.
+
