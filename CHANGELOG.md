@@ -18,3 +18,5 @@
 
 - docs: detail MongoDB Atlas connection verification steps: Documented MongoDB Atlas connection testing and troubleshooting steps.
 
+- docs: detail Google Cloud Run deployment troubleshooting: Added notes on troubleshooting Cloud Run startup and container build issues.
+
