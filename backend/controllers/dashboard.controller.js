@@ -1,3 +1,4 @@
+// Dashboard Controller - serves analytics data and candidate statistics
 const jwt = require('jsonwebtoken');
 const User = require('../models/usermodels');
 const Score = require('../models/scoreModel');
@@ -132,3 +133,4 @@ exports.getCandidatesByStatus = async (req, res) => {
         res.json({ error: error.message });
     }
 };
+
