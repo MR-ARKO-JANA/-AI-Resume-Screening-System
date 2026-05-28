@@ -376,3 +376,11 @@ function closeModal(modal) {
         modal.classList.remove('active');
     }
 }
+
+// Keyboard navigation: close modals with Escape key
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        const modals = document.querySelectorAll('.modal-overlay.active');
+        modals.forEach(m => m.classList.remove('active'));
+    }
+});
