@@ -666,3 +666,28 @@
     transform: translateY(-2px);
     box-shadow: 0 8px 20px rgba(99, 102, 241, 0.35);
 }
+
+/* Tooltip utility */
+.tooltip-wrapper {
+    position: relative;
+    cursor: pointer;
+}
+.tooltip-wrapper::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 6px 12px;
+    background: rgba(0,0,0,0.85);
+    color: white;
+    font-size: 0.75rem;
+    border-radius: 6px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s;
+}
+.tooltip-wrapper:hover::after {
+    opacity: 1;
+}
