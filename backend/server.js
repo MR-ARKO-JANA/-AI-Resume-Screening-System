@@ -14,6 +14,7 @@ const authRoutes = require('./routes/auth.routes');
 const resumeRoutes = require('./routes/resume.routes');
 const dashboardRoutes = require('./routes/dashboard.routes');
 const profileRoutes = require('./routes/profile.routes');
+const jobRoutes = require('./routes/job.routes');
 
 const JWT_SECRET = process.env.JWT_SECRET || "default_secret_change_in_production";
 
@@ -47,6 +48,7 @@ app.get('/candidates', (req, res) => res.sendFile(path.join(__dirname, '../front
 app.get('/settings', (req, res) => res.sendFile(path.join(__dirname, '../frontend/html/settings.html')));
 app.get('/dashboard', (req, res) => res.sendFile(path.join(__dirname, '../frontend/html/dashboard.html')));
 app.get('/profile-lookup', (req, res) => res.sendFile(path.join(__dirname, '../frontend/html/profile-lookup.html')));
+app.get('/jobs', (req, res) => res.sendFile(path.join(__dirname, '../frontend/html/jobs.html')));
 
 app.get('/result', async (req, res) => {
     try {
@@ -87,6 +89,7 @@ app.use('/', authRoutes);
 app.use('/', resumeRoutes);
 app.use('/', dashboardRoutes);
 app.use('/', profileRoutes);
+app.use('/', jobRoutes);
 
 const PORT = process.env.PORT || 5000;
 if (process.env.NODE_ENV !== 'test') {

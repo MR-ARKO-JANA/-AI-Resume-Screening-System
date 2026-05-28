@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jobs Portal - AI Recruiter</title>
+    <meta name="description" content="Explore and apply to jobs extracted from Naukri, Indeed, and Unstop with AI-powered resume matching">
+    <link rel="stylesheet" href="../css/dashboard-ultra.css">
+    <link rel="stylesheet" href="../css/jobs-ultra.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="logo-section">
+            <div class="logo-icon">
+                <i class="fas fa-robot"></i>
+            </div>
+            <h2>AI Recruiter</h2>
+            <span class="version">v2.0 Pro</span>
+        </div>
+
+        <nav class="nav-menu">
+            <div class="nav-section">
+                <span class="nav-label">MAIN</span>
+                <ul>
+                    <li onclick="window.location.href='/dashboard'">
+                        <i class="fas fa-home"></i>
+                        <span>Dashboard</span>
+                    </li>
+                    <li onclick="window.location.href='/result'">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Results</span>
+                    </li>
+                    <li onclick="window.location.href='/candidates'">
+                        <i class="fas fa-users"></i>
+                        <span>Candidates</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="nav-section">
+                <span class="nav-label">TOOLS</span>
+                <ul>
+                    <li onclick="window.location.href='/profile-lookup'">
+                        <i class="fas fa-search-plus"></i>
+                        <span>Profile Lookup</span>
+                    </li>
+                    <li class="active" onclick="window.location.href='/jobs'">
+                        <i class="fas fa-briefcase"></i>
+                        <span>Jobs</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="nav-section">
+                <span class="nav-label">SETTINGS</span>
+                <ul>
+                    <li onclick="window.location.href='/settings'">
+                        <i class="fas fa-cog"></i>
+                        <span>Settings</span>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="storage-info">
+                <div class="storage-header">
+                    <i class="fas fa-database"></i>
+                    <span>Storage</span>
+                </div>
+                <div class="storage-bar">
+                    <div class="storage-fill" style="width: 65%"></div>
+                </div>
+                <span class="storage-text">6.5 GB of 10 GB used</span>
+            </div>
+            <button class="upgrade-btn">
+                <i class="fas fa-crown"></i>
+                Upgrade to Pro
+            </button>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Navbar -->
+        <header class="navbar">
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search resumes, candidates, jobs...">
+                <kbd>Ctrl</kbd> + <kbd>K</kbd>
+            </div>
+            <div class="navbar-actions">
+                <button class="icon-btn" title="Notifications">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-dot"></span>
+                </button>
+                <button class="icon-btn" title="Messages">
+                    <i class="fas fa-envelope"></i>
+                </button>
+                <div class="user-profile">
+                    <img src="../images/user_img.webp" alt="User">
+                    <div class="user-info">
+                        <span class="user-name">Arko Jana</span>
+                        <span class="user-role">HR Manager</span>
+                    </div>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+        </header>
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div>
+                <h1><i class="fas fa-briefcase"></i> Extracted Job Openings</h1>
+                <p class="page-subtitle">Browse jobs pulled from Naukri, Indeed India, and Unstop. Apply instantly and get scored by AI.</p>
+            </div>
+            <button class="btn-sync" id="syncJobsBtn">
+                <i class="fas fa-sync-alt"></i> Extract & Sync Jobs
+            </button>
+        </div>
+
+        <!-- Filter & Tab Section -->
+        <div class="jobs-filter-panel">
+            <div class="platform-tabs">
+                <button class="tab-btn active" data-source="All">All Jobs</button>
+                <button class="tab-btn" data-source="Naukri"><i class="fas fa-external-link-alt"></i> Naukri</button>
+                <button class="tab-btn" data-source="Indeed"><i class="fas fa-search"></i> Indeed India</button>
+                <button class="tab-btn" data-source="Unstop"><i class="fas fa-graduation-cap"></i> Unstop</button>
+            </div>
+
+            <div class="filter-inputs">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="jobSearchInput" placeholder="Search title, company, or skills...">
+                </div>
+                <div class="location-box">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <input type="text" id="jobLocationInput" placeholder="Location (e.g. Bengaluru, Remote)">
+                </div>
+            </div>
+        </div>
+
+        <!-- Job Grid -->
+        <div class="job-grid" id="jobGrid">
+            <!-- Dynamic Job Cards will be injected here -->
+            <div class="jobs-loading">
+                <i class="fas fa-spinner fa-spin"></i> Loading jobs database...
+            </div>
+        </div>
+    </main>
+
+    <!-- Job Details Modal -->
+    <div class="job-modal" id="jobDetailsModal">
+        <div class="modal-content glass">
+            <span class="close-btn" id="closeDetailsBtn">&times;</span>
+            <div class="modal-header">
+                <span class="source-badge" id="modalSource">Naukri</span>
+                <h2 id="modalTitle">Software Engineer</h2>
+                <h3 id="modalCompany">Company Name</h3>
+                <div class="job-quick-meta">
+                    <span><i class="fas fa-map-marker-alt"></i> <span id="modalLocation">Location</span></span>
+                    <span><i class="fas fa-briefcase"></i> <span id="modalExperience">Experience</span></span>
+                    <span><i class="fas fa-wallet"></i> <span id="modalSalary">Salary</span></span>
+                </div>
+            </div>
+            <hr class="modal-divider">
+            <div class="modal-body">
+                <h4>Job Description</h4>
+                <p id="modalDescription">Detailed Job Description goes here...</p>
+                
+                <h4>Key Skills Required</h4>
+                <div class="modal-skills-list" id="modalSkills">
+                    <!-- Skills badges go here -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="#" target="_blank" class="btn-external" id="modalOriginalLink"><i class="fas fa-external-link-alt"></i> View Original Job</a>
+                <button class="btn-apply-trigger" id="modalApplyBtn"><i class="fas fa-paper-plane"></i> Apply & Rank Resume</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Apply Modal (Resume Upload) -->
+    <div class="job-modal" id="jobApplyModal">
+        <div class="modal-content glass apply-modal-content">
+            <span class="close-btn" id="closeApplyBtn">&times;</span>
+            <div class="modal-header">
+                <h2>Submit Application</h2>
+                <p>Apply to <strong id="applyJobTitle">Job Title</strong> at <span id="applyJobCompany">Company</span></p>
+            </div>
+            <div class="modal-body">
+                <form id="applyForm" method="POST" enctype="multipart/form-data">
+                    <div class="apply-dropzone" id="applyDropZone">
+                        <div class="upload-icon">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                        </div>
+                        <h3>Upload Your Resume</h3>
+                        <p>Drag & drop PDF here, or click to browse</p>
+                        <input type="file" id="applyResumeFile" name="doc" accept=".pdf" required hidden>
+                        <button type="button" class="btn-browse" onclick="document.getElementById('applyResumeFile').click()">
+                            <i class="fas fa-folder-open"></i> Browse PDF
+                        </button>
+                        <span class="file-types">Supported: PDF only (Max 5MB)</span>
+                    </div>
+                    <div class="selected-file-notice" id="selectedFileNotice" style="display:none;">
+                        <i class="fas fa-file-pdf"></i>
+                        <span id="selectedFileName">resume.pdf</span>
+                        <button type="button" class="btn-remove-file" id="removeFileBtn"><i class="fas fa-times"></i></button>
+                    </div>
+                    <button type="submit" class="btn-submit-app"><i class="fas fa-robot"></i> Run AI Match & Apply</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loader-overlay" id="applyLoader">
+        <div class="loader-content">
+            <div class="loader-spinner"></div>
+            <h3>Parsing and Matching Resume...</h3>
+            <p>Our AI is analyzing your skills against the job description</p>
+            <div class="loader-progress">
+                <div class="loader-progress-bar"></div>
+            </div>
+        </div>
+    </div>
+
+    <link rel="stylesheet" href="../css/loader.css">
+    <script src="../js/jobs.js"></script>
+    <script>
+        // Mobile Sidebar Toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const sidebar = document.getElementById('sidebar');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+        if (mobileMenuBtn && sidebar && sidebarOverlay) {
+            mobileMenuBtn.addEventListener('click', () => {
+                sidebar.classList.add('active');
+                sidebarOverlay.classList.add('active');
+            });
+
+            sidebarOverlay.addEventListener('click', () => {
+                sidebar.classList.remove('active');
+                sidebarOverlay.classList.remove('active');
+            });
+        }
+    </script>
+</body>
+
+</html>
