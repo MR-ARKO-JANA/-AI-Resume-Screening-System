@@ -16,7 +16,7 @@
         <div id="login-section" class="form-section">
             <h2>Welcome Back</h2>
             <p class="subtitle">Sign in to continue screening</p>
-            <form action="/login" method="post">
+            <form aria-label="Authentication Form" action="/login" method="post">
                 <div class="input-group">
                     <label for="login-email">Email Address</label>
                     <input type="email" id="login-email" name="email" placeholder="your@email.com" required>
@@ -35,7 +35,7 @@
         <div id="register-section" class="form-section" style="display:none;">
             <h2>Get Started</h2>
             <p class="subtitle">Create your account</p>
-            <form action="/register" method="post">
+            <form aria-label="Authentication Form" action="/register" method="post">
                 <div class="input-group">
                     <label for="register-name">Full Name</label>
                     <input type="text" id="register-name" name="name" placeholder="John Doe" required>
