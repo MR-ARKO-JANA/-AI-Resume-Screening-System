@@ -1,3 +1,4 @@
+// Authentication Controller - handles user login and registration
 const jwt = require('jsonwebtoken');
 const bc = require('bcrypt');
 const User = require('../models/usermodels');
@@ -174,3 +175,4 @@ exports.deleteAccount = async (req, res) => {
         res.json({ error: error.message });
     }
 };
+
