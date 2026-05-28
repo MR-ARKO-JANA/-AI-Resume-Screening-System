@@ -1,3 +1,4 @@
+// Resume Controller - handles file upload, parsing, and AI scoring pipeline
 const jwt = require('jsonwebtoken');
 const path = require('path');
 const User = require('../models/usermodels');
@@ -230,3 +231,4 @@ exports.exportCSV = async (req, res) => {
         res.status(500).send("Error exporting data: " + error.message);
     }
 };
+
