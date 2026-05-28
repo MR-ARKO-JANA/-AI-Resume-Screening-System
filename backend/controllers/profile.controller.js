@@ -496,6 +496,19 @@ exports.lookupCandidateProfile = async (req, res) => {
                                     linkedinData = extracted;
                                 }
                             }
+                        } else {
+                            linkedinData = {
+                                fullName: score.candidateName || score.resumeId.fileName.replace(/\.[^/.]+$/, "").replace(/[_-]/g, " "),
+                                headline: "LinkedIn Profile Offline",
+                                currentRole: "Resume file missing from server",
+                                location: "N/A",
+                                summary: `Live LinkedIn scraping is offline. The uploaded resume file is missing from the server (this is normal on cloud deployments after a restart). Please re-upload this resume to automatically parse their actual details.`,
+                                workExperience: [],
+                                education: [],
+                                certifications: [],
+                                skills: [],
+                                keyHighlights: []
+                            };
                         }
                     }
                 } catch (err) {
@@ -589,6 +602,15 @@ ${contentToProcess}`;
     }
 };
 
+// Helper to detect if saved profile data is the old mock template
+function isMockData(data) {
+    if (!data) return true;
+    if (data.fullName === 'Candidate Profile') return true;
+    if (data.workExperience && data.workExperience.length > 0 && data.workExperience[0].company === 'Tech Solutions') return true;
+    if (data.summary && data.summary.includes('AI quota limits')) return true;
+    return false;
+}
+
 // ================================
 // Get Saved Candidate Profile
 // ================================
@@ -600,8 +622,8 @@ exports.getCandidateProfile = async (req, res) => {
             return res.status(404).json({ error: 'Candidate not found' });
         }
 
-        // Auto-extract candidate details on-demand if missing
-        let hasLinkedinData = score.linkedinData && score.linkedinData.fullName && score.linkedinData.fullName !== 'Candidate Profile';
+        // Auto-extract candidate details on-demand if missing or old mock data
+        let hasLinkedinData = score.linkedinData && !isMockData(score.linkedinData);
         if (!hasLinkedinData && score.resumeId && score.resumeId.filePath) {
             try {
                 const fs = require('fs');
@@ -631,12 +653,31 @@ exports.getCandidateProfile = async (req, res) => {
             }
         }
 
+        // If the database has mock data and we couldn't parse the file (e.g. file missing from cloud server),
+        // we return a clean offline profile indicating the status rather than false mock data.
+        let linkedinDataToReturn = score.linkedinData;
+        if (isMockData(linkedinDataToReturn)) {
+            const cleanName = score.candidateName || (score.resumeId && score.resumeId.fileName.replace(/\.[^/.]+$/, "").replace(/[_-]/g, " ").trim()) || "Candidate Profile";
+            linkedinDataToReturn = {
+                fullName: cleanName,
+                headline: "LinkedIn Profile Offline",
+                currentRole: "Resume file missing from server",
+                location: "N/A",
+                summary: `Live LinkedIn scraping is offline. The uploaded resume file is missing from the server (this is normal on cloud deployments after a restart). Please re-upload this resume to automatically parse their actual details.`,
+                workExperience: [],
+                education: [],
+                certifications: [],
+                skills: [],
+                keyHighlights: []
+            };
+        }
+
         res.json({
             candidateName: score.candidateName || '',
             githubUrl: score.githubUrl || '',
             linkedinUrl: score.linkedinUrl || '',
             githubData: score.githubData || null,
-            linkedinData: score.linkedinData || null
+            linkedinData: linkedinDataToReturn
         });
     } catch (error) {
         console.error('Get candidate profile error:', error);
@@ -717,3 +758,5 @@ function extractBasicInfoFromResumeText(text, fileName) {
     info.fullName = nameGuess || 'Candidate Profile';
     return info;
 }
+
+exports.extractBasicInfoFromResumeText = extractBasicInfoFromResumeText;

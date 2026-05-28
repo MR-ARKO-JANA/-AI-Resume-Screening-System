@@ -81,6 +81,32 @@ exports.uploadResumes = async (req, res) => {
             });
             await newResume.save();
 
+            // Auto-extract candidate profile details on upload
+            let candidateName = '';
+            let githubUrl = '';
+            let linkedinUrl = '';
+            let linkedinData = null;
+
+            try {
+                const { extractProfileFromResume } = require('../utils/geminiService');
+                const { extractBasicInfoFromResumeText } = require('./profile.controller');
+                
+                let extractedProfile = await extractProfileFromResume(resumeText);
+                if (!extractedProfile) {
+                    console.log('Gemini profile extraction failed on upload, using regex fallback.');
+                    extractedProfile = extractBasicInfoFromResumeText(resumeText, file.originalname);
+                }
+
+                if (extractedProfile) {
+                    linkedinData = extractedProfile;
+                    candidateName = extractedProfile.fullName || '';
+                    githubUrl = extractedProfile.githubUrl || '';
+                    linkedinUrl = extractedProfile.linkedinUrl || '';
+                }
+            } catch (profileErr) {
+                console.error("Error parsing profile on upload:", profileErr);
+            }
+
             const newScore = new Score({
                 userId: user._id,
                 resumeId: newResume._id,
@@ -94,7 +120,11 @@ exports.uploadResumes = async (req, res) => {
                 scoringBreakdown: {
                     ...scoringDetails.breakdown,
                     explanation: scoringDetails.explanation
-                }
+                },
+                candidateName,
+                githubUrl,
+                linkedinUrl,
+                linkedinData
             });
 
             await newScore.save();
