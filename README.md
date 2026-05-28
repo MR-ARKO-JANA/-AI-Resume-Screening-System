@@ -1,3 +1,8 @@
+![Node.js](https://img.shields.io/badge/Node.js-v20-green?logo=node.js)
+![MongoDB](https://img.shields.io/badge/MongoDB-Atlas-brightgreen?logo=mongodb)
+![Deploy](https://img.shields.io/badge/Cloud_Run-Deployed-blue?logo=google-cloud)
+![License](https://img.shields.io/badge/License-MIT-yellow)
+
 # 🤖 AI Resume Screening System 
 Deployed Link:- https://ai-resume-scanner-127178207448.us-central1.run.app
 
@@ -141,4 +146,5 @@ This project is licensed under the MIT License.
 
 ---
 ⭐ **Star this repo if you find it helpful!**
+
 
