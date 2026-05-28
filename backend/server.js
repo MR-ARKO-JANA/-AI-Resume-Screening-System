@@ -21,7 +21,12 @@ const JWT_SECRET = process.env.JWT_SECRET || "default_secret_change_in_productio
 connectdb();
 const app = express();
 
+const securityHeaders = require('./middleware/securityHeaders');
+const requestLogger = require('./middleware/requestLogger');
+
 app.use(express.json());
+app.use(securityHeaders);
+app.use(requestLogger);
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, '../frontend')));
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
