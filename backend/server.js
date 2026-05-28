@@ -87,6 +87,17 @@ app.get('/result', async (req, res) => {
     }
 });
 
+
+// Health check endpoint for Cloud Run and monitoring
+app.get('/api/health', (req, res) => {
+    res.json({
+        status: 'healthy',
+        uptime: process.uptime(),
+        timestamp: new Date().toISOString(),
+        version: require('../package.json').version || '1.0.0'
+    });
+});
+
 // =======================
 // API Routes
 // =======================
@@ -104,3 +115,4 @@ if (process.env.NODE_ENV !== 'test') {
 }
 
 module.exports = app;
+
