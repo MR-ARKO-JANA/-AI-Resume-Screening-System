@@ -271,6 +271,10 @@ async function loadResult() {
         if (downloadReportBtn) {
             downloadReportBtn.onclick = () => generatePDFReport(data);
         }
+        const downloadReportBtnSec = document.getElementById('downloadPDFSecondary');
+        if (downloadReportBtnSec) {
+            downloadReportBtnSec.onclick = () => generatePDFReport(data);
+        }
 
     } catch (error) {
         showError("Failed to load results. Please try again.");
