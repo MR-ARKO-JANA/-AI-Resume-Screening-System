@@ -114,5 +114,11 @@ if (process.env.NODE_ENV !== 'test') {
     });
 }
 
+
+// 404 handler - must be after all other routes
+app.use((req, res) => {
+    res.status(404).sendFile(path.join(__dirname, '../frontend/html/404.html'));
+});
 module.exports = app;
+
 
