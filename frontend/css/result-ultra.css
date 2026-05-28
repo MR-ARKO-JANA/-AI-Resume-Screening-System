@@ -545,3 +545,11 @@
         width: 100%;
     }
 }
+
+/* Print-friendly styles for result page */
+@media print {
+    .sidebar, .header-actions, .btn, button { display: none !important; }
+    body { background: white !important; color: black !important; }
+    .main-content { margin: 0 !important; padding: 20px !important; }
+    .score-card { box-shadow: none !important; border: 1px solid #ccc; }
+}
