@@ -1,3 +1,4 @@
+// Profile Controller - manages candidate profile extraction and LinkedIn lookup
 const { GoogleGenerativeAI } = require('@google/generative-ai');
 const Score = require('../models/scoreModel');
 
@@ -760,3 +761,4 @@ function extractBasicInfoFromResumeText(text, fileName) {
 }
 
 exports.extractBasicInfoFromResumeText = extractBasicInfoFromResumeText;
+
