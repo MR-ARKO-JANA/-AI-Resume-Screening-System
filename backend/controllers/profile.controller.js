@@ -212,25 +212,30 @@ exports.analyzeLinkedIn = async (req, res) => {
         }
 
         if (!contentToAnalyze || contentToAnalyze.trim().length < 50) {
-            console.log("Using fallback mock data for LinkedIn profile due to API failure");
+            console.log("Using fallback offline status for standalone LinkedIn profile lookup due to API failure");
             const username = extractLinkedInUsername(linkedinUrl) || "Candidate";
             const formattedName = username.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
             
-            contentToAnalyze = `
-                Name: ${formattedName}
-                Headline: Senior Software Engineer & Tech Lead
-                Location: San Francisco Bay Area
-                About: Passionate and experienced software engineer with a strong background in building scalable web applications. Dedicated to writing clean, maintainable code and mentoring junior developers.
-                Experience:
-                - Senior Software Engineer at Tech Innovation Inc (2021 - Present): Leading a team of 5 developers to build modern microservices using Node.js and React. Improved system performance by 40%.
-                - Software Developer at Web Solutions LLC (2018 - 2021): Developed and maintained multiple client-facing applications.
-                Education:
-                - BS in Computer Science from State University (2014 - 2018)
-                Certifications:
-                - AWS Certified Solutions Architect (2022)
-                Skills: JavaScript, Node.js, React, MongoDB, Python, AWS, Docker, System Design
-                Highlights: Led migration to cloud infrastructure, Reduced load times by 50%.
-            `;
+            const fallbackJson = {
+                fullName: formattedName,
+                headline: "Live LinkedIn Scraper Offline",
+                currentRole: "RapidAPI / Proxycurl Discontinued",
+                location: "N/A",
+                summary: `Real-time LinkedIn scraping is currently offline due to third-party API service discontinuation. Please upload this candidate's resume on the Dashboard or Candidates page first to see their actual parsed professional details.`,
+                workExperience: [
+                    {
+                        title: "Service Discontinued",
+                        company: "LinkedIn RapidAPI Scraper",
+                        duration: "Offline",
+                        description: "The external LinkedIn scraper APIs configured on the server are no longer active or return 404/expired status."
+                    }
+                ],
+                certifications: [],
+                education: [],
+                skills: ["Live API Offline"],
+                keyHighlights: ["Please upload the resume to get real data"]
+            };
+            return res.json({ linkedinData: fallbackJson });
         }
 
         const apiKey = process.env.GEMINI_API_KEY;
@@ -470,32 +475,37 @@ exports.lookupCandidateProfile = async (req, res) => {
                 }
             }
             
-            // Add fallback if API failed but URL was provided
+            // If the RapidAPI call fails (which it does, since those endpoints are defunct),
+            // instead of generating fake mock data, load the candidate's real resume text and extract!
             if (!contentToProcess || contentToProcess.trim().length < 50) {
-                console.log("Using fallback mock data for candidate lookup LinkedIn profile due to API failure");
-                const username = extractLinkedInUsername(linkedinUrl) || "Candidate";
-                const formattedName = username.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
-                
-                contentToProcess = `
-                    Name: ${formattedName}
-                    Headline: Senior Software Engineer & Tech Lead
-                    Location: San Francisco Bay Area
-                    About: Passionate and experienced software engineer with a strong background in building scalable web applications. Dedicated to writing clean, maintainable code and mentoring junior developers.
-                    Experience:
-                    - Senior Software Engineer at Tech Innovation Inc (2021 - Present): Leading a team of 5 developers to build modern microservices using Node.js and React. Improved system performance by 40%.
-                    - Software Developer at Web Solutions LLC (2018 - 2021): Developed and maintained multiple client-facing applications.
-                    Education:
-                    - BS in Computer Science from State University (2014 - 2018)
-                    Certifications:
-                    - AWS Certified Solutions Architect (2022)
-                    Skills: JavaScript, Node.js, React, MongoDB, Python, AWS, Docker, System Design
-                    Highlights: Led migration to cloud infrastructure, Reduced load times by 50%.
-                `;
+                console.log("RapidAPI failed/offline. Attempting to parse LinkedIn details from candidate resume instead of mock data");
+                try {
+                    const score = await Score.findById(candidateId).populate('resumeId');
+                    if (score && score.resumeId && score.resumeId.filePath) {
+                        const fs = require('fs');
+                        const resumeParser = require('../utils/resumeParser');
+                        if (fs.existsSync(score.resumeId.filePath)) {
+                            const resumeText = await resumeParser.parsePDF(score.resumeId.filePath);
+                            if (resumeText && resumeText.trim().length > 50) {
+                                const { extractProfileFromResume } = require('../utils/geminiService');
+                                let extracted = await extractProfileFromResume(resumeText);
+                                if (!extracted) {
+                                    extracted = extractBasicInfoFromResumeText(resumeText, score.resumeId.fileName);
+                                }
+                                if (extracted) {
+                                    linkedinData = extracted;
+                                }
+                            }
+                        }
+                    }
+                } catch (err) {
+                    console.error('Error fetching/parsing candidate resume in lookupCandidateProfile fallback:', err);
+                }
             }
         }
 
-        // Run Gemini AI analysis on whatever content we have
-        if (contentToProcess && contentToProcess.trim().length >= 50) {
+        // Run Gemini AI analysis on whatever RapidAPI content we got
+        if (contentToProcess && contentToProcess.trim().length >= 50 && !linkedinData) {
             try {
                 const apiKey = process.env.GEMINI_API_KEY;
                 if (apiKey) {
@@ -545,30 +555,17 @@ ${contentToProcess}`;
                 }
             } catch (liErr) {
                 console.error('LinkedIn analysis error (fallback to mock JSON):', liErr.message);
-                
-                linkedinData = {
-                    fullName: "Candidate Profile",
-                    headline: "Senior Software Engineer",
-                    currentRole: "Senior Developer",
-                    location: "San Francisco, CA",
-                    summary: "Experienced software engineer passionate about building scalable web applications. Note: Showing offline data due to AI quota limits.",
-                    workExperience: [
-                        { title: "Senior Developer", company: "Tech Solutions", duration: "2020 - Present", description: "Led development of core backend APIs." },
-                        { title: "Software Engineer", company: "Web Corp", duration: "2017 - 2020", description: "Developed modern frontend interfaces." }
-                    ],
-                    education: [
-                        { degree: "BS Computer Science", school: "State University", year: "2013 - 2017" }
-                    ],
-                    skills: ["JavaScript", "Node.js", "React", "System Architecture", "Leadership"],
-                    keyHighlights: ["Reduced API latency by 40%", "Mentored junior engineers"]
-                };
-                
                 try {
-                    const username = extractLinkedInUsername(linkedinUrl);
-                    if (username) {
-                        linkedinData.fullName = username.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+                    const score = await Score.findById(candidateId).populate('resumeId');
+                    if (score && score.resumeId && score.resumeId.filePath) {
+                        const fs = require('fs');
+                        const resumeParser = require('../utils/resumeParser');
+                        if (fs.existsSync(score.resumeId.filePath)) {
+                            const resumeText = await resumeParser.parsePDF(score.resumeId.filePath);
+                            linkedinData = extractBasicInfoFromResumeText(resumeText, score.resumeId.fileName);
+                        }
                     }
-                } catch(e) {}
+                } catch (e) {}
             }
         }
 
@@ -598,10 +595,42 @@ ${contentToProcess}`;
 exports.getCandidateProfile = async (req, res) => {
     try {
         const { id } = req.params;
-        const score = await Score.findById(id);
+        const score = await Score.findById(id).populate('resumeId');
         if (!score) {
             return res.status(404).json({ error: 'Candidate not found' });
         }
+
+        // Auto-extract candidate details on-demand if missing
+        let hasLinkedinData = score.linkedinData && score.linkedinData.fullName && score.linkedinData.fullName !== 'Candidate Profile';
+        if (!hasLinkedinData && score.resumeId && score.resumeId.filePath) {
+            try {
+                const fs = require('fs');
+                const resumeParser = require('../utils/resumeParser');
+                const { extractProfileFromResume } = require('../utils/geminiService');
+
+                if (fs.existsSync(score.resumeId.filePath)) {
+                    const resumeText = await resumeParser.parsePDF(score.resumeId.filePath);
+                    if (resumeText && resumeText.trim().length > 50) {
+                        let extractedProfile = await extractProfileFromResume(resumeText);
+                        if (!extractedProfile) {
+                            console.log('Gemini extraction failed/unavailable, falling back to basic regex parsing.');
+                            extractedProfile = extractBasicInfoFromResumeText(resumeText, score.resumeId.fileName);
+                        }
+
+                        if (extractedProfile) {
+                            score.linkedinData = extractedProfile;
+                            if (extractedProfile.fullName) score.candidateName = extractedProfile.fullName;
+                            if (extractedProfile.linkedinUrl && !score.linkedinUrl) score.linkedinUrl = extractedProfile.linkedinUrl;
+                            if (extractedProfile.githubUrl && !score.githubUrl) score.githubUrl = extractedProfile.githubUrl;
+                            await score.save();
+                        }
+                    }
+                }
+            } catch (err) {
+                console.error('Error auto-extracting candidate profile on-demand:', err);
+            }
+        }
+
         res.json({
             candidateName: score.candidateName || '',
             githubUrl: score.githubUrl || '',
@@ -639,4 +668,52 @@ function extractLinkedInUsername(url) {
     } catch {
         return null;
     }
+}
+
+// Helper to extract basic info from resume text using regex fallback
+function extractBasicInfoFromResumeText(text, fileName) {
+    const info = {
+        fullName: '',
+        githubUrl: '',
+        linkedinUrl: '',
+        headline: 'Candidate Profile',
+        currentRole: 'N/A',
+        location: 'N/A',
+        summary: 'Parsed from uploaded resume file.',
+        workExperience: [],
+        education: [],
+        certifications: [],
+        skills: [],
+        keyHighlights: []
+    };
+
+    // Try to find LinkedIn URL
+    const linkedinMatch = text.match(/https?:\/\/(?:www\.)?linkedin\.com\/in\/[\w\-]+/i);
+    if (linkedinMatch) info.linkedinUrl = linkedinMatch[0];
+
+    // Try to find GitHub URL
+    const githubMatch = text.match(/https?:\/\/(?:www\.)?github\.com\/[\w\-]+/i);
+    if (githubMatch) info.githubUrl = githubMatch[0];
+
+    // Try to guess Name from file name or first lines
+    let nameGuess = '';
+    if (fileName) {
+        // Remove extensions, replace dashes/underscores with spaces
+        nameGuess = fileName.replace(/\.[^/.]+$/, "").replace(/[_-]/g, " ").trim();
+        // Remove words like "resume", "cv", etc.
+        nameGuess = nameGuess.replace(/\b(resume|cv|pdf|doc|docx|updated|2023|2024|2025|2026)\b/gi, "").trim();
+        // Capitalize words
+        nameGuess = nameGuess.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ').trim();
+    }
+    
+    if (!nameGuess) {
+        // Try the first non-empty line of the resume
+        const lines = text.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+        if (lines.length > 0) {
+            nameGuess = lines[0].substring(0, 30);
+        }
+    }
+    
+    info.fullName = nameGuess || 'Candidate Profile';
+    return info;
 }

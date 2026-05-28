@@ -66,7 +66,12 @@ function displayCandidates(candidates) {
         row.innerHTML = `
             <td><input type="checkbox" class="candidate-checkbox" data-id="${candidate.id}"></td>
             <td><strong>${index + 1}</strong></td>
-            <td>${candidate.fileName}</td>
+            <td>
+                ${candidate.candidateName 
+                    ? `<span style="font-weight: 600; color: var(--dark);">${escapeHtml(candidate.candidateName)}</span><br><small style="color: #64748b; font-size: 11px;">${escapeHtml(candidate.fileName)}</small>` 
+                    : `<span style="font-weight: 600; color: var(--dark);">${escapeHtml(candidate.fileName)}</span>`
+                }
+            </td>
             <td class="${scoreClass}">${candidate.matchScore}%</td>
             <td><span class="status-badge ${statusClass}">${candidate.status}</span></td>
             <td>${candidate.experience || 'N/A'}</td>

@@ -20,6 +20,7 @@ exports.getAllCandidates = async (req, res) => {
         const candidates = allScores.map(score => ({
             id: score._id,
             fileName: score.resumeId.fileName,
+            candidateName: score.candidateName || '',
             matchScore: score.matchScore,
             status: score.status,
             aiConfidence: score.aiConfidence,
