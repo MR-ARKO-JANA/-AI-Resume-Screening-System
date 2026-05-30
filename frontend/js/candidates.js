@@ -1,3 +1,5 @@
+// Candidates Page - Candidate listing and management
+
 // ============================================================
 // Candidates Page — Table + Detail Modal with GitHub & LinkedIn
 // ============================================================
