@@ -1,3 +1,5 @@
+// Resume Routes - Upload and screening endpoints
+
 const express = require('express');
 const router = express.Router();
 const multerconfig = require('../config/multer');
