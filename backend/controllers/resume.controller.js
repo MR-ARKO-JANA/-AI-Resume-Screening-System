@@ -1,3 +1,5 @@
+// Resume Controller - Handles file upload and AI screening logic
+
 // Resume Controller - handles file upload, parsing, and AI scoring pipeline
 const jwt = require('jsonwebtoken');
 const path = require('path');
