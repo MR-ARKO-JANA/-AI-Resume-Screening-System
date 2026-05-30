@@ -1,3 +1,5 @@
+// Profile Controller - Handles profile lookup and candidate search
+
 // Profile Controller - manages candidate profile extraction and LinkedIn lookup
 const { GoogleGenerativeAI } = require('@google/generative-ai');
 const Score = require('../models/scoreModel');
