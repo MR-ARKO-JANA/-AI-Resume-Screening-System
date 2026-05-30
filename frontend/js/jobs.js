@@ -1,3 +1,5 @@
+// Jobs Page - Job listing, syncing, and modal interactions
+
 // Jobs Section Client Functionality
 let currentJobId = null;
 let currentSourceFilter = 'All';
