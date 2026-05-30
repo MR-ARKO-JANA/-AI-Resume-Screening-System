@@ -1,3 +1,5 @@
+// Job Routes - Job CRUD and sync endpoints
+
 const express = require('express');
 const router = express.Router();
 const multerconfig = require('../config/multer');
