@@ -1,3 +1,5 @@
+// Result Page - AI score display and candidate analysis
+
 // Fetch and display result data
 async function loadResult() {
     try {
