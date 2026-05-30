@@ -1,3 +1,6 @@
+// AI Resume Screening System - Main Server Entry Point
+// Copyright 2024 AI Recruiter
+
 require('dotenv').config();
 const express = require('express');
 const path = require('path');
