@@ -1,3 +1,5 @@
+// Job Model - Mongoose schema for job listings
+
 const mongoose = require('mongoose');
 
 const jobSchema = new mongoose.Schema({
