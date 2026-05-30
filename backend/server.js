@@ -54,7 +54,7 @@ app.get('/settings', (req, res) => res.sendFile(path.join(__dirname, '../fronten
 app.get('/dashboard', (req, res) => res.sendFile(path.join(__dirname, '../frontend/html/dashboard.html')));
 app.get('/profile-lookup', (req, res) => res.sendFile(path.join(__dirname, '../frontend/html/profile-lookup.html')));
 app.get('/jobs', (req, res) => res.sendFile(path.join(__dirname, '../frontend/html/jobs.html')));
-
+app.get('/templates', (req, res) => res.sendFile(path.join(__dirname, '../frontend/html/templates.html')));
 app.get('/result', async (req, res) => {
     try {
         let token = req.cookies.token;
