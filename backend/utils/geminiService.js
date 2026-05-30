@@ -1,3 +1,5 @@
+// Gemini AI Service - Handles AI API calls for resume analysis
+
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 
 async function analyzeWithGemini(resumeText, jobDescription) {
