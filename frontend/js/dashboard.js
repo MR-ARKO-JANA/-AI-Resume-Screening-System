@@ -1,3 +1,5 @@
+// Dashboard UI Logic - Handles drag-drop, file upload, and sidebar
+
 // Dashboard JavaScript - Optimized for Performance
 
 // Cache DOM elements to avoid repeated queries
