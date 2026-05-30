@@ -55,9 +55,9 @@
 }
 
 .btn-generate-ai {
-    background: transparent;
-    border: 1px solid #7c3aed;
-    color: #7c3aed;
+    background: #ede9fe;
+    border: 1px solid #c4b5fd;
+    color: #5b21b6;
     padding: 0.75rem 1.5rem;
     border-radius: 8px;
     font-weight: 600;
@@ -69,7 +69,8 @@
 }
 
 .btn-generate-ai:hover {
-    background: #ede9fe;
+    background: #ddd6fe;
+    box-shadow: 0 2px 8px rgba(124, 58, 237, 0.15);
 }
 
 .btn-create-new {
