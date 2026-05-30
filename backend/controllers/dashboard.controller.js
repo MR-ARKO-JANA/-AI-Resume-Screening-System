@@ -1,3 +1,5 @@
+// Dashboard Controller - Handles dashboard data and statistics
+
 // Dashboard Controller - serves analytics data and candidate statistics
 const jwt = require('jsonwebtoken');
 const User = require('../models/usermodels');
