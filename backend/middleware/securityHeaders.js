@@ -1,3 +1,5 @@
+// Security Headers Middleware - Sets HTTP security headers
+
 module.exports = (req, res, next) => {
     // Basic security headers
     res.setHeader('X-Content-Type-Options', 'nosniff');
