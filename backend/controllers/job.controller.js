@@ -1,3 +1,5 @@
+// Job Controller - Handles job CRUD and sync operations
+
 const Job = require('../models/jobModel');
 const Resume = require('../models/resumeModel');
 const Score = require('../models/scoreModel');
