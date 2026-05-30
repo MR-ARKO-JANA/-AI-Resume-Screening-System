@@ -1,3 +1,5 @@
+// Templates Library - Tab filtering and sidebar interactions
+
 document.addEventListener('DOMContentLoaded', () => {
     // Tab switching logic
     const tabButtons = document.querySelectorAll('.tab-btn');
