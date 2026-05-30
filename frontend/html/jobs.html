@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jobs Portal - AI Recruiter</title>
-    <meta name="description" content="Explore and apply to jobs extracted from Naukri, Indeed, and Unstop with AI-powered resume matching">
+    <meta name="description" content="Explore and apply to jobs with AI-powered resume matching">
     <link rel="stylesheet" href="../css/dashboard-ultra.css">
     <link rel="stylesheet" href="../css/jobs-ultra.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -120,22 +120,16 @@
         <!-- Page Header -->
         <div class="page-header">
             <div>
-                <h1><i class="fas fa-briefcase"></i> Extracted Job Openings</h1>
-                <p class="page-subtitle">Browse jobs pulled from Naukri, Indeed India, and Unstop. Apply instantly and get scored by AI.</p>
+                <h1><i class="fas fa-briefcase"></i> Job Openings</h1>
+                <p class="page-subtitle">Browse jobs. Apply instantly and get scored by AI.</p>
             </div>
             <button class="btn-sync" id="syncJobsBtn">
-                <i class="fas fa-sync-alt"></i> Extract & Sync Jobs
+                <i class="fas fa-sync-alt"></i> Sync Jobs
             </button>
         </div>
 
         <!-- Filter & Tab Section -->
         <div class="jobs-filter-panel">
-            <div class="platform-tabs">
-                <button class="tab-btn active" data-source="All">All Jobs</button>
-                <button class="tab-btn" data-source="Naukri"><i class="fas fa-external-link-alt"></i> Naukri</button>
-                <button class="tab-btn" data-source="Indeed"><i class="fas fa-search"></i> Indeed India</button>
-                <button class="tab-btn" data-source="Unstop"><i class="fas fa-graduation-cap"></i> Unstop</button>
-            </div>
 
             <div class="filter-inputs">
                 <div class="search-box">
@@ -163,7 +157,7 @@
         <div class="modal-content glass">
             <span class="close-btn" id="closeDetailsBtn">&times;</span>
             <div class="modal-header">
-                <span class="source-badge" id="modalSource">Naukri</span>
+
                 <h2 id="modalTitle">Software Engineer</h2>
                 <h3 id="modalCompany">Company Name</h3>
                 <div class="job-quick-meta">

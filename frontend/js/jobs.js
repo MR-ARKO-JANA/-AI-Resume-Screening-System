@@ -92,7 +92,7 @@ function setupEventListeners() {
                 alert('Connection error during sync.');
             } finally {
                 syncJobsBtn.disabled = false;
-                syncJobsBtn.innerHTML = '<i class="fas fa-sync-alt"></i> Extract & Sync Jobs';
+                syncJobsBtn.innerHTML = '<i class="fas fa-sync-alt"></i> Sync Jobs';
             }
         });
     }
@@ -261,7 +261,6 @@ function createJobCard(job) {
     card.innerHTML = `
         <div class="job-card-header">
             <div class="company-logo-placeholder">${initial}</div>
-            <span class="source-badge ${sourceClass}">${job.source || 'Manual'}</span>
         </div>
         <div class="job-card-info">
             <h3>${job.jobTitle}</h3>
@@ -314,11 +313,6 @@ async function openDetailsModal(jobId) {
             document.getElementById('modalExperience').textContent = job.experience || 'Not specified';
             document.getElementById('modalSalary').textContent = job.salary || 'Not specified';
             document.getElementById('modalDescription').textContent = job.jobDescription || 'No description provided.';
-            
-            // Set source badge
-            const badge = document.getElementById('modalSource');
-            badge.textContent = job.source || 'Manual';
-            badge.className = 'source-badge ' + (job.source || 'manual').toLowerCase();
             
             // Set external URL
             const urlLink = document.getElementById('modalOriginalLink');
