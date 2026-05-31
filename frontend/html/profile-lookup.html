@@ -8,6 +8,7 @@
     <meta name="description" content="Look up candidate profiles from GitHub and LinkedIn for comprehensive screening">
     <link rel="stylesheet" href="../css/dashboard-ultra.css">
     <link rel="stylesheet" href="../css/profile-lookup.css">
+    <link rel="stylesheet" href="../css/navbar.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 </head>
@@ -68,6 +69,10 @@
                     <li onclick="window.location.href='/settings'">
                         <i class="fas fa-cog"></i>
                         <span>Settings</span>
+                    </li>
+                    <li onclick="window.location.href='/help'">
+                        <i class="fas fa-question-circle"></i>
+                        <span>Help</span>
                     </li>
                 </ul>
             </div>
@@ -324,6 +329,7 @@
     </main>
 
     <script src="../js/profile-lookup.js"></script>
+    <script src="../js/navbar.js"></script>
     <script>
         // Mobile Sidebar Toggle
         const mobileMenuBtn = document.getElementById('mobileMenuBtn');
