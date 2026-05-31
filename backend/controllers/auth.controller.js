@@ -7,6 +7,8 @@ const User = require('../models/usermodels');
 const Score = require('../models/scoreModel');
 const Resume = require('../models/resumeModel');
 const Job = require('../models/jobModel');
+const HelpMessage = require('../models/helpMessageModel');
+const nodemailer = require('nodemailer');
 
 const JWT_SECRET = process.env.JWT_SECRET || "default_secret_change_in_production";
 
