@@ -180,3 +180,68 @@ exports.deleteAccount = async (req, res) => {
     }
 };
 
+exports.sendHelpMessage = async (req, res) => {
+    try {
+        const { name, email, subject, message } = req.body;
+
+        if (!name || !email || !subject || !message) {
+            return res.status(400).json({ error: "All fields are required" });
+        }
+
+        // Save to Database
+        const helpMessage = new HelpMessage({ name, email, subject, message });
+        await helpMessage.save();
+
+        console.log(`[Help Contact Form] New message saved to database from ${email}`);
+
+        // Try to send email
+        const targetEmail = 'arkojana45@gmail.com';
+        const emailUser = process.env.EMAIL_USER;
+        const emailPass = process.env.EMAIL_PASS;
+
+        let emailSent = false;
+        let emailError = null;
+
+        if (emailUser && emailPass) {
+            try {
+                const transporter = nodemailer.createTransport({
+                    service: 'gmail',
+                    auth: {
+                        user: emailUser,
+                        pass: emailPass
+                    }
+                });
+
+                const mailOptions = {
+                    from: emailUser,
+                    to: targetEmail,
+                    replyTo: email,
+                    subject: `[AI Recruiter Help] ${subject}`,
+                    text: `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`
+                };
+
+                await transporter.sendMail(mailOptions);
+                emailSent = true;
+                console.log(`[Help Contact Form] Email sent successfully to ${targetEmail}`);
+            } catch (err) {
+                emailError = err.message;
+                console.error(`[Help Contact Form] Failed to send email via SMTP: ${err.message}`);
+            }
+        } else {
+            console.log(`[Help Contact Form] SMTP credentials not configured. Message content:`);
+            console.log(`- From: ${name} <${email}>`);
+            console.log(`- Subject: ${subject}`);
+            console.log(`- Message: ${message}`);
+        }
+
+        res.json({
+            success: true,
+            emailSent: emailSent,
+            emailError: emailError,
+            message: "Your support message has been sent successfully!"
+        });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
