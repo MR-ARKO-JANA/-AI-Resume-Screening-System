@@ -574,3 +574,120 @@
         </section>
 
         <!-- App Info Footer -->
+        <div class="help-footer">
+            <div class="help-footer-content">
+                <div class="footer-logo">
+                    <i class="fas fa-robot"></i>
+                    <span>AI Recruiter v2.0 Pro</span>
+                </div>
+                <p>Built with ❤️ by Arko Jana • AI-Powered Resume Screening System</p>
+            </div>
+        </div>
+    </main>
+
+    <script src="../js/navbar.js"></script>
+    <script>
+        // FAQ Toggle
+        function toggleFaq(btn) {
+            const item = btn.parentElement;
+            const isOpen = item.classList.contains('open');
+
+            // Close all
+            document.querySelectorAll('.faq-item.open').forEach(faq => {
+                faq.classList.remove('open');
+            });
+
+            // Open clicked if it was closed
+            if (!isOpen) {
+                item.classList.add('open');
+            }
+        }
+
+        // Scroll to section
+        function scrollToSection(id) {
+            const el = document.getElementById(id);
+            if (el) {
+                el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
+        // Help search filter
+        const helpSearchInput = document.getElementById('helpSearchInput');
+        if (helpSearchInput) {
+            helpSearchInput.addEventListener('input', function () {
+                const query = this.value.toLowerCase().trim();
+                
+                // Filter FAQ items
+                document.querySelectorAll('.faq-item').forEach(item => {
+                    const text = item.textContent.toLowerCase();
+                    item.style.display = !query || text.includes(query) ? '' : 'none';
+                });
+
+                // Filter feature cards
+                document.querySelectorAll('.feature-card').forEach(card => {
+                    const text = card.textContent.toLowerCase();
+                    card.style.display = !query || text.includes(query) ? '' : 'none';
+                });
+
+                // Filter step cards
+                document.querySelectorAll('.step-card').forEach(card => {
+                    const text = card.textContent.toLowerCase();
+                    card.style.display = !query || text.includes(query) ? '' : 'none';
+                });
+            });
+        }
+
+        // Contact Form Submission
+        const contactForm = document.getElementById('helpContactForm');
+        const contactStatus = document.getElementById('contactFormStatus');
+
+        if (contactForm && contactStatus) {
+            contactForm.addEventListener('submit', async function (e) {
+                e.preventDefault();
+
+                const name = document.getElementById('contactName').value;
+                const email = document.getElementById('contactEmail').value;
+                const subject = document.getElementById('contactSubject').value;
+                const message = document.getElementById('contactMessage').value;
+
+                // Show sending status
+                contactStatus.textContent = 'Sending message...';
+                contactStatus.className = 'form-status';
+                contactStatus.style.display = 'block';
+
+                try {
+                    const response = await fetch('/api/help/contact', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ name, email, subject, message })
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok) {
+                        if (data.emailSent) {
+                            contactStatus.innerHTML = '<i class="fas fa-check-circle"></i> Message sent & emailed to support successfully!';
+                            contactStatus.className = 'form-status success';
+                            contactForm.reset();
+                        } else {
+                            const mailtoUrl = `mailto:arkojana45@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent("Name: " + name + "\nEmail: " + email + "\n\n" + message)}`;
+                            contactStatus.innerHTML = `<i class="fas fa-exclamation-triangle"></i> Message saved in database. Direct email forwarding is not configured in .env.<br><a href="${mailtoUrl}" class="contact-link" style="margin-top: 10px; display: inline-block;">Send directly via Email Client</a>`;
+                            contactStatus.className = 'form-status error';
+                        }
+                    } else {
+                        contactStatus.textContent = data.error || 'Failed to send message. Please try again.';
+                        contactStatus.className = 'form-status error';
+                    }
+                } catch (error) {
+                    console.error('Error sending message:', error);
+                    contactStatus.textContent = 'An error occurred. Please check your network connection and try again.';
+                    contactStatus.className = 'form-status error';
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>
