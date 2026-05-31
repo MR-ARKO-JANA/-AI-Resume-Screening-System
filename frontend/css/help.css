@@ -404,3 +404,138 @@
 .faq-question {
     width: 100%;
     display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 20px;
+    background: #f8fafc;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    font-family: 'Inter', sans-serif;
+    transition: all 0.3s ease;
+}
+
+.faq-item.open .faq-question {
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.06), rgba(139, 92, 246, 0.06));
+}
+
+.faq-question span {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1e293b;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.faq-question span i {
+    color: #6366f1;
+    font-size: 16px;
+    width: 20px;
+}
+
+.faq-arrow {
+    font-size: 12px;
+    color: #94a3b8;
+    transition: transform 0.3s ease;
+    flex-shrink: 0;
+}
+
+.faq-item.open .faq-arrow {
+    transform: rotate(180deg);
+    color: #6366f1;
+}
+
+.faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), padding 0.3s ease;
+    padding: 0 20px;
+}
+
+.faq-item.open .faq-answer {
+    max-height: 500px;
+    padding: 0 20px 20px;
+}
+
+.faq-answer p {
+    font-size: 13px;
+    color: #475569;
+    line-height: 1.7;
+    margin-bottom: 10px;
+}
+
+.faq-answer ul {
+    list-style: none;
+    padding: 0;
+    margin: 8px 0;
+}
+
+.faq-answer ul li {
+    font-size: 13px;
+    color: #475569;
+    padding: 4px 0 4px 20px;
+    position: relative;
+    line-height: 1.6;
+}
+
+.faq-answer ul li::before {
+    content: '';
+    position: absolute;
+    left: 2px;
+    top: 12px;
+    width: 8px;
+    height: 8px;
+    border: 2px solid #6366f1;
+    border-radius: 50%;
+}
+
+/* ========== SHORTCUTS SECTION ========== */
+.shortcuts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+    gap: 20px;
+}
+
+.shortcut-card {
+    background: #f8fafc;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid #e2e8f0;
+}
+
+.shortcut-category {
+    padding: 16px 20px;
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.06), rgba(139, 92, 246, 0.06));
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.shortcut-category h3 {
+    font-size: 14px;
+    font-weight: 700;
+    color: #1e293b;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.shortcut-category h3 i {
+    color: #6366f1;
+}
+
+.shortcut-list {
+    padding: 8px;
+}
+
+.shortcut-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px;
+    border-radius: 8px;
+    transition: background 0.2s;
+}
+
+.shortcut-item:hover {
+    background: white;
+}
