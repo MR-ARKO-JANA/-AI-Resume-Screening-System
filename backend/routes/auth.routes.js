@@ -14,5 +14,6 @@ router.post('/api/update-profile', authController.updateProfile);
 router.post('/api/change-password', authController.changePassword);
 router.post('/api/delete-all-data', authController.deleteAllData);
 router.post('/api/delete-account', authController.deleteAccount);
+router.post('/api/help/contact', authController.sendHelpMessage);
 
 module.exports = router;
