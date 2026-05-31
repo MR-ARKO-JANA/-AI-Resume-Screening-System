@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Help & Support - AI Recruiter</title>
+    <meta name="description" content="Get help with AI Recruiter. Find answers to common questions, learn features, and contact support.">
+    <link rel="icon" type="image/png" href="/images/favicon.png">
+    <link rel="stylesheet" href="../css/dashboard-ultra.css">
+    <link rel="stylesheet" href="../css/help.css">
+    <link rel="stylesheet" href="../css/navbar.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    <aside class="sidebar" id="sidebar">
+        <div class="logo-section">
+            <div class="logo-icon">
+                <i class="fas fa-robot"></i>
+            </div>
+            <h2>AI Recruiter</h2>
+            <span class="version">v2.0 Pro</span>
+        </div>
+
+        <nav class="nav-menu">
+            <div class="nav-section">
+                <span class="nav-label">MAIN</span>
+                <ul>
+                    <li onclick="window.location.href='/dashboard'">
+                        <i class="fas fa-home"></i>
+                        <span>Dashboard</span>
+                    </li>
+                    <li onclick="window.location.href='/result'">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Results</span>
+                    </li>
+                    <li onclick="window.location.href='/candidates'">
+                        <i class="fas fa-users"></i>
+                        <span>Candidates</span>
+                        <span class="badge success">12</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="nav-section">
+                <span class="nav-label">TOOLS</span>
+                <ul>
+                    <li onclick="window.location.href='/profile-lookup'">
+                        <i class="fas fa-search-plus"></i>
+                        <span>Profile Lookup</span>
+                        <span class="badge new">NEW</span>
+                    </li>
+                    <li onclick="window.location.href='/jobs'">
+                        <i class="fas fa-briefcase"></i>
+                        <span>Jobs</span>
+                    </li>
+                    <li onclick="window.location.href='/templates'">
+                        <i class="fas fa-file-alt"></i>
+                        <span>Templates</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="nav-section">
+                <span class="nav-label">SETTINGS</span>
+                <ul>
+                    <li onclick="window.location.href='/settings'">
+                        <i class="fas fa-cog"></i>
+                        <span>Settings</span>
+                    </li>
+                    <li class="active">
+                        <i class="fas fa-question-circle"></i>
+                        <span>Help</span>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="storage-info">
+                <div class="storage-header">
+                    <i class="fas fa-database"></i>
+                    <span>Storage</span>
+                </div>
+                <div class="storage-bar">
+                    <div class="storage-fill" style="width: 65%"></div>
+                </div>
+                <span class="storage-text">6.5 GB of 10 GB used</span>
+            </div>
+
+            <button class="upgrade-btn">
+                <i class="fas fa-crown"></i>
+                Upgrade to Pro
+            </button>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <!-- Navbar -->
+        <header class="navbar">
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search help articles...">
+                <kbd>Ctrl</kbd> + <kbd>K</kbd>
+            </div>
+            <div class="navbar-actions">
+                <button class="icon-btn" title="Notifications">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-dot"></span>
+                </button>
+                <button class="icon-btn" title="Messages">
