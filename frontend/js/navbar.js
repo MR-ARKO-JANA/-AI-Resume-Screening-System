@@ -470,3 +470,5 @@
     });
 
 })();
+
+// End of interactive components
