@@ -344,3 +344,118 @@
         </section>
 
         <!-- FAQ Section -->
+        <section class="help-section" id="faq">
+            <div class="section-header">
+                <h2><i class="fas fa-comments"></i> Frequently Asked Questions</h2>
+            </div>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        <span><i class="fas fa-file-upload"></i> What file formats are supported for resume upload?</span>
+                        <i class="fas fa-chevron-down faq-arrow"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>AI Recruiter supports <strong>PDF</strong>, <strong>DOC</strong>, and <strong>DOCX</strong> file formats. The maximum file size is <strong>5MB</strong> per resume. For best results, we recommend uploading PDF files as they preserve formatting consistently.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        <span><i class="fas fa-brain"></i> How does the AI scoring work?</span>
+                        <i class="fas fa-chevron-down faq-arrow"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>The AI scoring system uses three weighted components:</p>
+                        <ul>
+                            <li><strong>Skills Match (60%)</strong> — Compares the candidate's technical and soft skills against job requirements</li>
+                            <li><strong>Keyword Match (30%)</strong> — Analyzes keyword density and relevance from the job description</li>
+                            <li><strong>Experience (10%)</strong> — Evaluates years of experience and career level</li>
+                        </ul>
+                        <p>You can customize these weights in <strong>Settings → AI Scoring</strong>.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        <span><i class="fas fa-shield-alt"></i> Is my data secure?</span>
+                        <i class="fas fa-chevron-down faq-arrow"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Yes! We take security seriously:</p>
+                        <ul>
+                            <li>All data is encrypted in transit and at rest</li>
+                            <li>Passwords are hashed using bcrypt</li>
+                            <li>JWT-based authentication with secure cookies</li>
+                            <li>Security headers (CORS, CSP, X-Frame-Options) are enforced</li>
+                            <li>Regular security audits and updates</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        <span><i class="fas fa-users"></i> Can I screen multiple resumes at once?</span>
+                        <i class="fas fa-chevron-down faq-arrow"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Yes! You can select multiple PDF files when uploading. Each resume will be individually screened against the same job description and scored separately. All results appear in the <strong>Candidates</strong> section where you can filter, compare, and take bulk actions.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        <span><i class="fas fa-search-plus"></i> What is Profile Lookup?</span>
+                        <i class="fas fa-chevron-down faq-arrow"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Profile Lookup lets you analyze a candidate's online presence by entering their <strong>GitHub</strong> and/or <strong>LinkedIn</strong> URLs. The AI will:</p>
+                        <ul>
+                            <li>Fetch GitHub profile data: repositories, stars, languages, commit activity</li>
+                            <li>Analyze LinkedIn content: work experience, education, certifications</li>
+                            <li>Generate a comprehensive professional summary</li>
+                        </ul>
+                        <p>You can access Profile Lookup from the sidebar or directly from a candidate's detail modal.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        <span><i class="fas fa-file-csv"></i> How do I export candidate data?</span>
+                        <i class="fas fa-chevron-down faq-arrow"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Navigate to the <strong>Candidates</strong> page and click the <strong>"Export to CSV"</strong> button at the top. This will download a CSV file containing all candidate information including names, match scores, statuses, experience, and upload dates. You can filter candidates first and export only the filtered results.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        <span><i class="fas fa-trash-alt"></i> Can I delete my data?</span>
+                        <i class="fas fa-chevron-down faq-arrow"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Yes. Go to <strong>Settings → Danger Zone</strong> where you can:</p>
+                        <ul>
+                            <li><strong>Delete All Data</strong> — Permanently removes all resumes, candidates, and screening results</li>
+                            <li><strong>Delete Account</strong> — Permanently deletes your account and all associated data</li>
+                        </ul>
+                        <p><strong>Warning:</strong> These actions are irreversible. Make sure to export your data first if needed.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Keyboard Shortcuts Section -->
+        <section class="help-section" id="shortcuts">
+            <div class="section-header">
+                <h2><i class="fas fa-keyboard"></i> Keyboard Shortcuts</h2>
+            </div>
+            <div class="shortcuts-grid">
+                <div class="shortcut-card">
+                    <div class="shortcut-category">
+                        <h3><i class="fas fa-compass"></i> Navigation</h3>
+                    </div>
+                    <div class="shortcut-list">
+                        <div class="shortcut-item">
+                            <span>Open search / command palette</span>
+                            <div class="shortcut-keys">
