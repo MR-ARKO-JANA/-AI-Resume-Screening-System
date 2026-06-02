@@ -165,9 +165,12 @@ function resetModal() {
     // Reset tabs
     switchTab('lookup', document.getElementById('tabLookup'));
 
+    // Find candidate in allCandidates array
+    const candidate = allCandidates.find(c => c.id === currentCandidateId) || {};
+
     // Reset inputs
-    document.getElementById('modalGithubUrl').value = currentCandidate.githubUrl || '';
-    document.getElementById('modalLinkedinUrl').value = currentCandidate.linkedinUrl || '';
+    document.getElementById('modalGithubUrl').value = candidate.githubUrl || '';
+    document.getElementById('modalLinkedinUrl').value = candidate.linkedinUrl || '';
 
     // Hide results
     document.getElementById('githubResultsContent').style.display = 'none';
