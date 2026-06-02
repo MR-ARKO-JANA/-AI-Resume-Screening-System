@@ -46,13 +46,15 @@ body::before {
         radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.3), transparent 50%),
         radial-gradient(circle at 80% 80%, rgba(138, 92, 246, 0.3), transparent 50%),
         radial-gradient(circle at 40% 20%, rgba(99, 102, 241, 0.2), transparent 50%);
-    animation: gradientShift 15s ease infinite;
+    animation: gradientShift 40s linear infinite;
     pointer-events: none;
+    will-change: transform;
+    transform: translate3d(0, 0, 0);
 }
 
 @keyframes gradientShift {
-    0%, 100% { transform: translate(0, 0) rotate(0deg); }
-    50% { transform: translate(-50px, -50px) rotate(180deg); }
+    0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
+    50% { transform: translate3d(-50px, -50px, 0) rotate(180deg); }
 }
 
 /* ========== SIDEBAR ========== */
