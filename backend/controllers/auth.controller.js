@@ -16,23 +16,23 @@ exports.login = async (req, res) => {
     try {
         let { email, password } = req.body;
 
-        if (!email || !password) return res.send("Email and password are required");
+        if (!email || !password) return res.json({ error: "Email and password are required" });
 
         let idenuser = await User.findOne({ email: email });
-        if (!idenuser) return res.send("User not found");
+        if (!idenuser) return res.json({ error: "User not found" });
 
         bc.compare(password, idenuser.password, (err, result) => {
-            if (err) return res.send("Something went wrong");
+            if (err) return res.json({ error: "Something went wrong" });
             if (result) {
                 let token = jwt.sign({ email: idenuser.email }, JWT_SECRET);
                 res.cookie("token", token);
-                res.redirect('/dashboard');
+                res.json({ success: true, user: { name: idenuser.name, email: idenuser.email } });
             } else {
-                res.send("Incorrect password");
+                res.json({ error: "Incorrect password" });
             }
         });
     } catch (error) {
-        res.send("Something went wrong: " + error.message);
+        res.json({ error: "Something went wrong: " + error.message });
     }
 };
 
