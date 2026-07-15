@@ -40,31 +40,31 @@ exports.register = async (req, res) => {
     try {
         let { name, email, password } = req.body;
 
-        if (!name || !email || !password) return res.send("All fields are required");
+        if (!name || !email || !password) return res.json({ error: "All fields are required" });
 
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(email)) return res.send("Invalid email format");
+        if (!emailRegex.test(email)) return res.json({ error: "Invalid email format" });
 
         let existingUser = await User.findOne({ email: email });
-        if (existingUser) return res.send("User already exists");
+        if (existingUser) return res.json({ error: "User already exists" });
 
         bc.genSalt(10, (err, salt) => {
-            if (err) return res.send("Error salt");
+            if (err) return res.json({ error: "Error generating salt" });
             bc.hash(password, salt, async (err, hash) => {
-                if (err) return res.send("Hash error");
+                if (err) return res.json({ error: "Error hashing password" });
                 try {
                     const datafild = new User({ name, email, password: hash });
                     await datafild.save();
                     let token = jwt.sign({ email }, JWT_SECRET);
                     res.cookie("token", token);
-                    res.redirect('/dashboard');
+                    res.json({ success: true, user: { name, email } });
                 } catch (error) {
-                    res.send("Database error: " + error.message);
+                    res.json({ error: "Database error: " + error.message });
                 }
             });
         });
     } catch (error) {
-        res.send("Server error: " + error.message);
+        res.json({ error: "Server error: " + error.message });
     }
 };
 
