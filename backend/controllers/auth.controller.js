@@ -70,7 +70,7 @@ exports.register = async (req, res) => {
 
 exports.logout = (req, res) => {
     res.clearCookie('token');
-    res.redirect('/');
+    res.json({ success: true, message: "Logged out successfully" });
 };
 
 exports.getUserProfile = async (req, res) => {
