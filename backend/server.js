@@ -31,7 +31,7 @@ app.use(express.json());
 app.use(securityHeaders);
 app.use(requestLogger);
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, '../frontend')));
+app.use(express.static(path.join(__dirname, '../frontend-react/dist')));
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use(cookieParser());
 
@@ -39,11 +39,11 @@ app.use(cookieParser());
 app.use((err, req, res, next) => {
     if (err instanceof multer.MulterError) {
         if (err.code === 'LIMIT_FILE_SIZE') {
-            return res.status(400).send('File is too large. Maximum size is 5MB.');
+            return res.status(400).json({ error: 'File is too large. Maximum size is 5MB.' });
         }
-        return res.status(400).send('File upload error: ' + err.message);
+        return res.status(400).json({ error: 'File upload error: ' + err.message });
     } else if (err) {
-        return res.status(400).send(err.message);
+        return res.status(400).json({ error: err.message });
     }
     next();
 });
@@ -81,9 +81,9 @@ if (process.env.NODE_ENV !== 'test') {
 }
 
 
-// 404 handler - must be after all other routes
-app.use((req, res) => {
-    res.status(404).sendFile(path.join(__dirname, '../frontend/html/404.html'));
+// SPA catch-all - serves React app for all non-API routes
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../frontend-react/dist/index.html'));
 });
 module.exports = app;
 
