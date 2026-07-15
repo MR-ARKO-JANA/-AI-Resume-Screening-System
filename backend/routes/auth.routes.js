@@ -4,9 +4,9 @@ const express = require('express');
 const router = express.Router();
 const authController = require('../controllers/auth.controller');
 
-router.post('/login', authController.login);
-router.post('/register', authController.register);
-router.get('/logout', authController.logout);
+router.post('/api/login', authController.login);
+router.post('/api/register', authController.register);
+router.get('/api/logout', authController.logout);
 
 // API settings routes
 router.get('/api/user-profile', authController.getUserProfile);
