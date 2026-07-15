@@ -49,47 +49,9 @@ app.use((err, req, res, next) => {
 });
 
 // =======================
-// Frontend View Routes
+// Frontend View Routes (Removed - Now handled by React SPA)
 // =======================
-app.get('/', (req, res) => res.sendFile(path.join(__dirname, '../frontend/html/login_register.html')));
-app.get('/candidates', (req, res) => res.sendFile(path.join(__dirname, '../frontend/html/candidates.html')));
-app.get('/settings', (req, res) => res.sendFile(path.join(__dirname, '../frontend/html/settings.html')));
-app.get('/dashboard', (req, res) => res.sendFile(path.join(__dirname, '../frontend/html/dashboard.html')));
-app.get('/profile-lookup', (req, res) => res.sendFile(path.join(__dirname, '../frontend/html/profile-lookup.html')));
-app.get('/jobs', (req, res) => res.sendFile(path.join(__dirname, '../frontend/html/jobs.html')));
-app.get('/templates', (req, res) => res.sendFile(path.join(__dirname, '../frontend/html/templates.html')));
-app.get('/help', (req, res) => res.sendFile(path.join(__dirname, '../frontend/html/help.html')));
-app.get('/result', async (req, res) => {
-    try {
-        let token = req.cookies.token;
-        if (!token) return res.redirect('/');
-
-        let decoded = jwt.verify(token, JWT_SECRET);
-        let user = await User.findOne({ email: decoded.email });
-
-        // Get latest score for this user
-        const latestScore = await Score.findOne({ userId: user._id })
-            .populate('resumeId')
-            .populate('jobId')
-            .sort({ createdDate: -1 });
-
-        if (latestScore) {
-            res.cookie('resultData', JSON.stringify({
-                matchScore: latestScore.matchScore,
-                status: latestScore.status,
-                fileName: latestScore.resumeId.fileName,
-                aiAnalysis: latestScore.aiAnalysis,
-                aiConfidence: latestScore.aiConfidence,
-                experience: latestScore.experience,
-                skills: latestScore.skills
-            }));
-        }
-
-        res.sendFile(path.join(__dirname, '../frontend/html/result.html'));
-    } catch (error) {
-        res.sendFile(path.join(__dirname, '../frontend/html/result.html'));
-    }
-});
+// React frontend handles all client-side routing via react-router-dom
 
 
 // Health check endpoint for Cloud Run and monitoring
