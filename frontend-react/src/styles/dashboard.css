@@ -1,0 +1,225 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    display: flex;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    position: relative;
+}
+
+body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="grid" width="100" height="100" patternUnits="userSpaceOnUse"><path d="M 100 0 L 0 0 0 100" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/></pattern></defs><rect width="100%" height="100%" fill="url(%23grid)"/></svg>');
+    pointer-events: none;
+}
+
+.sidebar {
+    width: 260px;
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(10px);
+    color: #2d3748;
+    padding: 30px 20px;
+    box-shadow: 4px 0 24px rgba(0, 0, 0, 0.12);
+    z-index: 10;
+}
+
+.sidebar h2 {
+    text-align: center;
+    margin-bottom: 40px;
+    font-size: 24px;
+    font-weight: 700;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.sidebar ul {
+    list-style: none;
+}
+
+.sidebar ul li {
+    padding: 14px 18px;
+    margin-bottom: 8px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    color: #4a5568;
+}
+
+.sidebar ul li.active {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.sidebar ul li:hover:not(.active) {
+    background: #f7fafc;
+    transform: translateX(5px);
+}
+
+.main-content {
+    flex: 1;
+    padding: 30px 40px;
+    overflow-y: auto;
+    position: relative;
+    z-index: 1;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    padding: 20px 30px;
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+}
+
+.navbar h1 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #2d3748;
+}
+
+.user-area {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.user-area img {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: 2px solid #667eea;
+    object-fit: cover;
+}
+
+.user-area a {
+    text-decoration: none;
+    color: #667eea;
+    font-weight: 600;
+    padding: 8px 20px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.user-area a:hover {
+    background: #667eea;
+    color: white;
+}
+
+.upload-box, .job-box {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    margin-bottom: 24px;
+    transition: all 0.3s ease;
+}
+
+.upload-box:hover, .job-box:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+}
+
+.upload-box h2, .job-box h2 {
+    font-size: 20px;
+    font-weight: 700;
+    color: #2d3748;
+    margin-bottom: 16px;
+}
+
+.upload-box input[type="file"] {
+    width: 100%;
+    padding: 14px;
+    border: 2px dashed #cbd5e0;
+    border-radius: 12px;
+    background: #f7fafc;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 14px;
+}
+
+.upload-box input[type="file"]:hover {
+    border-color: #667eea;
+    background: white;
+}
+
+.job-box textarea {
+    width: 100%;
+    min-height: 180px;
+    padding: 16px;
+    border-radius: 12px;
+    border: 2px solid #e2e8f0;
+    resize: vertical;
+    outline: none;
+    font-size: 15px;
+    line-height: 1.6;
+    transition: all 0.3s ease;
+    background: #f7fafc;
+}
+
+.job-box textarea:focus {
+    border-color: #667eea;
+    background: white;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.job-box textarea::placeholder {
+    color: #a0aec0;
+}
+
+.screen-btn {
+    padding: 14px 32px;
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(72, 187, 120, 0.3);
+}
+
+.screen-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(72, 187, 120, 0.4);
+}
+
+.screen-btn:active {
+    transform: translateY(0);
+}
+
+@media (max-width: 768px) {
+    body {
+        flex-direction: column;
+    }
+    
+    .sidebar {
+        width: 100%;
+        padding: 20px;
+    }
+    
+    .main-content {
+        padding: 20px;
+    }
+}
