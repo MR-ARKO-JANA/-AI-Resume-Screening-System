@@ -49,7 +49,7 @@ const SKILL_SYNONYMS = {
 // Parse PDF to text
 async function parsePDF(filePath) {
     try {
-        const dataBuffer = fs.readFileSync(filePath);
+        const dataBuffer = await fs.promises.readFile(filePath);
         const data = await pdf(dataBuffer);
         return data.text;
     } catch (error) {
