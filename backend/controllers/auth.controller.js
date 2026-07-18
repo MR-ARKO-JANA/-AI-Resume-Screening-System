@@ -16,23 +16,23 @@ exports.login = async (req, res) => {
     try {
         let { email, password } = req.body;
 
-        if (!email || !password) return res.json({ error: "Email and password are required" });
+        if (!email || !password) return res.send("Email and password are required");
 
         let idenuser = await User.findOne({ email: email });
-        if (!idenuser) return res.json({ error: "User not found" });
+        if (!idenuser) return res.send("User not found");
 
         bc.compare(password, idenuser.password, (err, result) => {
-            if (err) return res.json({ error: "Something went wrong" });
+            if (err) return res.send("Something went wrong");
             if (result) {
                 let token = jwt.sign({ email: idenuser.email }, JWT_SECRET);
                 res.cookie("token", token);
-                res.json({ success: true, user: { name: idenuser.name, email: idenuser.email } });
+                res.redirect('/dashboard');
             } else {
-                res.json({ error: "Incorrect password" });
+                res.send("Incorrect password");
             }
         });
     } catch (error) {
-        res.json({ error: "Something went wrong: " + error.message });
+        res.send("Something went wrong: " + error.message);
     }
 };
 
@@ -40,37 +40,37 @@ exports.register = async (req, res) => {
     try {
         let { name, email, password } = req.body;
 
-        if (!name || !email || !password) return res.json({ error: "All fields are required" });
+        if (!name || !email || !password) return res.send("All fields are required");
 
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(email)) return res.json({ error: "Invalid email format" });
+        if (!emailRegex.test(email)) return res.send("Invalid email format");
 
         let existingUser = await User.findOne({ email: email });
-        if (existingUser) return res.json({ error: "User already exists" });
+        if (existingUser) return res.send("User already exists");
 
         bc.genSalt(10, (err, salt) => {
-            if (err) return res.json({ error: "Error generating salt" });
+            if (err) return res.send("Error salt");
             bc.hash(password, salt, async (err, hash) => {
-                if (err) return res.json({ error: "Error hashing password" });
+                if (err) return res.send("Hash error");
                 try {
                     const datafild = new User({ name, email, password: hash });
                     await datafild.save();
                     let token = jwt.sign({ email }, JWT_SECRET);
                     res.cookie("token", token);
-                    res.json({ success: true, user: { name, email } });
+                    res.redirect('/dashboard');
                 } catch (error) {
-                    res.json({ error: "Database error: " + error.message });
+                    res.send("Database error: " + error.message);
                 }
             });
         });
     } catch (error) {
-        res.json({ error: "Server error: " + error.message });
+        res.send("Server error: " + error.message);
     }
 };
 
 exports.logout = (req, res) => {
     res.clearCookie('token');
-    res.json({ success: true, message: "Logged out successfully" });
+    res.redirect('/');
 };
 
 exports.getUserProfile = async (req, res) => {

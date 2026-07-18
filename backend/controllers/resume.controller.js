@@ -15,20 +15,20 @@ const JWT_SECRET = process.env.JWT_SECRET || "default_secret_change_in_productio
 exports.uploadResumes = async (req, res) => {
     try {
         if (!req.files || req.files.length === 0) {
-            return res.status(400).json({ error: "No files uploaded. Please select PDF or DOC files." });
+            return res.status(400).send("No files uploaded. Please select PDF or DOC files.");
         }
 
         if (!req.body.jobDesc || req.body.jobDesc.trim() === '') {
-            return res.status(400).json({ error: "Job description is required" });
+            return res.status(400).send("Job description is required");
         }
 
         let token = req.cookies.token;
-        if (!token) return res.status(401).json({ error: "Not logged in" });
+        if (!token) return res.status(401).redirect('/');
 
         let decoded = jwt.verify(token, JWT_SECRET);
         let user = await User.findOne({ email: decoded.email });
 
-        if (!user) return res.status(404).json({ error: "User not found" });
+        if (!user) return res.status(404).send("User not found");
 
         const processedResults = [];
 
@@ -135,24 +135,24 @@ exports.uploadResumes = async (req, res) => {
         }
 
         if (req.files.length > 1) {
-            res.json({ success: true, redirectTo: '/candidates', count: processedResults.length });
+            res.redirect('/candidates');
         } else {
-            res.json({ success: true, redirectTo: '/result', count: processedResults.length });
+            res.redirect('/result');
         }
 
     } catch (error) {
         console.error("Resume upload error:", error);
-        res.status(500).json({ error: "Error processing resumes: " + error.message });
+        res.status(500).send("Error processing resumes: " + error.message);
     }
 };
 
 exports.createJob = async (req, res) => {
     try {
         let { jobTitle, jobDescription } = req.body;
-        if (!jobTitle || !jobDescription) return res.json({ error: "All fields are required" });
+        if (!jobTitle || !jobDescription) return res.send("All fields are required");
 
         let token = req.cookies.token;
-        if (!token) return res.json({ error: "Please login first" });
+        if (!token) return res.send("Please login first");
 
         let decoded = jwt.verify(token, JWT_SECRET);
         let user = await User.findOne({ email: decoded.email });
@@ -164,9 +164,9 @@ exports.createJob = async (req, res) => {
         });
 
         await newJob.save();
-        res.json({ success: true, message: "Job created successfully" });
+        res.send("Job created successfully");
     } catch (error) {
-        res.json({ error: "Error: " + error.message });
+        res.send("Error: " + error.message);
     }
 };
 
@@ -230,7 +230,7 @@ exports.exportCSV = async (req, res) => {
         res.attachment('candidates-export.csv');
         res.send(csv);
     } catch (error) {
-        res.status(500).json({ error: "Error exporting data: " + error.message });
+        res.status(500).send("Error exporting data: " + error.message);
     }
 };
 

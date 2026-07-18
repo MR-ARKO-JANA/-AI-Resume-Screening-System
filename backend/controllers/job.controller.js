@@ -150,9 +150,7 @@ const SEED_JOBS = [
 ];
 
 // Helper to check and seed database on initial load
-let isJobsSeeded = false;
 async function checkAndSeedJobs() {
-    if (isJobsSeeded) return;
     try {
         const count = await Job.countDocuments({ isExternal: true });
         if (count === 0) {
@@ -160,7 +158,6 @@ async function checkAndSeedJobs() {
             await Job.insertMany(SEED_JOBS);
             console.log('Successfully seeded jobs collection.');
         }
-        isJobsSeeded = true;
     } catch (err) {
         console.error('Error seeding jobs:', err);
     }
@@ -352,6 +349,14 @@ exports.applyToJob = async (req, res) => {
         const matchScore = scoringDetails.totalScore;
         const skillDetails = resumeParser.getSkillMatchDetails(resumeText, job.jobDescription);
 
+        const aiAnalysis = await resumeParser.generateAnalysis(
+            matchScore,
+            scoringDetails.matchedSkills,
+            scoringDetails.missingSkills,
+            resumeText,
+            job.jobDescription
+        );
+
         const status = matchScore >= 75 ? "Shortlisted" : matchScore >= 50 ? "Pending" : "Rejected";
         const aiConfidence = Math.min(80 + Math.round(matchScore * 0.15), 98);
         const experience = resumeText.toLowerCase().includes('year') ? "Experienced" : "Fresher";
@@ -364,8 +369,7 @@ exports.applyToJob = async (req, res) => {
         });
         await newResume.save();
 
-        // Run AI Analysis and Profile Extraction in parallel to prevent lag
-        let aiAnalysis = '';
+        // Auto-extract candidate profile info using Gemini
         let candidateName = '';
         let githubUrl = '';
         let linkedinUrl = '';
@@ -374,28 +378,19 @@ exports.applyToJob = async (req, res) => {
         try {
             const { extractProfileFromResume } = require('../utils/geminiService');
             const { extractBasicInfoFromResumeText } = require('./profile.controller');
-
-            const [analysisResult, extractedProfileResult] = await Promise.all([
-                resumeParser.generateAnalysis(
-                    matchScore,
-                    scoringDetails.matchedSkills,
-                    scoringDetails.missingSkills,
-                    resumeText,
-                    job.jobDescription
-                ),
-                extractProfileFromResume(resumeText).then(res => res || extractBasicInfoFromResumeText(resumeText, file.originalname))
-            ]);
-
-            aiAnalysis = analysisResult;
             
-            if (extractedProfileResult) {
-                linkedinData = extractedProfileResult;
-                candidateName = extractedProfileResult.fullName || '';
-                githubUrl = extractedProfileResult.githubUrl || '';
-                linkedinUrl = extractedProfileResult.linkedinUrl || '';
+            let extractedProfile = await extractProfileFromResume(resumeText);
+            if (!extractedProfile) {
+                extractedProfile = extractBasicInfoFromResumeText(resumeText, file.originalname);
             }
-        } catch (aiErr) {
-            console.error("Error during parallel AI processing:", aiErr);
+            if (extractedProfile) {
+                linkedinData = extractedProfile;
+                candidateName = extractedProfile.fullName || '';
+                githubUrl = extractedProfile.githubUrl || '';
+                linkedinUrl = extractedProfile.linkedinUrl || '';
+            }
+        } catch (profileErr) {
+            console.error("Error parsing profile on apply:", profileErr);
         }
 
         // Save Score

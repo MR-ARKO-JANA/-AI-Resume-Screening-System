@@ -9,9 +9,7 @@
     "scripts": {
         "start": "node ./backend/server.js",
         "dev": "nodemon ./backend/server.js",
-        "test": "jest",
-        "build": "cd frontend-react && npm install && npm run build",
-        "postinstall": "npm run build"
+        "test": "jest"
     },
     "keywords": [
         "ai",
