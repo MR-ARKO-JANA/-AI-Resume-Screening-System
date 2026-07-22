@@ -2,6 +2,8 @@
 
 An AI-powered resume screening system that automatically analyzes and ranks candidates using advanced Natural Language Processing (NLP) and Large Language Models (LLM).
 
+![AI Recruiter Dashboard](./dashboard.png)
+
 ## Features
 
 - **Automated Resume Parsing:** Extracts text from PDF resumes.
