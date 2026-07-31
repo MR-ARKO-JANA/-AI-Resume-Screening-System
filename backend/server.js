@@ -26,11 +26,22 @@ const app = express();
 
 const securityHeaders = require('./middleware/securityHeaders');
 const requestLogger = require('./middleware/requestLogger');
+const mongoose = require('mongoose');
 
 app.use(express.json());
 app.use(securityHeaders);
 app.use(requestLogger);
 app.use(express.urlencoded({ extended: true }));
+
+// Database connection status check middleware
+app.use((req, res, next) => {
+    if (mongoose.connection.readyState !== 1 && req.path.startsWith('/api') && req.path !== '/api/health') {
+        return res.status(503).json({
+            error: "Database connection unavailable. Please verify MONGODB_URI environment variable on Render and whitelist 0.0.0.0/0 on MongoDB Atlas."
+        });
+    }
+    next();
+});
 app.use(express.static(path.join(__dirname, '../frontend')));
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use(cookieParser());
