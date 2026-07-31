@@ -22,14 +22,14 @@ exports.getAllCandidates = async (req, res) => {
 
         const candidates = allScores.map(score => ({
             id: score._id,
-            fileName: score.resumeId.fileName,
+            fileName: (score.resumeId && score.resumeId.fileName) ? score.resumeId.fileName : 'Resume.pdf',
             candidateName: score.candidateName || '',
             matchScore: score.matchScore,
             status: score.status,
             aiConfidence: score.aiConfidence,
             experience: score.experience,
             uploadDate: score.createdDate,
-            jobTitle: score.jobId.jobTitle
+            jobTitle: (score.jobId && score.jobId.jobTitle) ? score.jobId.jobTitle : 'General Application'
         }));
 
         res.json(candidates);
@@ -124,7 +124,7 @@ exports.getCandidatesByStatus = async (req, res) => {
 
         const candidates = scores.map(score => ({
             id: score._id,
-            fileName: score.resumeId.fileName,
+            fileName: (score.resumeId && score.resumeId.fileName) ? score.resumeId.fileName : 'Resume.pdf',
             matchScore: score.matchScore,
             status: score.status,
             uploadDate: score.createdDate

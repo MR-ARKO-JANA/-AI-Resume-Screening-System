@@ -660,7 +660,7 @@ exports.getCandidateProfile = async (req, res) => {
         // we return a clean offline profile indicating the status rather than false mock data.
         let linkedinDataToReturn = score.linkedinData;
         if (isMockData(linkedinDataToReturn)) {
-            const cleanName = score.candidateName || (score.resumeId && score.resumeId.fileName.replace(/\.[^/.]+$/, "").replace(/[_-]/g, " ").trim()) || "Candidate Profile";
+            const cleanName = score.candidateName || (score.resumeId && score.resumeId.fileName ? score.resumeId.fileName.replace(/\.[^/.]+$/, "").replace(/[_-]/g, " ").trim() : null) || "Candidate Profile";
             linkedinDataToReturn = {
                 fullName: cleanName,
                 headline: "LinkedIn Profile Offline",

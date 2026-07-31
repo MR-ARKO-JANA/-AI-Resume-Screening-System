@@ -188,8 +188,8 @@ exports.getLatestResult = async (req, res) => {
         res.json({
             matchScore: latestScore.matchScore,
             status: latestScore.status,
-            fileName: latestScore.resumeId.fileName,
-            filePath: latestScore.resumeId.filePath,
+            fileName: (latestScore.resumeId && latestScore.resumeId.fileName) ? latestScore.resumeId.fileName : 'Resume.pdf',
+            filePath: (latestScore.resumeId && latestScore.resumeId.filePath) ? latestScore.resumeId.filePath : '',
             aiAnalysis: latestScore.aiAnalysis,
             aiConfidence: latestScore.aiConfidence,
             experience: latestScore.experience,
@@ -216,13 +216,13 @@ exports.exportCSV = async (req, res) => {
             .sort({ matchScore: -1 });
 
         const candidates = allScores.map(score => ({
-            fileName: score.resumeId.fileName,
+            fileName: (score.resumeId && score.resumeId.fileName) ? score.resumeId.fileName : 'Resume.pdf',
             matchScore: score.matchScore,
             status: score.status,
             experience: score.experience,
             aiConfidence: score.aiConfidence,
             uploadDate: score.createdDate,
-            jobTitle: score.jobId.jobTitle
+            jobTitle: (score.jobId && score.jobId.jobTitle) ? score.jobId.jobTitle : 'General Application'
         }));
 
         const csv = exportToCSV(candidates);

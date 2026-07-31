@@ -48,9 +48,9 @@ app.use((err, req, res, next) => {
     next();
 });
 
-// =======================
-// Frontend View Routes
-// =======================
+// =======================//
+// Frontend View Routes //
+// =======================//
 app.get('/', (req, res) => res.sendFile(path.join(__dirname, '../frontend/html/login_register.html')));
 app.get('/candidates', (req, res) => res.sendFile(path.join(__dirname, '../frontend/html/candidates.html')));
 app.get('/settings', (req, res) => res.sendFile(path.join(__dirname, '../frontend/html/settings.html')));
@@ -77,7 +77,7 @@ app.get('/result', async (req, res) => {
             res.cookie('resultData', JSON.stringify({
                 matchScore: latestScore.matchScore,
                 status: latestScore.status,
-                fileName: latestScore.resumeId.fileName,
+                fileName: (latestScore.resumeId && latestScore.resumeId.fileName) ? latestScore.resumeId.fileName : "Resume.pdf",
                 aiAnalysis: latestScore.aiAnalysis,
                 aiConfidence: latestScore.aiConfidence,
                 experience: latestScore.experience,
@@ -125,6 +125,3 @@ app.use((req, res) => {
 });
 module.exports = app;
 
-
-
-// End of views and routes

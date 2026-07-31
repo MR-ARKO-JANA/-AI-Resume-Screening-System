@@ -28,6 +28,8 @@ An AI-powered resume screening system that automatically analyzes and ranks cand
   - `frontend/`: Vanilla HTML, CSS, and JavaScript.
   - `frontend-react/`: React.js based frontend.
 
+![NearHelp SOS Broadcast](./nearhelp-screenshot.png)
+
 ## Project Structure
 
 ```text
