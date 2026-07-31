@@ -27,7 +27,11 @@ const connectDB = async () => {
         }
         // Disable Mongoose command buffering so queries fail immediately instead of hanging for 10s
         mongoose.set('bufferCommands', false);
-        console.error('CRITICAL: Database connection failed. Please ensure MONGODB_URI is set correctly in Render environment variables and 0.0.0.0/0 is whitelisted on MongoDB Atlas.');
+        if (err.message.includes('bad auth') || err.message.includes('authentication failed')) {
+            console.error('CRITICAL: MongoDB Atlas authentication failed (bad auth). Please reset database user password in MongoDB Atlas -> Database Access, and update MONGODB_URI on Render.');
+        } else {
+            console.error('CRITICAL: Database connection failed. Please ensure MONGODB_URI is set correctly in Render environment variables and 0.0.0.0/0 is whitelisted on MongoDB Atlas.');
+        }
     }
 };
 
