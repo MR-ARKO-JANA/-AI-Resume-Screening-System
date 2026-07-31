@@ -84,6 +84,8 @@ app.use((err, req, res, next) => {
 // Frontend View Routes //
 // =======================//
 app.get('/', (req, res) => res.sendFile(path.join(__dirname, '../frontend/html/login_register.html')));
+app.get('/login', (req, res) => res.sendFile(path.join(__dirname, '../frontend/html/login_register.html')));
+app.get('/register', (req, res) => res.sendFile(path.join(__dirname, '../frontend/html/login_register.html')));
 app.get('/candidates', (req, res) => res.sendFile(path.join(__dirname, '../frontend/html/candidates.html')));
 app.get('/settings', (req, res) => res.sendFile(path.join(__dirname, '../frontend/html/settings.html')));
 app.get('/dashboard', (req, res) => res.sendFile(path.join(__dirname, '../frontend/html/dashboard.html')));
