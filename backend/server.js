@@ -33,12 +33,33 @@ app.use(securityHeaders);
 app.use(requestLogger);
 app.use(express.urlencoded({ extended: true }));
 
-// Database connection status check middleware
+// Database connection status check middleware for data operations
 app.use((req, res, next) => {
-    if (mongoose.connection.readyState !== 1 && req.path.startsWith('/api') && req.path !== '/api/health') {
-        return res.status(503).json({
-            error: "Database connection unavailable. Please verify MONGODB_URI environment variable on Render and whitelist 0.0.0.0/0 on MongoDB Atlas."
-        });
+    const isDataRoute = req.method !== 'GET' || req.path.startsWith('/api') || req.path === '/result';
+    if (mongoose.connection.readyState !== 1 && isDataRoute && req.path !== '/api/health') {
+        if (req.headers.accept && req.headers.accept.includes('application/json')) {
+            return res.status(503).json({
+                error: "Database connection unavailable. Please verify MONGODB_URI environment variable on Render and whitelist 0.0.0.0/0 on MongoDB Atlas."
+            });
+        } else {
+            return res.status(503).send(`
+                <div style="font-family: Arial, sans-serif; text-align: center; padding: 50px; background-color: #0f172a; color: #f8fafc; min-height: 100vh;">
+                    <div style="max-width: 600px; margin: 0 auto; background: #1e293b; padding: 40px; border-radius: 12px; border: 1px solid #334155; box-shadow: 0 10px 25px rgba(0,0,0,0.5);">
+                        <h2 style="color: #ef4444; margin-top: 0;">⚠️ Database Connection Required</h2>
+                        <p style="color: #cbd5e1; font-size: 16px;">The server cannot process login or database operations because <strong>MONGODB_URI</strong> is not connected.</p>
+                        <hr style="border-color: #334155; margin: 20px 0;" />
+                        <h4 style="color: #38bdf8; text-align: left; margin-bottom: 8px;">Action Required on Render Dashboard:</h4>
+                        <ol style="text-align: left; color: #94a3b8; line-height: 1.8;">
+                            <li>Open <strong>Render Dashboard</strong> &rarr; Select Web Service (<code>raisme-ai</code>).</li>
+                            <li>Go to <strong>Environment</strong> tab.</li>
+                            <li>Add <code>MONGODB_URI</code> = your MongoDB Atlas connection string.</li>
+                            <li>In MongoDB Atlas, ensure <code>0.0.0.0/0</code> is added under <strong>Network Access</strong>.</li>
+                        </ol>
+                        <a href="/" style="display: inline-block; margin-top: 20px; padding: 12px 24px; background: #3b82f6; color: white; text-decoration: none; border-radius: 6px; font-weight: bold;">Return to Home</a>
+                    </div>
+                </div>
+            `);
+        }
     }
     next();
 });

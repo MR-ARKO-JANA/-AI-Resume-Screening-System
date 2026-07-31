@@ -25,6 +25,8 @@ const connectDB = async () => {
                 console.error('Local MongoDB fallback failed:', fallbackErr.message);
             }
         }
+        // Disable Mongoose command buffering so queries fail immediately instead of hanging for 10s
+        mongoose.set('bufferCommands', false);
         console.error('CRITICAL: Database connection failed. Please ensure MONGODB_URI is set correctly in Render environment variables and 0.0.0.0/0 is whitelisted on MongoDB Atlas.');
     }
 };
