@@ -1,7 +1,7 @@
 // AI Resume Screening System - Main Server Entry Point
 // Copyright 2024 AI Recruiter
 
-require('dotenv').config();
+require('dotenv').config({ path: require('path').join(__dirname, '..', '.env') });
 const express = require('express');
 const path = require('path');
 const multer = require('multer');
@@ -28,10 +28,34 @@ const securityHeaders = require('./middleware/securityHeaders');
 const requestLogger = require('./middleware/requestLogger');
 const mongoose = require('mongoose');
 
+const rateLimit = require('express-rate-limit');
+
 app.use(express.json());
 app.use(securityHeaders);
 app.use(requestLogger);
 app.use(express.urlencoded({ extended: true }));
+
+// Rate limiting for auth endpoints (prevent brute-force)
+const authLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 10, // max 10 login/register attempts per 15 min
+    message: 'Too many attempts. Please try again after 15 minutes.',
+    standardHeaders: true,
+    legacyHeaders: false
+});
+
+// General API rate limit
+const apiLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 100,
+    message: 'Too many requests. Please try again later.',
+    standardHeaders: true,
+    legacyHeaders: false
+});
+
+app.use('/login', authLimiter);
+app.use('/register', authLimiter);
+app.use('/api/', apiLimiter);
 
 // Database connection status check middleware for data operations
 app.use((req, res, next) => {
@@ -45,7 +69,7 @@ app.use((req, res, next) => {
             return res.status(503).send(`
                 <div style="font-family: Arial, sans-serif; text-align: center; padding: 50px; background-color: #0f172a; color: #f8fafc; min-height: 100vh;">
                     <div style="max-width: 600px; margin: 0 auto; background: #1e293b; padding: 40px; border-radius: 12px; border: 1px solid #334155; box-shadow: 0 10px 25px rgba(0,0,0,0.5);">
-                        <h2 style="color: #ef4444; margin-top: 0;">⚠️ Database Connection Required</h2>
+                        <h2 style="color: #ef4444; margin-top: 0;">Database Connection Required</h2>
                         <p style="color: #cbd5e1; font-size: 16px;">The server cannot process login or database operations because <strong>MONGODB_URI</strong> is not connected.</p>
                         <hr style="border-color: #334155; margin: 20px 0;" />
                         <h4 style="color: #38bdf8; text-align: left; margin-bottom: 8px;">Action Required on Render Dashboard:</h4>
@@ -66,19 +90,6 @@ app.use((req, res, next) => {
 app.use(express.static(path.join(__dirname, '../frontend')));
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use(cookieParser());
-
-// Multer error handling middleware
-app.use((err, req, res, next) => {
-    if (err instanceof multer.MulterError) {
-        if (err.code === 'LIMIT_FILE_SIZE') {
-            return res.status(400).send('File is too large. Maximum size is 5MB.');
-        }
-        return res.status(400).send('File upload error: ' + err.message);
-    } else if (err) {
-        return res.status(400).send(err.message);
-    }
-    next();
-});
 
 // =======================//
 // Frontend View Routes //
@@ -144,6 +155,19 @@ app.use('/', resumeRoutes);
 app.use('/', dashboardRoutes);
 app.use('/', profileRoutes);
 app.use('/', jobRoutes);
+
+// Multer error handling middleware (must be AFTER routes to catch multer errors)
+app.use((err, req, res, next) => {
+    if (err instanceof multer.MulterError) {
+        if (err.code === 'LIMIT_FILE_SIZE') {
+            return res.status(400).send('File is too large. Maximum size is 5MB.');
+        }
+        return res.status(400).send('File upload error: ' + err.message);
+    } else if (err) {
+        return res.status(400).send(err.message);
+    }
+    next();
+});
 
 const PORT = process.env.PORT || 5000;
 if (process.env.NODE_ENV !== 'test') {

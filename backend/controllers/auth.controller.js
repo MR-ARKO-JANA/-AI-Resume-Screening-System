@@ -12,6 +12,14 @@ const nodemailer = require('nodemailer');
 
 const JWT_SECRET = process.env.JWT_SECRET || "default_secret_change_in_production";
 
+// Secure cookie options for production readiness
+const COOKIE_OPTIONS = {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'strict',
+    maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
+};
+
 exports.login = async (req, res) => {
     try {
         let { email, password } = req.body;
@@ -24,8 +32,8 @@ exports.login = async (req, res) => {
         bc.compare(password, idenuser.password, (err, result) => {
             if (err) return res.send("Something went wrong");
             if (result) {
-                let token = jwt.sign({ email: idenuser.email }, JWT_SECRET);
-                res.cookie("token", token);
+                let token = jwt.sign({ email: idenuser.email }, JWT_SECRET, { expiresIn: '7d' });
+                res.cookie("token", token, COOKIE_OPTIONS);
                 res.redirect('/dashboard');
             } else {
                 res.send("Incorrect password");
@@ -42,6 +50,8 @@ exports.register = async (req, res) => {
 
         if (!name || !email || !password) return res.send("All fields are required");
 
+        if (password.length < 6) return res.send("Password must be at least 6 characters long");
+
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(email)) return res.send("Invalid email format");
 
@@ -55,8 +65,8 @@ exports.register = async (req, res) => {
                 try {
                     const datafild = new User({ name, email, password: hash });
                     await datafild.save();
-                    let token = jwt.sign({ email }, JWT_SECRET);
-                    res.cookie("token", token);
+                    let token = jwt.sign({ email }, JWT_SECRET, { expiresIn: '7d' });
+                    res.cookie("token", token, COOKIE_OPTIONS);
                     res.redirect('/dashboard');
                 } catch (error) {
                     res.send("Database error: " + error.message);
@@ -150,6 +160,8 @@ exports.deleteAllData = async (req, res) => {
         let decoded = jwt.verify(token, JWT_SECRET);
         let user = await User.findOne({ email: decoded.email });
 
+        if (!user) return res.json({ error: "User not found" });
+
         await Score.deleteMany({ userId: user._id });
         await Resume.deleteMany({ userId: user._id });
         await Job.deleteMany({ userId: user._id });
@@ -167,6 +179,8 @@ exports.deleteAccount = async (req, res) => {
 
         let decoded = jwt.verify(token, JWT_SECRET);
         let user = await User.findOne({ email: decoded.email });
+
+        if (!user) return res.json({ error: "User not found" });
 
         await Score.deleteMany({ userId: user._id });
         await Resume.deleteMany({ userId: user._id });

@@ -15,6 +15,8 @@ exports.getAllCandidates = async (req, res) => {
         let decoded = jwt.verify(token, JWT_SECRET);
         let user = await User.findOne({ email: decoded.email });
 
+        if (!user) return res.json({ error: "User not found" });
+
         const allScores = await Score.find({ userId: user._id })
             .populate('resumeId')
             .populate('jobId')
@@ -114,6 +116,8 @@ exports.getCandidatesByStatus = async (req, res) => {
 
         let decoded = jwt.verify(token, JWT_SECRET);
         let user = await User.findOne({ email: decoded.email });
+
+        if (!user) return res.json({ error: "User not found" });
 
         const status = req.params.status;
 

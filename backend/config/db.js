@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 const connectDB = async () => {
     const primaryURI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/ai_resume_screening';
     const options = {
-        serverSelectionTimeoutMS: 5000 // Fast fail in 5 seconds if MongoDB cannot be reached
+        serverSelectionTimeoutMS: 5000
     };
 
     try {
@@ -35,4 +35,4 @@ const connectDB = async () => {
     }
 };
 
-module.exports = connectDB;
+module.exports = connectDB;
