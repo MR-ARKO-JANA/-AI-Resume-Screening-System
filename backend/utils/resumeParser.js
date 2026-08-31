@@ -1,6 +1,6 @@
 const pdf = require('pdf-parse');
 const fs = require('fs');
-const natural = require('natural');
+// const natural = require('natural'); // Removed to avoid dependency issues on node 24
 
 // Common skills database
 const SKILLS_DATABASE = [
@@ -114,23 +114,25 @@ function extractSkills(text) {
 }
 
 
-// Extract keywords from text
+// Extract keywords from text without using natural to avoid broken dependencies
 function extractKeywords(text, topN = 20) {
-    const tokenizer = new natural.WordTokenizer();
-    const TfIdf = natural.TfIdf;
-    const tfidf = new TfIdf();
-
     const cleanedText = cleanText(text);
-    tfidf.addDocument(cleanedText);
+    const words = cleanedText.split(/\s+/);
+    const wordCounts = {};
 
-    const keywords = [];
-    tfidf.listTerms(0).slice(0, topN).forEach(item => {
-        if (item.term.length > 3) { // Only words longer than 3 characters
-            keywords.push(item.term);
+    // Count frequencies of words longer than 3 characters
+    words.forEach(word => {
+        if (word.length > 3) {
+            wordCounts[word] = (wordCounts[word] || 0) + 1;
         }
     });
 
-    return keywords;
+    // Sort by frequency descending and get topN
+    const sortedKeywords = Object.keys(wordCounts)
+        .sort((a, b) => wordCounts[b] - wordCounts[a])
+        .slice(0, topN);
+
+    return sortedKeywords;
 }
 
 // (End of similarity calculation)

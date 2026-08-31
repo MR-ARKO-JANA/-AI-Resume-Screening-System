@@ -30,9 +30,9 @@
         "jsonwebtoken": "^9.0.3",
         "jspdf": "^4.2.0",
         "jspdf-autotable": "^5.0.7",
-        "mongoose": "^9.1.5",
+        "mongoose": "^9.9.4",
         "multer": "^2.0.2",
-        "natural": "^8.1.0",
+        "natural": "^8.1.1",
         "nodemailer": "^8.0.10",
         "pdf-parse": "^1.1.1"
     },
