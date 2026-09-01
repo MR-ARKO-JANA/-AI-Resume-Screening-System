@@ -57,28 +57,66 @@ function displayCandidates(candidates) {
 
     tbody.innerHTML = '';
 
+    document.getElementById('totalCount').textContent = candidates.length + ' candidates';
+
     candidates.forEach((candidate, index) => {
         const row = document.createElement('tr');
+        row.className = "hover:bg-[#F8FAFC] transition-colors group";
 
-        const scoreClass = candidate.matchScore >= 75 ? 'score-high' :
-            candidate.matchScore >= 50 ? 'score-medium' : 'score-low';
+        const strokeColor = candidate.matchScore >= 75 ? 'text-score-high' :
+            candidate.matchScore >= 50 ? 'text-warning-pending' : 'text-error-rejected';
 
-        const statusClass = 'status-' + candidate.status;
+        let statusClass = '';
+        if (candidate.status === 'Shortlisted') statusClass = 'bg-[#D1FAE5] text-[#065F46]';
+        else if (candidate.status === 'Pending') statusClass = 'bg-[#FEF3C7] text-[#92400E]';
+        else if (candidate.status === 'Rejected') statusClass = 'bg-[#FEE2E2] text-[#991B1B]';
+
+        let initials = candidate.candidateName ? candidate.candidateName.substring(0,2).toUpperCase() : 'NA';
+        let strokeDash = Math.round(candidate.matchScore) + ', 100';
 
         row.innerHTML = `
-            <td><input type="checkbox" class="candidate-checkbox" data-id="${candidate.id}"></td>
-            <td><strong>${index + 1}</strong></td>
-            <td>
-                ${candidate.candidateName 
-                    ? `<span style="font-weight: 600; color: var(--dark);">${escapeHtml(candidate.candidateName)}</span><br><small style="color: #64748b; font-size: 11px;">${escapeHtml(candidate.fileName)}</small>` 
-                    : `<span style="font-weight: 600; color: var(--dark);">${escapeHtml(candidate.fileName)}</span>`
-                }
+            <td class="py-4 px-4"><input type="checkbox" class="candidate-checkbox rounded border-border-subtle" data-id="${candidate.id}"></td>
+            <td class="py-4 px-4 text-on-surface-variant">${index + 1}</td>
+            <td class="py-4 px-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full overflow-hidden bg-surface-variant shrink-0 flex items-center justify-center">
+                        <span class="font-title-lg text-on-surface-variant">${initials}</span>
+                    </div>
+                    <div>
+                        <p class="font-title-lg text-body-md font-semibold text-primary">${escapeHtml(candidate.candidateName || candidate.fileName)}</p>
+                        ${candidate.candidateName ? `<div class="flex items-center gap-1 mt-0.5"><small class="text-on-surface-variant text-[11px]">${escapeHtml(candidate.fileName)}</small></div>` : ''}
+                    </div>
+                </div>
             </td>
-            <td class="${scoreClass}">${candidate.matchScore}%</td>
-            <td><span class="status-badge ${statusClass}">${candidate.status}</span></td>
-            <td>${candidate.experience || 'N/A'}</td>
-            <td>${new Date(candidate.uploadDate).toLocaleDateString()}</td>
-            <td><button class="view-btn" onclick="viewCandidate('${candidate.id}', '${escapeAttr(candidate.fileName)}')"><i class="fas fa-eye"></i> View Details</button></td>
+            <td class="py-4 px-4">
+                <div class="flex items-center gap-2">
+                    <div class="relative w-8 h-8 flex items-center justify-center">
+                        <svg class="w-full h-full transform -rotate-90" viewbox="0 0 36 36">
+                            <path class="text-surface-variant" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="3"></path>
+                            <path class="${strokeColor}" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="${strokeDash}" stroke-width="3"></path>
+                        </svg>
+                        <span class="absolute font-mono-data text-mono-data ${strokeColor} font-bold" style="font-size: 10px;">${Math.round(candidate.matchScore)}</span>
+                    </div>
+                </div>
+            </td>
+            <td class="py-4 px-4">
+                <span class="inline-flex items-center px-2 py-1 rounded ${statusClass} font-label-md text-label-md">
+                    ${candidate.status}
+                </span>
+            </td>
+            <td class="py-4 px-4">
+                <p class="font-body-md text-body-md text-on-surface">${escapeHtml(candidate.experience || 'N/A')}</p>
+            </td>
+            <td class="py-4 px-4 font-mono-data text-[12px] text-on-surface-variant">
+                ${new Date(candidate.uploadDate).toLocaleDateString()}
+            </td>
+            <td class="py-4 px-4 text-right">
+                <div class="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <button class="p-1.5 text-slate-gray hover:text-[#2563EB] hover:bg-surface-container-low rounded" title="View Details" onclick="viewCandidate('${candidate.id}', '${escapeAttr(candidate.fileName)}')">
+                        <span class="material-symbols-outlined" data-icon="visibility">visibility</span>
+                    </button>
+                </div>
+            </td>
         `;
 
         tbody.appendChild(row);
@@ -86,12 +124,12 @@ function displayCandidates(candidates) {
 }
 
 function filterCandidates(status, button) {
-    // Update active button
-    document.querySelectorAll('.filter-buttons button').forEach(btn => {
-        btn.classList.remove('active');
-    });
-    if (button) {
-        button.classList.add('active');
+    // Filter candidates
+    if (status === 'all') {
+        displayCandidates(allCandidates);
+    } else {
+        const filtered = allCandidates.filter(c => c.status === status);
+        displayCandidates(filtered);
     }
 
     // Filter candidates
@@ -117,7 +155,7 @@ async function viewCandidate(id, fileName) {
     document.getElementById('modalCandidateFile').textContent = fileName || 'Deep-dive into candidate\'s profile';
 
     // Show modal
-    document.getElementById('detailOverlay').classList.add('active');
+    document.getElementById('detailOverlay').classList.remove('hidden');
     document.body.style.overflow = 'hidden';
 
     // Try to load saved profile data
@@ -156,7 +194,7 @@ async function viewCandidate(id, fileName) {
 
 function closeDetailModal(event) {
     if (event && event.target !== document.getElementById('detailOverlay')) return;
-    document.getElementById('detailOverlay').classList.remove('active');
+    document.getElementById('detailOverlay').classList.add('hidden');
     document.body.style.overflow = '';
     currentCandidateId = null;
 }
@@ -179,8 +217,8 @@ function resetModal() {
     document.getElementById('linkedinEmpty').style.display = 'flex';
 
     // Hide error/loading
-    document.getElementById('modalError').classList.remove('active');
-    document.getElementById('modalLoading').classList.remove('active');
+    document.getElementById('modalError').classList.add('hidden');
+    document.getElementById('modalLoading').classList.add('hidden');
 }
 
 // ============================================================
@@ -303,21 +341,21 @@ function renderModalGitHub(data) {
     const projContainer = document.getElementById('modalProjectList');
     if (topProjects && topProjects.length) {
         projContainer.innerHTML = topProjects.map((p, i) => `
-            <a class="modal-project-item" href="${p.url}" target="_blank">
-                <div class="modal-proj-top">
-                    <span class="modal-proj-name"><i class="fas fa-folder-open"></i> ${escapeHtml(p.name)}</span>
-                    <span class="modal-proj-rank">#${i + 1}</span>
+            <a class="block p-3 border border-border-subtle rounded-md hover:bg-surface transition-colors" href="${p.url}" target="_blank">
+                <div class="flex justify-between items-center">
+                    <span class="text-sm font-bold text-[#2563EB] flex items-center gap-2"><i class="fas fa-folder-open"></i> ${escapeHtml(p.name)}</span>
+                    <span class="text-xs font-bold text-on-surface-variant opacity-50">#${i + 1}</span>
                 </div>
-                <p class="modal-proj-desc">${escapeHtml(p.description)}</p>
-                <div class="modal-proj-meta">
-                    <span><i class="fas fa-star"></i> ${p.stars}</span>
-                    <span><i class="fas fa-code-branch"></i> ${p.forks}</span>
-                    <span class="modal-lang-tag">${escapeHtml(p.language)}</span>
+                <p class="text-xs text-on-surface-variant mt-1 line-clamp-2">${escapeHtml(p.description)}</p>
+                <div class="flex gap-4 mt-2 text-xs text-on-surface-variant font-medium">
+                    <span class="flex items-center gap-1"><i class="fas fa-star text-amber-500"></i> ${p.stars}</span>
+                    <span class="flex items-center gap-1"><i class="fas fa-code-branch text-[#2563EB]"></i> ${p.forks}</span>
+                    ${p.language ? `<span class="px-2 py-0.5 rounded-sm bg-surface-variant text-[10px] uppercase">${escapeHtml(p.language)}</span>` : ''}
                 </div>
             </a>
         `).join('');
     } else {
-        projContainer.innerHTML = '<p class="modal-empty-text">No projects found</p>';
+        projContainer.innerHTML = '<p class="text-sm text-on-surface-variant italic">No projects found</p>';
     }
 
     // Languages
@@ -326,15 +364,17 @@ function renderModalGitHub(data) {
         langContainer.innerHTML = languages.map(l => {
             const color = LANG_COLORS[l.name] || '#64748b';
             return `
-                <div class="modal-lang-item">
-                    <span class="modal-lang-dot" style="background: ${color};"></span>
-                    <span class="modal-lang-name">${escapeHtml(l.name)}</span>
-                    <span class="modal-lang-count">${l.count} repos</span>
+                <div class="flex items-center justify-between p-2 border border-border-subtle rounded-md">
+                    <div class="flex items-center gap-2">
+                        <span class="w-3 h-3 rounded-full" style="background: ${color};"></span>
+                        <span class="text-sm font-semibold text-primary">${escapeHtml(l.name)}</span>
+                    </div>
+                    <span class="text-xs font-mono-data text-on-surface-variant">${l.count} repos</span>
                 </div>
             `;
         }).join('');
     } else {
-        langContainer.innerHTML = '<p class="modal-empty-text">No language data</p>';
+        langContainer.innerHTML = '<p class="text-sm text-on-surface-variant italic">No language data</p>';
     }
 
     // Add badge to tab
@@ -368,71 +408,77 @@ function renderModalLinkedIn(data) {
     const expList = document.getElementById('modalExpList');
     if (data.workExperience && data.workExperience.length) {
         expList.innerHTML = data.workExperience.map(exp => `
-            <div class="modal-exp-item">
-                <div class="modal-exp-icon"><i class="fas fa-building"></i></div>
-                <div class="modal-exp-details">
-                    <h5>${escapeHtml(exp.title)}</h5>
-                    <p class="modal-exp-company">${escapeHtml(exp.company)}</p>
-                    <p class="modal-exp-duration"><i class="fas fa-calendar-alt"></i> ${escapeHtml(exp.duration || 'N/A')}</p>
-                    ${exp.description ? `<p class="modal-exp-desc">${escapeHtml(exp.description)}</p>` : ''}
+            <div class="flex gap-4 p-3 hover:bg-surface transition-colors rounded-md border border-transparent hover:border-border-subtle">
+                <div class="mt-1 w-10 h-10 rounded-lg bg-surface-variant flex items-center justify-center shrink-0">
+                    <i class="fas fa-building text-on-surface-variant"></i>
+                </div>
+                <div>
+                    <h5 class="font-bold text-sm text-primary">${escapeHtml(exp.title)}</h5>
+                    <p class="text-sm font-semibold text-[#2563EB] mt-0.5">${escapeHtml(exp.company)}</p>
+                    <p class="text-xs text-on-surface-variant flex items-center gap-1 mt-1"><i class="fas fa-calendar-alt opacity-70"></i> ${escapeHtml(exp.duration || 'N/A')}</p>
+                    ${exp.description ? `<p class="text-xs text-on-surface-variant mt-2">${escapeHtml(exp.description)}</p>` : ''}
                 </div>
             </div>
         `).join('');
     } else {
-        expList.innerHTML = '<p class="modal-empty-text">No work experience data</p>';
+        expList.innerHTML = '<p class="text-sm text-on-surface-variant italic">No work experience data</p>';
     }
 
     // Education
     const eduList = document.getElementById('modalEduList');
     if (data.education && data.education.length) {
         eduList.innerHTML = data.education.map(edu => `
-            <div class="modal-edu-item">
-                <div class="modal-edu-icon"><i class="fas fa-graduation-cap"></i></div>
-                <div class="modal-edu-details">
-                    <h5>${escapeHtml(edu.degree)}</h5>
-                    <p class="modal-edu-school">${escapeHtml(edu.school)}</p>
-                    <p class="modal-edu-year">${escapeHtml(edu.year || '')}</p>
+            <div class="flex gap-4 p-3 hover:bg-surface transition-colors rounded-md border border-transparent hover:border-border-subtle">
+                <div class="mt-1 w-10 h-10 rounded-lg bg-surface-variant flex items-center justify-center shrink-0">
+                    <i class="fas fa-graduation-cap text-on-surface-variant"></i>
+                </div>
+                <div>
+                    <h5 class="font-bold text-sm text-primary">${escapeHtml(edu.degree)}</h5>
+                    <p class="text-sm font-semibold text-[#2563EB] mt-0.5">${escapeHtml(edu.school)}</p>
+                    <p class="text-xs text-on-surface-variant flex items-center gap-1 mt-1"><i class="fas fa-calendar-alt opacity-70"></i> ${escapeHtml(edu.year || '')}</p>
                 </div>
             </div>
         `).join('');
     } else {
-        eduList.innerHTML = '<p class="modal-empty-text">No education data</p>';
+        eduList.innerHTML = '<p class="text-sm text-on-surface-variant italic">No education data</p>';
     }
 
     // Certifications
     const certGrid = document.getElementById('modalCertGrid');
     if (data.certifications && data.certifications.length) {
         certGrid.innerHTML = data.certifications.map(cert => `
-            <div class="modal-cert-item">
-                <div class="modal-cert-icon"><i class="fas fa-award"></i></div>
-                <h5>${escapeHtml(cert.name)}</h5>
-                <p class="modal-cert-issuer">${escapeHtml(cert.issuer || '')}</p>
-                <p class="modal-cert-date">${escapeHtml(cert.date || '')}</p>
+            <div class="p-3 border border-border-subtle rounded-md bg-surface">
+                <div class="flex items-center gap-2 mb-2">
+                    <i class="fas fa-award text-emerald-500"></i>
+                    <h5 class="font-bold text-sm text-primary line-clamp-1">${escapeHtml(cert.name)}</h5>
+                </div>
+                <p class="text-xs text-on-surface-variant font-medium">${escapeHtml(cert.issuer || '')}</p>
+                <p class="text-xs text-on-surface-variant/70 mt-1">${escapeHtml(cert.date || '')}</p>
             </div>
         `).join('');
     } else {
-        certGrid.innerHTML = '<p class="modal-empty-text">No certifications found</p>';
+        certGrid.innerHTML = '<p class="text-sm text-on-surface-variant italic">No certifications found</p>';
     }
 
     // Key Highlights
     const highlights = document.getElementById('modalHighlights');
     if (data.keyHighlights && data.keyHighlights.length) {
         highlights.innerHTML = data.keyHighlights.map(h => `
-            <div class="modal-highlight-item">
-                <div class="modal-check-icon"><i class="fas fa-check"></i></div>
+            <div class="flex items-start gap-2">
+                <i class="fas fa-check text-emerald-500 mt-0.5"></i>
                 <p>${escapeHtml(h)}</p>
             </div>
         `).join('');
     } else {
-        highlights.innerHTML = '<p class="modal-empty-text">No highlights extracted</p>';
+        highlights.innerHTML = '<p class="text-sm text-on-surface-variant italic">No highlights extracted</p>';
     }
 
     // Skills
     const skillsCloud = document.getElementById('modalSkillsCloud');
     if (data.skills && data.skills.length) {
-        skillsCloud.innerHTML = data.skills.map(s => `<span class="modal-skill-tag">${escapeHtml(s)}</span>`).join('');
+        skillsCloud.innerHTML = data.skills.map(s => `<span class="px-2 py-1 bg-surface-variant text-on-surface-variant text-xs rounded-md font-semibold">${escapeHtml(s)}</span>`).join('');
     } else {
-        skillsCloud.innerHTML = '<p class="modal-empty-text">No skills data</p>';
+        skillsCloud.innerHTML = '<p class="text-sm text-on-surface-variant italic">No skills data</p>';
     }
 
     // Add badge to tab
@@ -445,16 +491,16 @@ function renderModalLinkedIn(data) {
 function showModalError(msg) {
     const el = document.getElementById('modalError');
     document.getElementById('modalErrorText').textContent = msg;
-    el.classList.add('active');
+    el.classList.remove('hidden');
 }
 function hideModalError() {
-    document.getElementById('modalError').classList.remove('active');
+    document.getElementById('modalError').classList.add('hidden');
 }
 function showModalLoading() {
-    document.getElementById('modalLoading').classList.add('active');
+    document.getElementById('modalLoading').classList.remove('hidden');
 }
 function hideModalLoading() {
-    document.getElementById('modalLoading').classList.remove('active');
+    document.getElementById('modalLoading').classList.add('hidden');
 }
 function disableAnalyzeBtn() {
     const btn = document.getElementById('modalAnalyzeBtn');
