@@ -1,427 +1,422 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html class="light" lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Settings - AI Recruiter</title>
-    <link rel="icon" type="image/png" href="/images/favicon.png">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="../css/dashboard-ultra.css">
-    <link rel="stylesheet" href="../css/settings-ultra.css">
-    <link rel="stylesheet" href="../css/navbar.css">
-</head>
-
-<body>
-    <div class="sidebar-overlay" id="sidebarOverlay"></div>
-    <!-- Sidebar -->
-    <aside class="sidebar" id="sidebar">
-        <div class="logo-section">
-            <div class="logo-icon">🤖</div>
-            <h2>AI Recruiter</h2>
-            <span class="version">v2.0 Pro</span>
-        </div>
-        <nav class="nav-menu">
-            <div class="nav-section">
-                <span class="nav-label">MAIN MENU</span>
-                <ul>
-                    <li onclick="window.location.href='/dashboard'">
-                        <i class="fas fa-th-large"></i>
-                        <span>Dashboard</span>
-                    </li>
-                    <li onclick="window.location.href='/dashboard'">
-                        <i class="fas fa-cloud-upload-alt"></i>
-                        <span>Upload Resume</span>
-                    </li>
-                    <li onclick="window.location.href='/result'">
-                        <i class="fas fa-chart-line"></i>
-                        <span>Results</span>
-                    </li>
-                    <li onclick="window.location.href='/candidates'">
-                        <i class="fas fa-users"></i>
-                        <span>Candidates</span>
-                    </li>
-                    <li onclick="window.location.href='/profile-lookup'">
-                        <i class="fas fa-search-plus"></i>
-                        <span>Profile Lookup</span>
-                        <span class="badge new">NEW</span>
-                    </li>
-                    <li onclick="window.location.href='/jobs'">
-                        <i class="fas fa-briefcase"></i>
-                        <span>Jobs</span>
-                    </li>
-                </ul>
-            </div>
-            <div class="nav-section">
-                <span class="nav-label">SETTINGS</span>
-                <ul>
-                    <li class="active" onclick="window.location.href='/settings'">
-                        <i class="fas fa-cog"></i>
-                        <span>Settings</span>
-                    </li>
-                    <li onclick="window.location.href='/help'">
-                        <i class="fas fa-question-circle"></i>
-                        <span>Help</span>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-        <div class="sidebar-footer">
-            <div class="storage-info">
-                <div class="storage-header">
-                    <i class="fas fa-database"></i>
-                    <span>Storage</span>
-                </div>
-                <div class="storage-bar">
-                    <div class="storage-fill" style="width: 68%;"></div>
-                </div>
-                <span class="storage-text">68 MB of 100 MB used</span>
-            </div>
-            <button class="upgrade-btn">
-                <i class="fas fa-crown"></i>
-                Upgrade to Pro
-            </button>
-        </div>
-    </aside>
-
-    <!-- Main Content -->
-    <main class="main-content">
-        <!-- Navbar -->
-        <header class="navbar">
-            <button class="mobile-menu-btn" id="mobileMenuBtn">
-                <i class="fas fa-bars"></i>
-            </button>
-            <div class="search-bar">
-                <i class="fas fa-search"></i>
-                <input type="text" placeholder="Search settings...">
-                <kbd>Ctrl</kbd> + <kbd>K</kbd>
-            </div>
-            <div class="navbar-actions">
-                <button class="icon-btn">
-                    <i class="fas fa-bell"></i>
-                    <span class="notification-dot"></span>
-                </button>
-                <button class="icon-btn">
-                    <i class="fas fa-envelope"></i>
-                </button>
-                <div class="user-profile">
-                    <img src="../images/user_img.webp" alt="User">
-                    <div class="user-info">
-                        <span class="user-name">Arko Jana</span>
-                        <span class="user-role">HR Manager</span>
-                    </div>
-                    <i class="fas fa-chevron-down"></i>
-                </div>
-            </div>
-        </header>
-
-        <!-- Page Header -->
-        <div class="page-header">
-            <div>
-                <h1><i class="fas fa-cog"></i> Settings</h1>
-                <p class="page-subtitle">Manage your account and application preferences</p>
-            </div>
-        </div>
-
-        <!-- Settings Navigation -->
-        <div class="settings-nav">
-            <button class="settings-nav-btn active" data-section="profile">
-                <i class="fas fa-user"></i> Profile
-            </button>
-            <button class="settings-nav-btn" data-section="security">
-                <i class="fas fa-lock"></i> Security
-            </button>
-            <button class="settings-nav-btn" data-section="preferences">
-                <i class="fas fa-sliders-h"></i> Preferences
-            </button>
-            <button class="settings-nav-btn" data-section="scoring">
-                <i class="fas fa-chart-bar"></i> AI Scoring
-            </button>
-            <button class="settings-nav-btn" data-section="danger">
-                <i class="fas fa-exclamation-triangle"></i> Danger Zone
-            </button>
-        </div>
-
-        <!-- Profile Section -->
-        <section class="settings-section active" id="profile">
-            <div class="section-header">
-                <div>
-                    <h2><i class="fas fa-user-circle"></i> Profile Information</h2>
-                    <p>Update your personal and company details</p>
-                </div>
-            </div>
-            <div class="settings-card">
-                <div class="profile-photo-section">
-                    <div class="photo-preview">
-                        <img src="../images/user_img.webp" alt="Profile" id="profilePreview">
-                        <div class="photo-overlay">
-                            <i class="fas fa-camera"></i>
-                        </div>
-                    </div>
-                    <div class="photo-actions">
-                        <button class="btn-upload-photo">
-                            <i class="fas fa-upload"></i> Upload Photo
-                        </button>
-                        <button class="btn-remove-photo">
-                            <i class="fas fa-trash"></i> Remove
-                        </button>
-                    </div>
-                </div>
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label><i class="fas fa-user"></i> Full Name</label>
-                        <input type="text" id="userName" placeholder="John Doe" class="settings-input">
-                    </div>
-                    <div class="form-group">
-                        <label><i class="fas fa-envelope"></i> Email Address</label>
-                        <input type="email" id="userEmail" placeholder="john@company.com" class="settings-input"
-                            disabled>
-                        <small>Email cannot be changed</small>
-                    </div>
-                    <div class="form-group">
-                        <label><i class="fas fa-building"></i> Company Name</label>
-                        <input type="text" id="companyName" placeholder="Your Company Inc." class="settings-input">
-                    </div>
-                    <div class="form-group">
-                        <label><i class="fas fa-briefcase"></i> Job Title</label>
-                        <input type="text" id="jobTitle" placeholder="HR Manager" class="settings-input">
-                    </div>
-                </div>
-                <button class="btn-save" onclick="saveProfile()">
-                    <i class="fas fa-check"></i> Save Changes
-                </button>
-            </div>
-        </section>
-
-        <!-- Security Section -->
-        <section class="settings-section" id="security">
-            <div class="section-header">
-                <div>
-                    <h2><i class="fas fa-shield-alt"></i> Security Settings</h2>
-                    <p>Manage your password and security preferences</p>
-                </div>
-            </div>
-            <div class="settings-card">
-                <div class="form-group">
-                    <label><i class="fas fa-lock"></i> Current Password</label>
-                    <input type="password" id="currentPassword" placeholder="••••••••" class="settings-input">
-                </div>
-                <div class="form-group">
-                    <label><i class="fas fa-key"></i> New Password</label>
-                    <input type="password" id="newPassword" placeholder="••••••••" class="settings-input">
-                    <div class="password-strength">
-                        <div class="strength-bar"></div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label><i class="fas fa-check-circle"></i> Confirm New Password</label>
-                    <input type="password" id="confirmPassword" placeholder="••••••••" class="settings-input">
-                </div>
-                <button class="btn-save" onclick="changePassword()">
-                    <i class="fas fa-check"></i> Update Password
-                </button>
-            </div>
-        </section>
-
-        <!-- Preferences Section -->
-        <section class="settings-section" id="preferences">
-            <div class="section-header">
-                <div>
-                    <h2><i class="fas fa-palette"></i> Preferences</h2>
-                    <p>Customize your application experience</p>
-                </div>
-            </div>
-            <div class="settings-card">
-                <div class="preference-item">
-                    <div class="preference-info">
-                        <div class="preference-icon purple">
-                            <i class="fas fa-envelope"></i>
-                        </div>
-                        <div>
-                            <h3>Email Notifications</h3>
-                            <p>Receive email alerts when new candidates are screened</p>
-                        </div>
-                    </div>
-                    <label class="toggle-switch">
-                        <input type="checkbox" id="emailNotif" checked>
-                        <span class="toggle-slider"></span>
-                    </label>
-                </div>
-
-                <div class="preference-item">
-                    <div class="preference-info">
-                        <div class="preference-icon blue">
-                            <i class="fas fa-archive"></i>
-                        </div>
-                        <div>
-                            <h3>Auto-Archive</h3>
-                            <p>Automatically archive rejected candidates after 30 days</p>
-                        </div>
-                    </div>
-                    <label class="toggle-switch">
-                        <input type="checkbox" id="autoArchive">
-                        <span class="toggle-slider"></span>
-                    </label>
-                </div>
-
-                <div class="preference-item">
-                    <div class="preference-info">
-                        <div class="preference-icon orange">
-                            <i class="fas fa-moon"></i>
-                        </div>
-                        <div>
-                            <h3>Dark Mode</h3>
-                            <p>Switch to dark theme for better viewing at night</p>
-                        </div>
-                    </div>
-                    <label class="toggle-switch">
-                        <input type="checkbox" id="darkMode" disabled>
-                        <span class="toggle-slider"></span>
-                    </label>
-                    <span class="coming-soon">Coming Soon</span>
-                </div>
-
-                <button class="btn-save" onclick="savePreferences()">
-                    <i class="fas fa-check"></i> Save Preferences
-                </button>
-            </div>
-        </section>
-
-        <!-- AI Scoring Section -->
-        <section class="settings-section" id="scoring">
-            <div class="section-header">
-                <div>
-                    <h2><i class="fas fa-brain"></i> AI Scoring Configuration</h2>
-                    <p>Adjust AI scoring weights (Total must equal 100%)</p>
-                </div>
-            </div>
-            <div class="settings-card">
-                <div class="scoring-visual">
-                    <div class="scoring-chart">
-                        <div class="chart-segment skills" style="width: 60%;">
-                            <span>60%</span>
-                        </div>
-                        <div class="chart-segment keywords" style="width: 30%;">
-                            <span>30%</span>
-                        </div>
-                        <div class="chart-segment experience" style="width: 10%;">
-                            <span>10%</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label>
-                        <i class="fas fa-code"></i> Skills Weight:
-                        <span id="skillWeightValue" class="weight-value">60%</span>
-                    </label>
-                    <input type="range" id="skillWeight" min="0" max="100" value="60" class="slider skills"
-                        oninput="updateWeights()">
-                </div>
-
-                <div class="form-group">
-                    <label>
-                        <i class="fas fa-key"></i> Keywords Weight:
-                        <span id="keywordWeightValue" class="weight-value">30%</span>
-                    </label>
-                    <input type="range" id="keywordWeight" min="0" max="100" value="30" class="slider keywords"
-                        oninput="updateWeights()">
-                </div>
-
-                <div class="form-group">
-                    <label>
-                        <i class="fas fa-briefcase"></i> Experience Weight:
-                        <span id="expWeightValue" class="weight-value">10%</span>
-                    </label>
-                    <input type="range" id="expWeight" min="0" max="100" value="10" class="slider experience"
-                        oninput="updateWeights()">
-                </div>
-
-                <div class="weight-total">
-                    <span>Total:</span>
-                    <span id="totalWeight" class="total-value">100%</span>
-                </div>
-
-                <button class="btn-save" onclick="saveScoring()">
-                    <i class="fas fa-check"></i> Save Scoring Config
-                </button>
-            </div>
-        </section>
-
-        <!-- Danger Zone Section -->
-        <section class="settings-section" id="danger">
-            <div class="section-header danger">
-                <div>
-                    <h2><i class="fas fa-exclamation-triangle"></i> Danger Zone</h2>
-                    <p>Irreversible actions - proceed with caution</p>
-                </div>
-            </div>
-            <div class="settings-card danger-card">
-                <div class="danger-item">
-                    <div class="danger-icon">
-                        <i class="fas fa-database"></i>
-                    </div>
-                    <div class="danger-content">
-                        <h3>Delete All Data</h3>
-                        <p>Permanently delete all resumes, candidates, and screening results</p>
-                    </div>
-                    <button class="btn-danger" onclick="deleteAllData()">
-                        <i class="fas fa-trash"></i> Delete All Data
-                    </button>
-                </div>
-
-                <div class="danger-item">
-                    <div class="danger-icon">
-                        <i class="fas fa-user-times"></i>
-                    </div>
-                    <div class="danger-content">
-                        <h3>Delete Account</h3>
-                        <p>Permanently delete your account and all associated data</p>
-                    </div>
-                    <button class="btn-danger" onclick="deleteAccount()">
-                        <i class="fas fa-user-slash"></i> Delete Account
-                    </button>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <script src="../js/settings.js"></script>
-    <script src="../js/navbar.js"></script>
-    <script>
-        // Settings Navigation
-        document.querySelectorAll('.settings-nav-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                // Remove active class from all buttons and sections
-                document.querySelectorAll('.settings-nav-btn').forEach(b => b.classList.remove('active'));
-                document.querySelectorAll('.settings-section').forEach(s => s.classList.remove('active'));
-
-                // Add active class to clicked button
-                btn.classList.add('active');
-
-                // Show corresponding section
-                const section = btn.getAttribute('data-section');
-                document.getElementById(section).classList.add('active');
-            });
-        });
-
-        // Mobile Sidebar Toggle
-        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-        const sidebar = document.getElementById('sidebar');
-        const sidebarOverlay = document.getElementById('sidebarOverlay');
-
-        if (mobileMenuBtn && sidebar && sidebarOverlay) {
-            mobileMenuBtn.addEventListener('click', () => {
-                sidebar.classList.add('active');
-                sidebarOverlay.classList.add('active');
-            });
-
-            sidebarOverlay.addEventListener('click', () => {
-                sidebar.classList.remove('active');
-                sidebarOverlay.classList.remove('active');
-            });
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>RecruitAI - Settings</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@450&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+    .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+    
+    /* Toggle switch styling */
+    .toggle-checkbox:checked {
+        right: 0;
+        border-color: #2563EB;
+    }
+    .toggle-checkbox:checked + .toggle-label {
+        background-color: #2563EB;
+    }
+    .toggle-checkbox:disabled + .toggle-label {
+        background-color: #E2E8F0;
+        cursor: not-allowed;
+    }
+</style>
+<script id="tailwind-config">
+    tailwind.config = {
+        darkMode: "class",
+        theme: {
+            extend: {
+                "colors": {
+                    "surface-container-lowest": "#ffffff",
+                    "surface": "#fcf8fa",
+                    "primary": "#000000",
+                    "on-surface-variant": "#45464d",
+                    "border-subtle": "#E2E8F0",
+                    "surface-variant": "#e4e2e4",
+                    "score-high": "#7C3AED",
+                    "secondary-container": "#316bf3",
+                    "on-secondary-container": "#fefcff"
+                },
+                "fontFamily": {
+                    "label-md": ["Inter"],
+                    "body-md": ["Inter"],
+                    "headline-lg": ["Inter"],
+                    "title-lg": ["Inter"],
+                    "headline-md": ["Inter"],
+                    "mono-data": ["JetBrains Mono"]
+                },
+                "spacing": {
+                    "container-max": "1440px",
+                    "gutter": "24px"
+                }
+            }
         }
-    </script>
-</body>
+    }
+</script>
+</head>
+<body class="bg-[#F8FAFC] text-slate-800 font-body-md min-h-screen flex">
+<!-- SideNavBar Component -->
+<nav class="hidden md:flex flex-col h-screen p-4 bg-surface-container-lowest fixed left-0 top-0 w-[280px] border-r border-border-subtle z-20">
+    <div class="mb-8 px-4">
+        <h1 class="font-headline-md text-[24px] font-bold text-primary">RecruitAI</h1>
+        <p class="font-label-md text-[12px] text-on-surface-variant mt-1 font-semibold tracking-wider">Enterprise Intelligence</p>
+    </div>
+    <ul class="flex flex-col gap-2 flex-grow">
+        <li>
+            <a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-variant transition-colors" href="/dashboard">
+                <span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+                <span class="font-body-md text-[14px]">Dashboard</span>
+            </a>
+        </li>
+        <li>
+            <a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-variant transition-colors" href="/candidates">
+                <span class="material-symbols-outlined" data-icon="groups">groups</span>
+                <span class="font-body-md text-[14px]">Candidates</span>
+            </a>
+        </li>
+        <li>
+            <a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-variant transition-colors" href="/jobs">
+                <span class="material-symbols-outlined" data-icon="work">work</span>
+                <span class="font-body-md text-[14px]">Jobs</span>
+            </a>
+        </li>
+        <li>
+            <a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-variant transition-colors" href="/profile-lookup">
+                <span class="material-symbols-outlined" data-icon="person_search">person_search</span>
+                <span class="font-body-md text-[14px]">Profile Lookup</span>
+            </a>
+        </li>
+        <li>
+            <a class="flex items-center gap-3 px-4 py-3 rounded-lg bg-secondary-container text-on-secondary-container font-bold hover:opacity-90 transition-opacity" href="/settings">
+                <span class="material-symbols-outlined" data-icon="settings">settings</span>
+                <span class="font-body-md text-[14px]">Settings</span>
+            </a>
+        </li>
+        <li>
+            <a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-variant transition-colors" href="/help">
+                <span class="material-symbols-outlined" data-icon="help">help</span>
+                <span class="font-body-md text-[14px]">Help</span>
+            </a>
+        </li>
+    </ul>
+</nav>
 
+<!-- Main Content Area -->
+<div class="flex-1 flex flex-col min-w-0 md:ml-[280px]">
+    <!-- TopAppBar Component -->
+    <header class="flex justify-between items-center h-16 px-gutter bg-surface border-b border-border-subtle sticky top-0 z-10 w-full">
+        <div class="flex items-center md:hidden">
+            <span class="font-headline-md text-headline-md font-bold text-primary">RecruitAI</span>
+        </div>
+        <div class="flex-1 max-w-md ml-4 md:ml-0 hidden md:block">
+            <div class="relative">
+                <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant" data-icon="search">search</span>
+                <input class="w-full pl-10 pr-4 py-2 border border-border-subtle rounded focus:border-[#2563EB] focus:ring-0 focus:outline-none font-body-md text-[14px] bg-surface-container-lowest" placeholder="Search settings..." type="text"/>
+            </div>
+        </div>
+        <div class="flex items-center gap-4">
+            <button class="p-2 text-on-surface-variant hover:bg-surface-variant rounded-full transition-colors relative">
+                <span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+                <span class="absolute top-2 right-2 w-2 h-2 bg-score-high rounded-full"></span>
+            </button>
+            <div class="w-8 h-8 rounded-full overflow-hidden border border-border-subtle shrink-0">
+                <img alt="User Avatar" class="w-full h-full object-cover" src="../images/user_img.webp"/>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Canvas -->
+    <main class="flex-1 p-gutter overflow-x-hidden overflow-y-auto">
+        <div class="max-w-4xl mx-auto">
+            
+            <!-- Page Header -->
+            <div class="mb-8">
+                <h1 class="text-[32px] font-semibold tracking-tight text-primary flex items-center gap-3"><i class="fas fa-cog text-[#2563EB]"></i> Settings</h1>
+                <p class="text-on-surface-variant mt-2">Manage your account and application preferences</p>
+            </div>
+
+            <!-- Settings Navigation -->
+            <div class="flex flex-wrap gap-2 mb-8 border-b border-border-subtle pb-4">
+                <button class="settings-nav-btn active px-4 py-2 rounded-lg font-semibold text-sm transition-colors bg-[#2563EB] text-white" data-section="profile">
+                    <i class="fas fa-user mr-2"></i> Profile
+                </button>
+                <button class="settings-nav-btn px-4 py-2 rounded-lg font-semibold text-sm text-on-surface-variant hover:bg-surface transition-colors" data-section="security">
+                    <i class="fas fa-lock mr-2"></i> Security
+                </button>
+                <button class="settings-nav-btn px-4 py-2 rounded-lg font-semibold text-sm text-on-surface-variant hover:bg-surface transition-colors" data-section="preferences">
+                    <i class="fas fa-sliders-h mr-2"></i> Preferences
+                </button>
+                <button class="settings-nav-btn px-4 py-2 rounded-lg font-semibold text-sm text-on-surface-variant hover:bg-surface transition-colors" data-section="scoring">
+                    <i class="fas fa-brain mr-2"></i> AI Scoring
+                </button>
+                <button class="settings-nav-btn px-4 py-2 rounded-lg font-semibold text-sm text-on-surface-variant hover:bg-red-50 hover:text-red-600 transition-colors" data-section="danger">
+                    <i class="fas fa-exclamation-triangle mr-2"></i> Danger Zone
+                </button>
+            </div>
+
+            <!-- Profile Section -->
+            <section class="settings-section block" id="profile">
+                <div class="bg-surface-container-lowest rounded-xl border border-border-subtle shadow-sm overflow-hidden">
+                    <div class="p-6 border-b border-border-subtle bg-surface">
+                        <h2 class="text-xl font-bold text-primary flex items-center gap-2"><i class="fas fa-user-circle text-slate-gray"></i> Profile Information</h2>
+                        <p class="text-sm text-on-surface-variant mt-1">Update your personal and company details</p>
+                    </div>
+                    <div class="p-8">
+                        <div class="flex flex-col sm:flex-row items-center gap-6 mb-8 pb-8 border-b border-border-subtle">
+                            <div class="relative w-24 h-24 rounded-full border-4 border-surface shadow-sm overflow-hidden group cursor-pointer">
+                                <img src="../images/user_img.webp" alt="Profile" id="profilePreview" class="w-full h-full object-cover">
+                                <div class="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                    <i class="fas fa-camera text-white text-xl"></i>
+                                </div>
+                            </div>
+                            <div class="flex gap-3">
+                                <button class="px-4 py-2 bg-surface-variant border border-border-subtle text-primary text-sm font-semibold rounded hover:bg-border-subtle transition-colors">
+                                    <i class="fas fa-upload mr-2"></i> Upload Photo
+                                </button>
+                                <button class="px-4 py-2 border border-border-subtle text-red-600 text-sm font-semibold rounded hover:bg-red-50 transition-colors">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                            <div>
+                                <label class="block text-sm font-semibold text-primary mb-2"><i class="fas fa-user text-slate-gray mr-1"></i> Full Name</label>
+                                <input type="text" id="userName" placeholder="John Doe" class="w-full px-4 py-2 border border-border-subtle rounded focus:border-[#2563EB] focus:ring-0 outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-primary mb-2"><i class="fas fa-envelope text-slate-gray mr-1"></i> Email Address</label>
+                                <input type="email" id="userEmail" placeholder="john@company.com" class="w-full px-4 py-2 border border-border-subtle rounded bg-surface text-on-surface-variant cursor-not-allowed" disabled>
+                                <p class="text-xs text-on-surface-variant mt-1">Email cannot be changed</p>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-primary mb-2"><i class="fas fa-building text-slate-gray mr-1"></i> Company Name</label>
+                                <input type="text" id="companyName" placeholder="Your Company Inc." class="w-full px-4 py-2 border border-border-subtle rounded focus:border-[#2563EB] focus:ring-0 outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-primary mb-2"><i class="fas fa-briefcase text-slate-gray mr-1"></i> Job Title</label>
+                                <input type="text" id="jobTitle" placeholder="HR Manager" class="w-full px-4 py-2 border border-border-subtle rounded focus:border-[#2563EB] focus:ring-0 outline-none">
+                            </div>
+                        </div>
+
+                        <button class="px-6 py-2.5 bg-[#2563EB] text-white font-bold rounded shadow-sm hover:opacity-95 transition-opacity" onclick="saveProfile()">
+                            <i class="fas fa-check mr-2"></i> Save Changes
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Security Section -->
+            <section class="settings-section hidden" id="security">
+                <div class="bg-surface-container-lowest rounded-xl border border-border-subtle shadow-sm overflow-hidden">
+                    <div class="p-6 border-b border-border-subtle bg-surface">
+                        <h2 class="text-xl font-bold text-primary flex items-center gap-2"><i class="fas fa-shield-alt text-slate-gray"></i> Security Settings</h2>
+                        <p class="text-sm text-on-surface-variant mt-1">Manage your password and security preferences</p>
+                    </div>
+                    <div class="p-8">
+                        <div class="max-w-md flex flex-col gap-6 mb-8">
+                            <div>
+                                <label class="block text-sm font-semibold text-primary mb-2"><i class="fas fa-lock text-slate-gray mr-1"></i> Current Password</label>
+                                <input type="password" id="currentPassword" placeholder="••••••••" class="w-full px-4 py-2 border border-border-subtle rounded focus:border-[#2563EB] focus:ring-0 outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-primary mb-2"><i class="fas fa-key text-slate-gray mr-1"></i> New Password</label>
+                                <input type="password" id="newPassword" placeholder="••••••••" class="w-full px-4 py-2 border border-border-subtle rounded focus:border-[#2563EB] focus:ring-0 outline-none mb-2">
+                                <div class="w-full h-1.5 bg-surface-variant rounded-full overflow-hidden">
+                                    <div class="h-full bg-slate-300 w-1/4"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-primary mb-2"><i class="fas fa-check-circle text-slate-gray mr-1"></i> Confirm New Password</label>
+                                <input type="password" id="confirmPassword" placeholder="••••••••" class="w-full px-4 py-2 border border-border-subtle rounded focus:border-[#2563EB] focus:ring-0 outline-none">
+                            </div>
+                        </div>
+                        <button class="px-6 py-2.5 bg-primary text-white font-bold rounded shadow-sm hover:opacity-90 transition-opacity" onclick="changePassword()">
+                            <i class="fas fa-check mr-2"></i> Update Password
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Preferences Section -->
+            <section class="settings-section hidden" id="preferences">
+                <div class="bg-surface-container-lowest rounded-xl border border-border-subtle shadow-sm overflow-hidden">
+                    <div class="p-6 border-b border-border-subtle bg-surface">
+                        <h2 class="text-xl font-bold text-primary flex items-center gap-2"><i class="fas fa-palette text-slate-gray"></i> Preferences</h2>
+                        <p class="text-sm text-on-surface-variant mt-1">Customize your application experience</p>
+                    </div>
+                    <div class="p-0">
+                        <div class="flex items-center justify-between p-6 border-b border-border-subtle hover:bg-surface transition-colors">
+                            <div class="flex items-center gap-4">
+                                <div class="w-10 h-10 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center text-lg shrink-0">
+                                    <i class="fas fa-envelope"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-primary">Email Notifications</h3>
+                                    <p class="text-sm text-on-surface-variant">Receive email alerts when new candidates are screened</p>
+                                </div>
+                            </div>
+                            <div class="relative inline-block w-12 mr-2 align-middle select-none transition duration-200 ease-in">
+                                <input type="checkbox" name="toggle" id="emailNotif" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer border-border-subtle z-10 transition-transform duration-200 ease-in-out" checked/>
+                                <label for="emailNotif" class="toggle-label block overflow-hidden h-6 rounded-full bg-surface-variant cursor-pointer"></label>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-between p-6 border-b border-border-subtle hover:bg-surface transition-colors">
+                            <div class="flex items-center gap-4">
+                                <div class="w-10 h-10 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center text-lg shrink-0">
+                                    <i class="fas fa-archive"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-primary">Auto-Archive</h3>
+                                    <p class="text-sm text-on-surface-variant">Automatically archive rejected candidates after 30 days</p>
+                                </div>
+                            </div>
+                            <div class="relative inline-block w-12 mr-2 align-middle select-none transition duration-200 ease-in">
+                                <input type="checkbox" name="toggle" id="autoArchive" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer border-border-subtle z-10 transition-transform duration-200 ease-in-out"/>
+                                <label for="autoArchive" class="toggle-label block overflow-hidden h-6 rounded-full bg-surface-variant cursor-pointer"></label>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-between p-6 border-b border-border-subtle hover:bg-surface transition-colors opacity-75">
+                            <div class="flex items-center gap-4">
+                                <div class="w-10 h-10 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center text-lg shrink-0">
+                                    <i class="fas fa-moon"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-primary flex items-center gap-2">Dark Mode <span class="px-2 py-0.5 bg-surface-variant text-on-surface-variant text-[10px] font-bold rounded uppercase tracking-wider">Coming Soon</span></h3>
+                                    <p class="text-sm text-on-surface-variant">Switch to dark theme for better viewing at night</p>
+                                </div>
+                            </div>
+                            <div class="relative inline-block w-12 mr-2 align-middle select-none transition duration-200 ease-in">
+                                <input type="checkbox" name="toggle" id="darkMode" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer border-border-subtle z-10 transition-transform duration-200 ease-in-out" disabled/>
+                                <label for="darkMode" class="toggle-label block overflow-hidden h-6 rounded-full bg-surface-variant cursor-pointer"></label>
+                            </div>
+                        </div>
+
+                        <div class="p-6">
+                            <button class="px-6 py-2.5 bg-[#2563EB] text-white font-bold rounded shadow-sm hover:opacity-95 transition-opacity" onclick="savePreferences()">
+                                <i class="fas fa-check mr-2"></i> Save Preferences
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- AI Scoring Section -->
+            <section class="settings-section hidden" id="scoring">
+                <div class="bg-surface-container-lowest rounded-xl border border-border-subtle shadow-sm overflow-hidden">
+                    <div class="p-6 border-b border-border-subtle bg-surface">
+                        <h2 class="text-xl font-bold text-primary flex items-center gap-2"><i class="fas fa-brain text-slate-gray"></i> AI Scoring Configuration</h2>
+                        <p class="text-sm text-on-surface-variant mt-1">Adjust AI scoring weights (Total must equal 100%)</p>
+                    </div>
+                    <div class="p-8">
+                        <div class="mb-8">
+                            <div class="h-6 w-full flex rounded overflow-hidden">
+                                <div class="chart-segment skills bg-[#2563EB] flex items-center justify-center text-white text-xs font-bold transition-all duration-300" style="width: 60%;">60%</div>
+                                <div class="chart-segment keywords bg-[#7C3AED] flex items-center justify-center text-white text-xs font-bold transition-all duration-300" style="width: 30%;">30%</div>
+                                <div class="chart-segment experience bg-emerald-500 flex items-center justify-center text-white text-xs font-bold transition-all duration-300" style="width: 10%;">10%</div>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col gap-6 mb-8 max-w-xl">
+                            <div>
+                                <div class="flex justify-between items-center mb-2">
+                                    <label class="font-semibold text-primary"><i class="fas fa-code text-[#2563EB] mr-1"></i> Skills Weight</label>
+                                    <span id="skillWeightValue" class="font-bold text-[#2563EB]">60%</span>
+                                </div>
+                                <input type="range" id="skillWeight" min="0" max="100" value="60" class="w-full h-2 bg-surface-variant rounded-lg appearance-none cursor-pointer accent-[#2563EB]" oninput="updateWeights()">
+                            </div>
+
+                            <div>
+                                <div class="flex justify-between items-center mb-2">
+                                    <label class="font-semibold text-primary"><i class="fas fa-key text-[#7C3AED] mr-1"></i> Keywords Weight</label>
+                                    <span id="keywordWeightValue" class="font-bold text-[#7C3AED]">30%</span>
+                                </div>
+                                <input type="range" id="keywordWeight" min="0" max="100" value="30" class="w-full h-2 bg-surface-variant rounded-lg appearance-none cursor-pointer accent-[#7C3AED]" oninput="updateWeights()">
+                            </div>
+
+                            <div>
+                                <div class="flex justify-between items-center mb-2">
+                                    <label class="font-semibold text-primary"><i class="fas fa-briefcase text-emerald-500 mr-1"></i> Experience Weight</label>
+                                    <span id="expWeightValue" class="font-bold text-emerald-500">10%</span>
+                                </div>
+                                <input type="range" id="expWeight" min="0" max="100" value="10" class="w-full h-2 bg-surface-variant rounded-lg appearance-none cursor-pointer accent-emerald-500" oninput="updateWeights()">
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-2 mb-8 p-4 bg-surface rounded border border-border-subtle inline-flex">
+                            <span class="font-semibold text-on-surface-variant">Total:</span>
+                            <span id="totalWeight" class="font-bold text-primary text-lg">100%</span>
+                        </div>
+
+                        <button class="block px-6 py-2.5 bg-primary text-white font-bold rounded shadow-sm hover:opacity-90 transition-opacity" onclick="saveScoring()">
+                            <i class="fas fa-check mr-2"></i> Save Scoring Config
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Danger Zone Section -->
+            <section class="settings-section hidden" id="danger">
+                <div class="bg-red-50 rounded-xl border border-red-200 shadow-sm overflow-hidden">
+                    <div class="p-6 border-b border-red-200 bg-red-100/50">
+                        <h2 class="text-xl font-bold text-red-700 flex items-center gap-2"><i class="fas fa-exclamation-triangle"></i> Danger Zone</h2>
+                        <p class="text-sm text-red-600 mt-1">Irreversible actions - proceed with caution</p>
+                    </div>
+                    <div class="p-0">
+                        <div class="flex flex-col sm:flex-row items-center justify-between p-6 border-b border-red-200 gap-4">
+                            <div>
+                                <h3 class="font-bold text-red-900 flex items-center gap-2"><i class="fas fa-database text-red-700"></i> Delete All Data</h3>
+                                <p class="text-sm text-red-700 mt-1">Permanently delete all resumes, candidates, and screening results</p>
+                            </div>
+                            <button class="shrink-0 px-4 py-2 bg-red-600 text-white font-bold rounded shadow-sm hover:bg-red-700 transition-colors" onclick="deleteAllData()">
+                                <i class="fas fa-trash mr-2"></i> Delete All Data
+                            </button>
+                        </div>
+                        <div class="flex flex-col sm:flex-row items-center justify-between p-6 gap-4">
+                            <div>
+                                <h3 class="font-bold text-red-900 flex items-center gap-2"><i class="fas fa-user-times text-red-700"></i> Delete Account</h3>
+                                <p class="text-sm text-red-700 mt-1">Permanently delete your account and all associated data</p>
+                            </div>
+                            <button class="shrink-0 px-4 py-2 bg-red-600 text-white font-bold rounded shadow-sm hover:bg-red-700 transition-colors" onclick="deleteAccount()">
+                                <i class="fas fa-user-slash mr-2"></i> Delete Account
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+</div>
+
+<script src="../js/settings.js"></script>
+<script>
+    // Settings Navigation
+    document.querySelectorAll('.settings-nav-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            // Remove active class from all buttons and sections
+            document.querySelectorAll('.settings-nav-btn').forEach(b => {
+                b.classList.remove('bg-[#2563EB]', 'text-white', 'active');
+                b.classList.add('text-on-surface-variant');
+            });
+            document.querySelectorAll('.settings-section').forEach(s => {
+                s.classList.remove('block');
+                s.classList.add('hidden');
+            });
+
+            // Add active class to clicked button
+            btn.classList.remove('text-on-surface-variant');
+            btn.classList.add('bg-[#2563EB]', 'text-white', 'active');
+
+            // Show corresponding section
+            const section = btn.getAttribute('data-section');
+            document.getElementById(section).classList.remove('hidden');
+            document.getElementById(section).classList.add('block');
+        });
+    });
+</script>
+</body>
 </html>
