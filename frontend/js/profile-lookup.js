@@ -185,16 +185,16 @@ function renderProjects(projects) {
     }
 
     container.innerHTML = projects.map((p, i) => `
-        <a class="project-item" href="${p.url}" target="_blank">
-            <div class="project-top">
-                <span class="project-name"><i class="fas fa-folder-open"></i> ${escapeHtml(p.name)}</span>
-                <span class="project-rank">#${i + 1}</span>
+        <a class="flex flex-col gap-2 p-3 bg-surface hover:bg-surface-variant transition-colors rounded-lg border border-border-subtle" href="${p.url}" target="_blank">
+            <div class="flex items-center justify-between">
+                <span class="font-bold text-primary flex items-center gap-2"><i class="fas fa-folder-open text-[#2563EB]"></i> ${escapeHtml(p.name)}</span>
+                <span class="text-xs font-bold px-2 py-1 bg-blue-100 text-[#2563EB] rounded">#${i + 1}</span>
             </div>
-            <p class="project-desc">${escapeHtml(p.description)}</p>
-            <div class="project-meta">
-                <span><i class="fas fa-star"></i> ${p.stars}</span>
-                <span><i class="fas fa-code-branch"></i> ${p.forks}</span>
-                <span class="lang-tag">${escapeHtml(p.language)}</span>
+            <p class="text-sm text-on-surface-variant line-clamp-2">${escapeHtml(p.description)}</p>
+            <div class="flex items-center gap-4 text-xs font-semibold text-slate-gray mt-1">
+                <span class="flex items-center gap-1"><i class="fas fa-star text-amber-500"></i> ${p.stars}</span>
+                <span class="flex items-center gap-1"><i class="fas fa-code-branch"></i> ${p.forks}</span>
+                <span class="px-2 py-0.5 bg-surface-container-high rounded-full">${escapeHtml(p.language)}</span>
             </div>
         </a>
     `).join('');
@@ -301,10 +301,12 @@ function renderLanguages(languages) {
     container.innerHTML = languages.map(l => {
         const color = LANG_COLORS[l.name] || '#64748b';
         return `
-            <div class="lang-item">
-                <span class="lang-dot" style="background: ${color};"></span>
-                <span class="lang-name">${escapeHtml(l.name)}</span>
-                <span class="lang-count">${l.count} repos</span>
+            <div class="flex items-center justify-between p-2 bg-surface rounded-lg border border-border-subtle w-full max-w-[48%] flex-grow sm:flex-grow-0 sm:w-auto sm:min-w-[140px]">
+                <div class="flex items-center gap-2">
+                    <span class="w-3 h-3 rounded-full" style="background: ${color};"></span>
+                    <span class="font-bold text-sm text-primary">${escapeHtml(l.name)}</span>
+                </div>
+                <span class="text-xs text-on-surface-variant font-semibold">${l.count} repos</span>
             </div>
         `;
     }).join('');
@@ -326,13 +328,13 @@ function renderActivity(events) {
         const timeAgo = getTimeAgo(new Date(e.date));
 
         return `
-            <div class="timeline-item">
-                <div class="timeline-icon ${iconClass}">
-                    <i class="fas fa-${icon}"></i>
+            <div class="flex gap-4 relative z-10">
+                <div class="w-8 h-8 rounded-full bg-surface-variant border-2 border-surface-container-lowest flex items-center justify-center text-slate-gray shrink-0 mt-0.5 shadow-sm">
+                    <i class="fas fa-${icon} text-sm"></i>
                 </div>
-                <div class="timeline-content">
-                    <p>${escapeHtml(e.message)}</p>
-                    <span class="time">${timeAgo}</span>
+                <div class="flex-1 pb-4">
+                    <p class="text-sm font-semibold text-primary mb-1">${escapeHtml(e.message)}</p>
+                    <span class="text-xs text-on-surface-variant">${timeAgo}</span>
                 </div>
             </div>
         `;
@@ -372,11 +374,12 @@ function renderLinkedInResults(data) {
     const expList = document.getElementById('experienceList');
     if (data.workExperience && data.workExperience.length) {
         expList.innerHTML = data.workExperience.map(exp => `
-            <div class="experience-item">
-                <h4>${escapeHtml(exp.title)}</h4>
-                <p class="company">${escapeHtml(exp.company)}</p>
-                <p class="duration"><i class="fas fa-calendar-alt"></i> ${escapeHtml(exp.duration || 'N/A')}</p>
-                ${exp.description ? `<p class="exp-desc">${escapeHtml(exp.description)}</p>` : ''}
+            <div class="flex flex-col gap-1 relative pl-6 border-l-2 border-[#2563EB]/30 pb-4 last:border-transparent last:pb-0">
+                <div class="absolute left-[-5px] top-1.5 w-2 h-2 rounded-full bg-[#2563EB]"></div>
+                <h4 class="font-bold text-primary">${escapeHtml(exp.title)}</h4>
+                <p class="text-sm font-semibold text-[#2563EB]">${escapeHtml(exp.company)}</p>
+                <p class="text-xs text-on-surface-variant flex items-center gap-1 mt-0.5"><i class="fas fa-calendar-alt opacity-70"></i> ${escapeHtml(exp.duration || 'N/A')}</p>
+                ${exp.description ? `<p class="text-sm text-on-surface-variant mt-2 leading-relaxed">${escapeHtml(exp.description)}</p>` : ''}
             </div>
         `).join('');
     } else {
@@ -387,11 +390,15 @@ function renderLinkedInResults(data) {
     const certGrid = document.getElementById('certGrid');
     if (data.certifications && data.certifications.length) {
         certGrid.innerHTML = data.certifications.map(cert => `
-            <div class="cert-item">
-                <div class="cert-icon"><i class="fas fa-award"></i></div>
-                <h4>${escapeHtml(cert.name)}</h4>
-                <p class="issuer">${escapeHtml(cert.issuer || '')}</p>
-                <p class="cert-date">${escapeHtml(cert.date || '')}</p>
+            <div class="flex items-start gap-3 p-3 bg-surface border border-border-subtle rounded-lg">
+                <div class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center shrink-0">
+                    <i class="fas fa-award"></i>
+                </div>
+                <div>
+                    <h4 class="font-bold text-sm text-primary leading-tight mb-1">${escapeHtml(cert.name)}</h4>
+                    <p class="text-xs font-semibold text-slate-gray">${escapeHtml(cert.issuer || '')}</p>
+                    <p class="text-[10px] text-on-surface-variant mt-1">${escapeHtml(cert.date || '')}</p>
+                </div>
             </div>
         `).join('');
     } else {
@@ -402,12 +409,14 @@ function renderLinkedInResults(data) {
     const eduList = document.getElementById('educationList');
     if (data.education && data.education.length) {
         eduList.innerHTML = data.education.map(edu => `
-            <div class="education-item">
-                <div class="edu-icon"><i class="fas fa-graduation-cap"></i></div>
-                <div>
-                    <h4>${escapeHtml(edu.degree)}</h4>
-                    <p class="school">${escapeHtml(edu.school)}</p>
-                    <p class="edu-year">${escapeHtml(edu.year || '')}</p>
+            <div class="flex items-start gap-4">
+                <div class="w-10 h-10 rounded bg-[#2563EB]/10 text-[#2563EB] flex items-center justify-center text-lg shrink-0">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <div class="flex-1">
+                    <h4 class="font-bold text-primary">${escapeHtml(edu.degree)}</h4>
+                    <p class="text-sm font-semibold text-slate-gray mt-0.5">${escapeHtml(edu.school)}</p>
+                    <p class="text-xs text-on-surface-variant mt-1">${escapeHtml(edu.year || '')}</p>
                 </div>
             </div>
         `).join('');
@@ -419,9 +428,11 @@ function renderLinkedInResults(data) {
     const highlightsList = document.getElementById('highlightsList');
     if (data.keyHighlights && data.keyHighlights.length) {
         highlightsList.innerHTML = data.keyHighlights.map(h => `
-            <div class="highlight-item">
-                <div class="check-icon"><i class="fas fa-check"></i></div>
-                <p>${escapeHtml(h)}</p>
+            <div class="flex items-start gap-3 p-3 bg-amber-50/50 border border-amber-100 rounded-lg">
+                <div class="w-6 h-6 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center shrink-0 text-xs">
+                    <i class="fas fa-check"></i>
+                </div>
+                <p class="text-sm font-medium text-amber-900">${escapeHtml(h)}</p>
             </div>
         `).join('');
     } else {
@@ -431,12 +442,13 @@ function renderLinkedInResults(data) {
     // Skills
     const skillsCloud = document.getElementById('skillsCloud');
     if (data.skills && data.skills.length) {
-        skillsCloud.innerHTML = data.skills.map(s => `<span class="skill-tag">${escapeHtml(s)}</span>`).join('');
+        skillsCloud.innerHTML = data.skills.map(s => `<span class="px-3 py-1 bg-surface-variant text-on-surface-variant text-xs font-bold rounded-full">${escapeHtml(s)}</span>`).join('');
     } else {
         skillsCloud.innerHTML = '<p style="color: #94a3b8;">No skills data</p>';
     }
 
-    container.classList.add('active');
+    container.classList.remove('hidden');
+    container.classList.add('flex');
 }
 
 // Removed LinkedIn Link Card logic
@@ -481,19 +493,36 @@ function getTimeAgo(date) {
 }
 
 // UI State Helpers
-function showLoading() { document.getElementById('loadingState').classList.add('active'); }
-function hideLoading() { document.getElementById('loadingState').classList.remove('active'); }
-function showResults() { document.getElementById('profileResults').classList.add('active'); }
+function showLoading() { 
+    const loader = document.getElementById('loadingState');
+    loader.classList.remove('hidden');
+    loader.classList.add('flex');
+}
+function hideLoading() { 
+    document.getElementById('loadingState').classList.add('hidden'); 
+    document.getElementById('loadingState').classList.remove('flex');
+}
+function showResults() { 
+    const results = document.getElementById('profileResults');
+    results.classList.remove('hidden'); 
+    results.classList.add('flex');
+}
 function hideResults() {
-    document.getElementById('profileResults').classList.remove('active');
-    document.getElementById('linkedinResults').classList.remove('active');
+    document.getElementById('profileResults').classList.add('hidden');
+    document.getElementById('profileResults').classList.remove('flex');
+    document.getElementById('linkedinResults').classList.add('hidden');
+    document.getElementById('linkedinResults').classList.remove('flex');
 }
 function showError(msg) {
     const el = document.getElementById('errorMessage');
     document.getElementById('errorText').textContent = msg;
-    el.classList.add('active');
+    el.classList.remove('hidden');
+    el.classList.add('flex');
 }
-function hideError() { document.getElementById('errorMessage').classList.remove('active'); }
+function hideError() { 
+    document.getElementById('errorMessage').classList.add('hidden'); 
+    document.getElementById('errorMessage').classList.remove('flex');
+}
 function disableButton() {
     const btn = document.getElementById('checkBtn');
     btn.disabled = true;
