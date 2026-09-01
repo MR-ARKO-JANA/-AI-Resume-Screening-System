@@ -1,348 +1,301 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html class="light" lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="AI-powered resume screening dashboard. Upload resumes, manage candidates, and get instant AI scoring.">
-    <meta name="keywords" content="AI resume screening, recruitment, HR tech, candidate scoring">
-    <meta name="author" content="AI Recruiter">
-    <link rel="icon" type="image/png" href="/images/favicon.png">
-    <title>Dashboard - AI Recruiter</title>
-    <link rel="stylesheet" href="../css/dashboard-ultra.css">
-    <link rel="stylesheet" href="../css/navbar.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>RecruitAI - Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@450&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+    .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+    
+    /* Loader Overlay */
+    .loader-overlay { display: none; }
+    .loader-overlay.active { display: flex; }
+    .drag-over { border-color: #2563EB !important; background-color: #F8FAFC !important; }
+</style>
+<script id="tailwind-config">
+    tailwind.config = {
+        darkMode: "class",
+        theme: {
+            extend: {
+                "colors": {
+                    "on-secondary-fixed-variant": "#003ea8",
+                    "surface-container-lowest": "#ffffff",
+                    "tertiary-fixed": "#e0e3e5",
+                    "tertiary-container": "#191c1e",
+                    "on-tertiary-fixed-variant": "#444749",
+                    "on-tertiary-fixed": "#191c1e",
+                    "primary-container": "#131b2e",
+                    "inverse-surface": "#303032",
+                    "surface-container-highest": "#e4e2e4",
+                    "warning-pending": "#D97706",
+                    "error-rejected": "#DC2626",
+                    "primary-fixed": "#dae2fd",
+                    "on-surface": "#1b1b1d",
+                    "surface-variant": "#e4e2e4",
+                    "on-primary": "#ffffff",
+                    "on-primary-container": "#7c839b",
+                    "on-secondary-container": "#fefcff",
+                    "tertiary": "#000000",
+                    "on-secondary-fixed": "#00174b",
+                    "on-secondary": "#ffffff",
+                    "surface-bright": "#fcf8fa",
+                    "surface-container-high": "#eae7e9",
+                    "error-container": "#ffdad6",
+                    "surface-container": "#f0edef",
+                    "success-shortlisted": "#059669",
+                    "on-primary-fixed-variant": "#3f465c",
+                    "secondary-fixed-dim": "#b4c5ff",
+                    "score-high": "#7C3AED",
+                    "tertiary-fixed-dim": "#c4c7c9",
+                    "secondary-container": "#316bf3",
+                    "on-background": "#1b1b1d",
+                    "slate-gray": "#64748B",
+                    "outline": "#76777d",
+                    "background": "#fcf8fa",
+                    "on-error": "#ffffff",
+                    "surface": "#fcf8fa",
+                    "primary": "#000000",
+                    "inverse-primary": "#bec6e0",
+                    "on-tertiary-container": "#818486",
+                    "primary-fixed-dim": "#bec6e0",
+                    "border-subtle": "#E2E8F0",
+                    "inverse-on-surface": "#f3f0f2",
+                    "secondary-fixed": "#dbe1ff",
+                    "surface-container-low": "#f6f3f5",
+                    "on-tertiary": "#ffffff",
+                    "outline-variant": "#c6c6cd",
+                    "on-surface-variant": "#45464d",
+                    "surface-dim": "#dcd9db",
+                    "error": "#ba1a1a",
+                    "secondary": "#0051d5",
+                    "on-error-container": "#93000a",
+                    "surface-tint": "#565e74",
+                    "on-primary-fixed": "#131b2e"
+                },
+                "fontFamily": {
+                    "label-md": ["Inter"],
+                    "body-md": ["Inter"],
+                    "headline-lg": ["Inter"],
+                    "title-lg": ["Inter"],
+                    "headline-md": ["Inter"],
+                    "mono-data": ["JetBrains Mono"]
+                },
+                "spacing": {
+                    "container-max": "1440px",
+                    "gutter": "24px"
+                }
+            }
+        }
+    }
+</script>
 </head>
+<body class="bg-[#F8FAFC] text-on-surface font-body-md min-h-screen flex">
+<!-- SideNavBar Component -->
+<nav class="hidden md:flex flex-col h-screen p-4 bg-surface-container-lowest fixed left-0 top-0 w-[280px] border-r border-border-subtle z-20">
+    <div class="mb-8 px-4">
+        <h1 class="font-headline-md text-[24px] font-bold text-primary">RecruitAI</h1>
+        <p class="font-label-md text-[12px] text-on-surface-variant mt-1 font-semibold tracking-wider">Enterprise Intelligence</p>
+    </div>
+    <ul class="flex flex-col gap-2 flex-grow">
+        <li>
+            <a class="flex items-center gap-3 px-4 py-3 rounded-lg bg-secondary-container text-on-secondary-container font-bold hover:bg-surface-container-high transition-colors" href="/dashboard">
+                <span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+                <span class="font-body-md text-[14px]">Dashboard</span>
+            </a>
+        </li>
+        <li>
+            <a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors" href="/candidates">
+                <span class="material-symbols-outlined" data-icon="groups">groups</span>
+                <span class="font-body-md text-[14px]">Candidates</span>
+            </a>
+        </li>
+        <li>
+            <a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors" href="/jobs">
+                <span class="material-symbols-outlined" data-icon="work">work</span>
+                <span class="font-body-md text-[14px]">Jobs</span>
+            </a>
+        </li>
+        <li>
+            <a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors" href="/profile-lookup">
+                <span class="material-symbols-outlined" data-icon="person_search">person_search</span>
+                <span class="font-body-md text-[14px]">Profile Lookup</span>
+            </a>
+        </li>
+        <li>
+            <a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors" href="/settings">
+                <span class="material-symbols-outlined" data-icon="settings">settings</span>
+                <span class="font-body-md text-[14px]">Settings</span>
+            </a>
+        </li>
+        <li>
+            <a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors" href="/help">
+                <span class="material-symbols-outlined" data-icon="help">help</span>
+                <span class="font-body-md text-[14px]">Help</span>
+            </a>
+        </li>
+    </ul>
+</nav>
 
-<body>
-    <div class="sidebar-overlay" id="sidebarOverlay"></div>
-    <aside class="sidebar" id="sidebar">
-        <div class="logo-section">
-            <div class="logo-icon">
-                <i class="fas fa-robot"></i>
-            </div>
-            <h2>AI Recruiter</h2>
-            <span class="version">v2.0 Pro</span>
+<!-- Main Content Area -->
+<div class="flex-1 flex flex-col min-w-0 md:ml-[280px]">
+    <!-- TopAppBar Component -->
+    <header class="flex justify-between items-center h-16 px-gutter bg-surface border-b border-border-subtle sticky top-0 z-10 w-full">
+        <div class="flex items-center md:hidden">
+            <span class="font-headline-md text-headline-md font-bold text-primary">RecruitAI</span>
         </div>
-
-        <nav class="nav-menu">
-            <div class="nav-section">
-                <span class="nav-label">MAIN</span>
-                <ul>
-                    <li class="active">
-                        <i class="fas fa-home"></i>
-                        <span>Dashboard</span>
-                        <span class="badge">3</span>
-                    </li>
-                    <li onclick="window.location.href='/result'">
-                        <i class="fas fa-chart-line"></i>
-                        <span>Results</span>
-                    </li>
-                    <li onclick="window.location.href='/candidates'">
-                        <i class="fas fa-users"></i>
-                        <span>Candidates</span>
-                        <span class="badge success">12</span>
-                    </li>
-                </ul>
+        <div class="flex-1 max-w-md ml-4 md:ml-0 hidden md:block">
+            <div class="relative">
+                <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant" data-icon="search">search</span>
+                <input class="w-full pl-10 pr-4 py-2 border border-border-subtle rounded focus:border-[#2563EB] focus:ring-0 focus:outline-none font-body-md text-[14px] bg-surface-container-lowest" placeholder="Search..." type="text"/>
             </div>
-
-            <div class="nav-section">
-                <span class="nav-label">TOOLS</span>
-                <ul>
-                    <li onclick="window.location.href='/profile-lookup'">
-                        <i class="fas fa-search-plus"></i>
-                        <span>Profile Lookup</span>
-                        <span class="badge new">NEW</span>
-                    </li>
-                    <li onclick="window.location.href='/jobs'">
-                        <i class="fas fa-briefcase"></i>
-                        <span>Jobs</span>
-                    </li>
-                    <li onclick="window.location.href='/templates'">
-                        <i class="fas fa-file-alt"></i>
-                        <span>Templates</span>
-                    </li>
-                    <li>
-                        <i class="fas fa-chart-bar"></i>
-                        <span>Analytics</span>
-                    </li>
-                </ul>
-            </div>
-
-            <div class="nav-section">
-                <span class="nav-label">SETTINGS</span>
-                <ul>
-                    <li onclick="window.location.href='/settings'">
-                        <i class="fas fa-cog"></i>
-                        <span>Settings</span>
-                    </li>
-                    <li onclick="window.location.href='/help'">
-                        <i class="fas fa-question-circle"></i>
-                        <span>Help</span>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-
-        <div class="sidebar-footer">
-            <div class="storage-info">
-                <div class="storage-header">
-                    <i class="fas fa-database"></i>
-                    <span>Storage</span>
-                </div>
-                <div class="storage-bar">
-                    <div class="storage-fill" style="width: 65%"></div>
-                </div>
-                <span class="storage-text">6.5 GB of 10 GB used</span>
-            </div>
-
-            <button class="upgrade-btn">
-                <i class="fas fa-crown"></i>
-                Upgrade to Pro
+        </div>
+        <div class="flex items-center gap-4">
+            <button class="p-2 text-on-surface-variant hover:bg-surface-container rounded-full transition-colors relative">
+                <span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+                <span class="absolute top-2 right-2 w-2 h-2 bg-score-high rounded-full"></span>
             </button>
-        </div>
-    </aside>
-
-    <main class="main-content">
-        <header class="navbar">
-            <button class="mobile-menu-btn" id="mobileMenuBtn">
-                <i class="fas fa-bars"></i>
-            </button>
-            <div class="search-bar">
-                <i class="fas fa-search"></i>
-                <input type="text" placeholder="Search resumes, candidates, jobs...">
-                <kbd>Ctrl</kbd> + <kbd>K</kbd>
-            </div>
-
-            <div class="navbar-actions">
-                <button class="icon-btn" title="Notifications">
-                    <i class="fas fa-bell"></i>
-                    <span class="notification-dot"></span>
-                </button>
-                <button class="icon-btn" title="Messages">
-                    <i class="fas fa-envelope"></i>
-                </button>
-                <button class="icon-btn" title="Settings">
-                    <i class="fas fa-cog"></i>
-                </button>
-
-                <div class="user-profile">
-                    <img src="../images/user_img.webp" alt="User">
-                    <div class="user-info">
-                        <span class="user-name">Arko Jana</span>
-                        <span class="user-role">HR Manager</span>
-                    </div>
-                    <i class="fas fa-chevron-down"></i>
-                </div>
-            </div>
-        </header>
-
-        <!-- Stats Cards -->
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-icon purple">
-                    <i class="fas fa-file-upload"></i>
-                </div>
-                <div class="stat-content">
-                    <span class="stat-label">Total Resumes</span>
-                    <h3 class="stat-value">1,247</h3>
-                    <span class="stat-change positive">
-                        <i class="fas fa-arrow-up"></i> 12% from last month
-                    </span>
-                </div>
-            </div>
-
-            <div class="stat-card">
-                <div class="stat-icon green">
-                    <i class="fas fa-user-check"></i>
-                </div>
-                <div class="stat-content">
-                    <span class="stat-label">Shortlisted</span>
-                    <h3 class="stat-value">342</h3>
-                    <span class="stat-change positive">
-                        <i class="fas fa-arrow-up"></i> 8% from last month
-                    </span>
-                </div>
-            </div>
-
-            <div class="stat-card">
-                <div class="stat-icon orange">
-                    <i class="fas fa-clock"></i>
-                </div>
-                <div class="stat-content">
-                    <span class="stat-label">Pending Review</span>
-                    <h3 class="stat-value">89</h3>
-                    <span class="stat-change negative">
-                        <i class="fas fa-arrow-down"></i> 3% from last month
-                    </span>
-                </div>
-            </div>
-
-            <div class="stat-card">
-                <div class="stat-icon blue">
-                    <i class="fas fa-percentage"></i>
-                </div>
-                <div class="stat-content">
-                    <span class="stat-label">Avg Match Score</span>
-                    <h3 class="stat-value">78%</h3>
-                    <span class="stat-change positive">
-                        <i class="fas fa-arrow-up"></i> 5% from last month
-                    </span>
-                </div>
+            <div class="w-8 h-8 rounded-full overflow-hidden border border-border-subtle shrink-0">
+                <img alt="User Avatar" class="w-full h-full object-cover" src="../images/user_img.webp"/>
             </div>
         </div>
-
-        <!-- Upload Section -->
-        <div class="content-grid">
-            <div class="upload-section">
-                <div class="section-header">
-                    <h2><i class="fas fa-cloud-upload-alt"></i> Upload Resume</h2>
-                    <button class="btn-secondary">
-                        <i class="fas fa-history"></i> View History
-                    </button>
-                </div>
-
-                <form id="uploadForm" method="POST" action="/resumedata" enctype="multipart/form-data">
-                    <div class="upload-area" id="dropZone">
-                        <div class="upload-icon">
-                            <i class="fas fa-cloud-upload-alt"></i>
-                        </div>
-                        <h3>Drag & Drop Resume Here</h3>
-                        <p>or click to browse files</p>
-                        <input type="file" id="resumeFile" name="doc" accept=".pdf,.doc,.docx" multiple required hidden>
-                        <button type="button" class="btn-browse"
-                            onclick="document.getElementById('resumeFile').click()">
-                            <i class="fas fa-folder-open"></i> Browse Files
-                        </button>
-                        <span class="file-types">Supported: PDF, DOC, DOCX (Max 5MB)</span>
-                    </div>
-
-                    <div class="job-description-section">
-                        <label><i class="fas fa-briefcase"></i> Job Description</label>
-                        <textarea id="jobDesc" name="jobDesc" placeholder="Paste the job description here...
-
-Example:
-We are looking for a Full Stack Developer with 3+ years of experience in:
-- JavaScript, React, Node.js
-- MongoDB, PostgreSQL
-- RESTful APIs, Git
-- Agile methodologies" required></textarea>
-
-                        <div class="job-actions">
-                            <button type="button" class="btn-link">
-                                <i class="fas fa-magic"></i> Use Template
-                            </button>
-                            <button type="button" class="btn-link">
-                                <i class="fas fa-save"></i> Save as Template
-                            </button>
-                        </div>
-                    </div>
-
-                    <button class="btn-primary" type="submit">
-                        <i class="fas fa-robot"></i> Start AI Screening
-                        <span class="btn-shine"></span>
-                    </button>
-                </form>
+    </header>
+    
+    <!-- Canvas -->
+    <main class="flex-1 p-gutter overflow-x-hidden overflow-y-auto">
+        <div class="max-w-container-max mx-auto">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+                <h2 class="text-[32px] font-semibold tracking-tight text-primary">Dashboard Overview</h2>
             </div>
-
-            <!-- Recent Activity -->
-            <div class="activity-section">
-                <div class="section-header">
-                    <h2><i class="fas fa-history"></i> Recent Activity</h2>
-                    <a href="/candidates" class="btn-link">View All</a>
-                </div>
-
-                <div class="activity-list">
-                    <div class="activity-item">
-                        <div class="activity-icon success">
-                            <i class="fas fa-check"></i>
-                        </div>
-                        <div class="activity-content">
-                            <h4>Resume Screened</h4>
-                            <p>John_Doe_Resume.pdf - 87% match</p>
-                            <span class="activity-time">2 minutes ago</span>
+            
+            <!-- Stats Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <!-- Stat Card 1 -->
+                <div class="stat-card bg-surface-container-lowest p-6 rounded-xl border border-border-subtle flex flex-col gap-4">
+                    <div class="flex items-center justify-between">
+                        <span class="text-on-surface-variant text-[14px] font-semibold uppercase tracking-wider">Total Resumes</span>
+                        <div class="w-10 h-10 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center">
+                            <i class="fas fa-file-upload"></i>
                         </div>
                     </div>
+                    <div>
+                        <h3 class="stat-value text-3xl font-bold text-primary font-mono-data mb-1">0</h3>
+                        <span class="stat-change text-emerald-600 text-sm flex items-center gap-1 font-medium"><i class="fas fa-arrow-up"></i> 0%</span>
+                    </div>
+                </div>
 
-                    <div class="activity-item">
-                        <div class="activity-icon warning">
+                <!-- Stat Card 2 -->
+                <div class="stat-card bg-surface-container-lowest p-6 rounded-xl border border-border-subtle flex flex-col gap-4">
+                    <div class="flex items-center justify-between">
+                        <span class="text-on-surface-variant text-[14px] font-semibold uppercase tracking-wider">Shortlisted</span>
+                        <div class="w-10 h-10 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center">
+                            <i class="fas fa-user-check"></i>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="stat-value text-3xl font-bold text-primary font-mono-data mb-1">0</h3>
+                        <span class="stat-change text-emerald-600 text-sm flex items-center gap-1 font-medium"><i class="fas fa-arrow-up"></i> 0%</span>
+                    </div>
+                </div>
+
+                <!-- Stat Card 3 -->
+                <div class="stat-card bg-surface-container-lowest p-6 rounded-xl border border-border-subtle flex flex-col gap-4">
+                    <div class="flex items-center justify-between">
+                        <span class="text-on-surface-variant text-[14px] font-semibold uppercase tracking-wider">Pending Review</span>
+                        <div class="w-10 h-10 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center">
                             <i class="fas fa-clock"></i>
                         </div>
-                        <div class="activity-content">
-                            <h4>Pending Review</h4>
-                            <p>Sarah_Smith_CV.pdf - 65% match</p>
-                            <span class="activity-time">15 minutes ago</span>
+                    </div>
+                    <div>
+                        <h3 class="stat-value text-3xl font-bold text-primary font-mono-data mb-1">0</h3>
+                        <span class="stat-change text-red-600 text-sm flex items-center gap-1 font-medium"><i class="fas fa-arrow-down"></i> 0%</span>
+                    </div>
+                </div>
+
+                <!-- Stat Card 4 -->
+                <div class="stat-card bg-surface-container-lowest p-6 rounded-xl border border-border-subtle flex flex-col gap-4">
+                    <div class="flex items-center justify-between">
+                        <span class="text-on-surface-variant text-[14px] font-semibold uppercase tracking-wider">Avg Match</span>
+                        <div class="w-10 h-10 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center">
+                            <i class="fas fa-percentage"></i>
                         </div>
                     </div>
-
-                    <div class="activity-item">
-                        <div class="activity-icon danger">
-                            <i class="fas fa-times"></i>
-                        </div>
-                        <div class="activity-content">
-                            <h4>Resume Rejected</h4>
-                            <p>Mike_Johnson.pdf - 42% match</p>
-                            <span class="activity-time">1 hour ago</span>
-                        </div>
+                    <div>
+                        <h3 class="stat-value text-3xl font-bold text-primary font-mono-data mb-1">0%</h3>
+                        <span class="stat-change text-emerald-600 text-sm flex items-center gap-1 font-medium"><i class="fas fa-chart-line"></i> Good</span>
                     </div>
+                </div>
+            </div>
 
-                    <div class="activity-item">
-                        <div class="activity-icon success">
-                            <i class="fas fa-star"></i>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Upload Section (2/3 width) -->
+                <div class="lg:col-span-2 flex flex-col gap-6">
+                    <div class="bg-surface-container-lowest rounded-xl border border-border-subtle p-6">
+                        <div class="flex items-center justify-between border-b border-border-subtle pb-4 mb-6">
+                            <h2 class="text-xl font-bold text-primary flex items-center gap-2"><i class="fas fa-cloud-upload-alt text-[#2563EB]"></i> Upload Resume</h2>
+                            <button class="btn-secondary text-sm text-[#2563EB] hover:underline font-semibold" onclick="window.location.href='/candidates'">
+                                View History
+                            </button>
                         </div>
-                        <div class="activity-content">
-                            <h4>Top Candidate</h4>
-                            <p>Emma_Wilson_Resume.pdf - 94% match</p>
-                            <span class="activity-time">3 hours ago</span>
-                        </div>
+
+                        <form id="uploadForm" method="POST" action="/resumedata" enctype="multipart/form-data">
+                            <!-- Dropzone -->
+                            <div class="upload-area border-2 border-dashed border-border-subtle rounded-xl p-8 flex flex-col items-center justify-center text-center cursor-pointer hover:bg-surface transition-colors mb-6" id="dropZone">
+                                <div class="upload-icon w-16 h-16 bg-primary-fixed rounded-full flex items-center justify-center text-on-primary-fixed text-2xl mb-4">
+                                    <i class="fas fa-cloud-upload-alt"></i>
+                                </div>
+                                <h3 class="text-lg font-bold text-primary mb-1">Drag & Drop Resume Here</h3>
+                                <p class="text-sm text-on-surface-variant mb-4">or click to browse files</p>
+                                <input type="file" id="resumeFile" name="doc" accept=".pdf,.doc,.docx" multiple required hidden>
+                                <button type="button" class="btn-browse px-6 py-2 bg-surface-container border border-border-subtle text-primary font-semibold rounded hover:bg-surface-container-high transition-colors">
+                                    <i class="fas fa-folder-open mr-2"></i> Browse Files
+                                </button>
+                                <span class="text-xs text-on-surface-variant mt-4 block">Supported: PDF, DOC, DOCX (Max 5MB)</span>
+                            </div>
+
+                            <!-- Job Description -->
+                            <div class="mb-6">
+                                <label class="block text-sm font-semibold text-primary mb-2"><i class="fas fa-briefcase text-slate-gray mr-1"></i> Job Description Context</label>
+                                <textarea id="jobDesc" name="jobDesc" class="w-full h-32 px-4 py-3 border border-border-subtle rounded-lg bg-surface focus:border-[#2563EB] focus:ring-0 outline-none resize-none text-sm" placeholder="Paste the job description here... (Used for AI Match Scoring)" required></textarea>
+                            </div>
+
+                            <button class="w-full py-3 bg-gradient-to-r from-[#2563EB] to-[#7C3AED] text-white font-bold rounded-lg shadow-sm hover:opacity-95 transition-opacity flex items-center justify-center gap-2" type="submit">
+                                <i class="fas fa-robot"></i> Start AI Screening
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Recent Activity (1/3 width) -->
+                <div class="bg-surface-container-lowest rounded-xl border border-border-subtle flex flex-col overflow-hidden">
+                    <div class="p-6 border-b border-border-subtle flex items-center justify-between">
+                        <h2 class="text-xl font-bold text-primary flex items-center gap-2"><i class="fas fa-history text-slate-gray"></i> Recent Activity</h2>
+                    </div>
+                    
+                    <div class="activity-list flex-1 overflow-y-auto p-4 flex flex-col gap-2">
+                        <!-- JS Will Inject Items Here -->
+                    </div>
+                    
+                    <div class="p-4 border-t border-border-subtle text-center bg-surface">
+                        <a href="/candidates" class="text-sm font-bold text-[#2563EB] hover:underline">View All Candidates</a>
                     </div>
                 </div>
             </div>
         </div>
     </main>
+</div>
 
-    <!-- Loading Overlay -->
-    <div class="loader-overlay" id="loader">
-        <div class="loader-content">
-            <div class="loader-spinner"></div>
-            <h3>Analyzing Resume...</h3>
-            <p>Our AI is processing the document</p>
-            <div class="loader-progress">
-                <div class="loader-progress-bar"></div>
-            </div>
-        </div>
+<!-- Loader Overlay -->
+<div class="loader-overlay fixed inset-0 bg-black/50 z-50 items-center justify-center hidden" id="loader">
+    <div class="bg-surface-container-lowest p-8 rounded-xl shadow-2xl flex flex-col items-center max-w-sm w-full text-center">
+        <div class="w-16 h-16 border-4 border-border-subtle border-t-[#2563EB] rounded-full animate-spin mb-6"></div>
+        <h3 class="text-xl font-bold text-primary mb-2">Analyzing Resume...</h3>
+        <p class="text-sm text-on-surface-variant">Our AI is extracting skills and scoring the candidate against your job description.</p>
     </div>
+</div>
 
-    <link rel="stylesheet" href="../css/loader.css">
-    <script src="../js/dashboard.js"></script>
-    <script src="../js/navbar.js"></script>
-    <script>
-        // Show loader on form submit
-        const uploadForm = document.getElementById('uploadForm');
-        if (uploadForm) {
-            uploadForm.addEventListener('submit', function () {
-                document.getElementById('loader').classList.add('active');
-            });
-        }
-
-        // Mobile Sidebar Toggle
-        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-        const sidebar = document.getElementById('sidebar');
-        const sidebarOverlay = document.getElementById('sidebarOverlay');
-
-        if (mobileMenuBtn && sidebar && sidebarOverlay) {
-            mobileMenuBtn.addEventListener('click', () => {
-                sidebar.classList.add('active');
-                sidebarOverlay.classList.add('active');
-            });
-
-            sidebarOverlay.addEventListener('click', () => {
-                sidebar.classList.remove('active');
-                sidebarOverlay.classList.remove('active');
-            });
-        }
-    </script>
+<script src="../js/dashboard.js"></script>
 </body>
-
 </html>
-
