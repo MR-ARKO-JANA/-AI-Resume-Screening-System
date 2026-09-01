@@ -120,12 +120,20 @@ function updateWeights() {
     const total = skillWeight + keywordWeight + expWeight;
     document.getElementById('totalWeight').textContent = total + '%';
 
+    // Update chart segments
+    document.querySelector('.chart-segment.skills').style.width = skillWeight + '%';
+    document.querySelector('.chart-segment.skills').textContent = skillWeight + '%';
+    document.querySelector('.chart-segment.keywords').style.width = keywordWeight + '%';
+    document.querySelector('.chart-segment.keywords').textContent = keywordWeight + '%';
+    document.querySelector('.chart-segment.experience').style.width = expWeight + '%';
+    document.querySelector('.chart-segment.experience').textContent = expWeight + '%';
+
     // Change color based on total
     const totalElement = document.getElementById('totalWeight');
     if (total === 100) {
-        totalElement.style.color = '#48bb78';
+        totalElement.style.color = '#10B981'; // Tailwind emerald-500
     } else {
-        totalElement.style.color = '#f56565';
+        totalElement.style.color = '#EF4444'; // Tailwind red-500
     }
 }
 
@@ -199,19 +207,23 @@ async function deleteAccount() {
 // Show Message
 function showMessage(message, type) {
     const messageDiv = document.createElement('div');
-    messageDiv.className = 'success-message';
+    messageDiv.className = 'fixed bottom-4 right-4 px-6 py-3 rounded-lg text-white font-bold shadow-lg z-50 transition-all duration-300 transform translate-y-0 opacity-100';
     messageDiv.textContent = message;
 
     if (type === 'error') {
-        messageDiv.style.background = 'linear-gradient(135deg, #f56565 0%, #e53e3e 100%)';
+        messageDiv.classList.add('bg-red-600');
+    } else {
+        messageDiv.classList.add('bg-emerald-500');
     }
 
     document.body.appendChild(messageDiv);
 
     setTimeout(() => {
-        messageDiv.style.animation = 'slideOut 0.3s ease';
+        messageDiv.classList.add('translate-y-4', 'opacity-0');
         setTimeout(() => {
-            document.body.removeChild(messageDiv);
+            if (messageDiv.parentNode) {
+                document.body.removeChild(messageDiv);
+            }
         }, 300);
     }, 3000);
 }
