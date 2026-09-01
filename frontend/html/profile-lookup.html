@@ -1,354 +1,319 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html class="light" lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile Lookup - AI Recruiter</title>
-    <link rel="icon" type="image/png" href="/images/favicon.png">
-    <meta name="description" content="Look up candidate profiles from GitHub and LinkedIn for comprehensive screening">
-    <link rel="stylesheet" href="../css/dashboard-ultra.css">
-    <link rel="stylesheet" href="../css/profile-lookup.css">
-    <link rel="stylesheet" href="../css/navbar.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>RecruitAI - Profile Lookup</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@450&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+    .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+</style>
+<script id="tailwind-config">
+    tailwind.config = {
+        darkMode: "class",
+        theme: {
+            extend: {
+                "colors": {
+                    "surface-container-lowest": "#ffffff",
+                    "surface": "#fcf8fa",
+                    "primary": "#000000",
+                    "on-surface-variant": "#45464d",
+                    "border-subtle": "#E2E8F0",
+                    "surface-variant": "#e4e2e4",
+                    "score-high": "#7C3AED",
+                    "secondary-container": "#316bf3",
+                    "on-secondary-container": "#fefcff"
+                },
+                "fontFamily": {
+                    "label-md": ["Inter"],
+                    "body-md": ["Inter"],
+                    "headline-lg": ["Inter"],
+                    "title-lg": ["Inter"],
+                    "headline-md": ["Inter"],
+                    "mono-data": ["JetBrains Mono"]
+                },
+                "spacing": {
+                    "container-max": "1440px",
+                    "gutter": "24px"
+                }
+            }
+        }
+    }
+</script>
 </head>
+<body class="bg-[#F8FAFC] text-slate-800 font-body-md min-h-screen flex">
+<!-- SideNavBar Component -->
+<nav class="hidden md:flex flex-col h-screen p-4 bg-surface-container-lowest fixed left-0 top-0 w-[280px] border-r border-border-subtle z-20">
+    <div class="mb-8 px-4">
+        <h1 class="font-headline-md text-[24px] font-bold text-primary">RecruitAI</h1>
+        <p class="font-label-md text-[12px] text-on-surface-variant mt-1 font-semibold tracking-wider">Enterprise Intelligence</p>
+    </div>
+    <ul class="flex flex-col gap-2 flex-grow">
+        <li>
+            <a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-variant transition-colors" href="/dashboard">
+                <span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+                <span class="font-body-md text-[14px]">Dashboard</span>
+            </a>
+        </li>
+        <li>
+            <a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-variant transition-colors" href="/candidates">
+                <span class="material-symbols-outlined" data-icon="groups">groups</span>
+                <span class="font-body-md text-[14px]">Candidates</span>
+            </a>
+        </li>
+        <li>
+            <a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-variant transition-colors" href="/jobs">
+                <span class="material-symbols-outlined" data-icon="work">work</span>
+                <span class="font-body-md text-[14px]">Jobs</span>
+            </a>
+        </li>
+        <li>
+            <a class="flex items-center gap-3 px-4 py-3 rounded-lg bg-secondary-container text-on-secondary-container font-bold hover:opacity-90 transition-opacity" href="/profile-lookup">
+                <span class="material-symbols-outlined" data-icon="person_search">person_search</span>
+                <span class="font-body-md text-[14px]">Profile Lookup</span>
+            </a>
+        </li>
+        <li>
+            <a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-variant transition-colors" href="/settings">
+                <span class="material-symbols-outlined" data-icon="settings">settings</span>
+                <span class="font-body-md text-[14px]">Settings</span>
+            </a>
+        </li>
+        <li>
+            <a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-variant transition-colors" href="/help">
+                <span class="material-symbols-outlined" data-icon="help">help</span>
+                <span class="font-body-md text-[14px]">Help</span>
+            </a>
+        </li>
+    </ul>
+</nav>
 
-<body>
-    <div class="sidebar-overlay" id="sidebarOverlay"></div>
-    <!-- Sidebar -->
-    <aside class="sidebar" id="sidebar">
-        <div class="logo-section">
-            <div class="logo-icon">
-                <i class="fas fa-robot"></i>
-            </div>
-            <h2>AI Recruiter</h2>
-            <span class="version">v2.0 Pro</span>
+<!-- Main Content Area -->
+<div class="flex-1 flex flex-col min-w-0 md:ml-[280px]">
+    <!-- TopAppBar Component -->
+    <header class="flex justify-between items-center h-16 px-gutter bg-surface border-b border-border-subtle sticky top-0 z-10 w-full">
+        <div class="flex items-center md:hidden">
+            <span class="font-headline-md text-headline-md font-bold text-primary">RecruitAI</span>
         </div>
-
-        <nav class="nav-menu">
-            <div class="nav-section">
-                <span class="nav-label">MAIN</span>
-                <ul>
-                    <li onclick="window.location.href='/dashboard'">
-                        <i class="fas fa-home"></i>
-                        <span>Dashboard</span>
-                    </li>
-                    <li onclick="window.location.href='/result'">
-                        <i class="fas fa-chart-line"></i>
-                        <span>Results</span>
-                    </li>
-                    <li onclick="window.location.href='/candidates'">
-                        <i class="fas fa-users"></i>
-                        <span>Candidates</span>
-                    </li>
-                </ul>
-            </div>
-
-            <div class="nav-section">
-                <span class="nav-label">TOOLS</span>
-                <ul>
-                    <li class="active">
-                        <i class="fas fa-search-plus"></i>
-                        <span>Profile Lookup</span>
-                        <span class="badge new">NEW</span>
-                    </li>
-                    <li onclick="window.location.href='/jobs'">
-                        <i class="fas fa-briefcase"></i>
-                        <span>Jobs</span>
-                    </li>
-                    <li>
-                        <i class="fas fa-chart-bar"></i>
-                        <span>Analytics</span>
-                    </li>
-                </ul>
-            </div>
-
-            <div class="nav-section">
-                <span class="nav-label">SETTINGS</span>
-                <ul>
-                    <li onclick="window.location.href='/settings'">
-                        <i class="fas fa-cog"></i>
-                        <span>Settings</span>
-                    </li>
-                    <li onclick="window.location.href='/help'">
-                        <i class="fas fa-question-circle"></i>
-                        <span>Help</span>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-
-        <div class="sidebar-footer">
-            <div class="storage-info">
-                <div class="storage-header">
-                    <i class="fas fa-database"></i>
-                    <span>Storage</span>
-                </div>
-                <div class="storage-bar">
-                    <div class="storage-fill" style="width: 65%"></div>
-                </div>
-                <span class="storage-text">6.5 GB of 10 GB used</span>
-            </div>
-            <button class="upgrade-btn">
-                <i class="fas fa-crown"></i>
-                Upgrade to Pro
-            </button>
+        <div class="flex-1 max-w-md ml-4 md:ml-0 hidden md:block">
         </div>
-    </aside>
-
-    <!-- Main Content -->
-    <main class="main-content">
-        <!-- Navbar -->
-        <header class="navbar">
-            <button class="mobile-menu-btn" id="mobileMenuBtn">
-                <i class="fas fa-bars"></i>
+        <div class="flex items-center gap-4">
+            <button class="p-2 text-on-surface-variant hover:bg-surface-variant rounded-full transition-colors relative">
+                <span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+                <span class="absolute top-2 right-2 w-2 h-2 bg-score-high rounded-full"></span>
             </button>
-            <div class="search-bar">
-                <i class="fas fa-search"></i>
-                <input type="text" placeholder="Search resumes, candidates, jobs...">
-                <kbd>Ctrl</kbd> + <kbd>K</kbd>
+            <div class="w-8 h-8 rounded-full overflow-hidden border border-border-subtle shrink-0">
+                <img alt="User Avatar" class="w-full h-full object-cover" src="../images/user_img.webp"/>
             </div>
-            <div class="navbar-actions">
-                <button class="icon-btn" title="Notifications">
-                    <i class="fas fa-bell"></i>
-                    <span class="notification-dot"></span>
+        </div>
+    </header>
+    
+    <!-- Canvas -->
+    <main class="flex-1 p-gutter overflow-x-hidden overflow-y-auto">
+        <div class="max-w-container-max mx-auto">
+            
+            <!-- Page Header -->
+            <div class="mb-8">
+                <h1 class="text-[32px] font-semibold tracking-tight text-primary flex items-center gap-3"><i class="fas fa-user-secret text-[#2563EB]"></i> Candidate Profile Lookup</h1>
+                <p class="text-on-surface-variant mt-2">Deep-dive into candidate's GitHub activity & LinkedIn profile using AI</p>
+            </div>
+
+            <!-- Input Section -->
+            <div class="bg-surface-container-lowest p-6 rounded-xl border border-border-subtle mb-8 shadow-sm">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <div>
+                        <label class="block text-sm font-semibold text-primary mb-2"><i class="fab fa-github text-[#333]"></i> GitHub Profile URL</label>
+                        <input type="url" id="githubUrl" class="w-full px-4 py-3 bg-surface border border-border-subtle rounded-lg focus:border-[#2563EB] focus:ring-0 outline-none text-sm transition-colors" placeholder="https://github.com/username" autocomplete="off">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-primary mb-2"><i class="fab fa-linkedin text-[#0077b5]"></i> LinkedIn Profile URL</label>
+                        <input type="url" id="linkedinUrl" class="w-full px-4 py-3 bg-surface border border-border-subtle rounded-lg focus:border-[#2563EB] focus:ring-0 outline-none text-sm transition-colors" placeholder="https://linkedin.com/in/username" autocomplete="off">
+                    </div>
+                </div>
+                <button class="w-full md:w-auto px-8 py-3 bg-gradient-to-r from-[#2563EB] to-[#7C3AED] text-white font-bold rounded-lg shadow-sm hover:opacity-95 transition-opacity flex items-center justify-center gap-2 mx-auto" id="checkBtn" onclick="checkProfile()">
+                    <i class="fas fa-search"></i> Check Candidate Profile
                 </button>
-                <button class="icon-btn" title="Messages">
-                    <i class="fas fa-envelope"></i>
-                </button>
-                <div class="user-profile">
-                    <img src="../images/user_img.webp" alt="User">
-                    <div class="user-info">
-                        <span class="user-name">Arko Jana</span>
-                        <span class="user-role">HR Manager</span>
-                    </div>
-                    <i class="fas fa-chevron-down"></i>
-                </div>
-            </div>
-        </header>
-
-        <!-- Page Header -->
-        <div class="page-header">
-            <div>
-                <h1><i class="fas fa-user-secret"></i> Candidate Profile Lookup</h1>
-                <p class="page-subtitle">Deep-dive into candidate's GitHub activity & LinkedIn profile using AI</p>
-            </div>
-        </div>
-
-        <!-- Input Section -->
-        <div class="lookup-input-section">
-            <div class="input-grid">
-                <div class="input-group">
-                    <label><i class="fab fa-github"></i> GitHub Profile URL</label>
-                    <input type="url" id="githubUrl" placeholder="https://github.com/username" autocomplete="off">
-                </div>
-                <div class="input-group">
-                    <label><i class="fab fa-linkedin"></i> LinkedIn Profile URL</label>
-                    <input type="url" id="linkedinUrl" placeholder="https://linkedin.com/in/username" autocomplete="off">
-                </div>
-                <div class="input-group" style="grid-column: 1 / -1;">
-                    <!-- Spacer or future input -->
-                </div>
-            </div>
-            <button class="btn-check-profile" id="checkBtn" onclick="checkProfile()">
-                <i class="fas fa-search"></i>
-                Check Candidate Profile
-                <span class="btn-shine"></span>
-            </button>
-        </div>
-
-        <!-- Error Message -->
-        <div class="error-message" id="errorMessage">
-            <i class="fas fa-exclamation-circle"></i>
-            <span id="errorText"></span>
-        </div>
-
-        <!-- Loading State -->
-        <div class="profile-loading" id="loadingState">
-            <div class="loading-pulse">
-                <i class="fas fa-search"></i>
-            </div>
-            <h3>Analyzing Candidate Profile...</h3>
-            <p>Fetching GitHub data & running AI analysis</p>
-        </div>
-
-        <!-- Results Section -->
-        <div class="profile-results" id="profileResults">
-
-            <!-- GitHub Profile Card -->
-            <div class="github-profile-card" id="githubProfileCard">
-                <img class="profile-avatar" id="profileAvatar" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="Avatar">
-                <div class="profile-details">
-                    <h2 id="profileName"></h2>
-                    <p class="username" id="profileUsername"></p>
-                    <p class="bio" id="profileBio"></p>
-                    <div class="profile-meta">
-                        <span id="profileLocation"><i class="fas fa-map-marker-alt"></i> <span></span></span>
-                        <span id="profileCompany"><i class="fas fa-building"></i> <span></span></span>
-                        <span id="profileJoined"><i class="fas fa-calendar"></i> <span></span></span>
-                    </div>
-                </div>
-                <a class="profile-link" id="profileLink" href="#" target="_blank">
-                    <i class="fab fa-github"></i> View on GitHub
-                </a>
             </div>
 
-            <!-- Stats Grid -->
-            <div class="profile-stats-grid">
-                <div class="profile-stat-card">
-                    <div class="stat-icon-mini"><i class="fas fa-code-branch"></i></div>
-                    <h3 id="statRepos">0</h3>
-                    <p>Repositories</p>
-                </div>
-                <div class="profile-stat-card">
-                    <div class="stat-icon-mini"><i class="fas fa-star"></i></div>
-                    <h3 id="statStars">0</h3>
-                    <p>Total Stars</p>
-                </div>
-                <div class="profile-stat-card">
-                    <div class="stat-icon-mini"><i class="fas fa-user-friends"></i></div>
-                    <h3 id="statFollowers">0</h3>
-                    <p>Followers</p>
-                </div>
-                <div class="profile-stat-card">
-                    <div class="stat-icon-mini"><i class="fas fa-user-plus"></i></div>
-                    <h3 id="statFollowing">0</h3>
-                    <p>Following</p>
-                </div>
+            <!-- Error Message -->
+            <div class="hidden items-center gap-3 p-4 bg-red-50 border border-red-200 text-red-700 rounded-lg mb-8 font-semibold shadow-sm" id="errorMessage">
+                <i class="fas fa-exclamation-circle text-xl shrink-0"></i>
+                <span id="errorText"></span>
             </div>
 
-            <!-- Top Projects + Commit Graph -->
-            <div class="profile-content-grid">
-                <!-- Top 5 Projects -->
-                <div class="content-card">
-                    <div class="card-header">
-                        <h3><i class="fas fa-trophy"></i> Top 5 Projects</h3>
-                    </div>
-                    <div class="project-list" id="projectList">
-                        <!-- Filled by JS -->
-                    </div>
-                </div>
-
-                <!-- Commit Activity Graph -->
-                <div class="content-card">
-                    <div class="card-header">
-                        <h3><i class="fas fa-chart-area"></i> Commit Activity (12 Months)</h3>
-                    </div>
-                    <div class="chart-container">
-                        <canvas id="commitChart"></canvas>
-                    </div>
-                </div>
-
-                <!-- Languages -->
-                <div class="content-card">
-                    <div class="card-header">
-                        <h3><i class="fas fa-code"></i> Languages Used</h3>
-                    </div>
-                    <div class="lang-grid" id="langGrid">
-                        <!-- Filled by JS -->
-                    </div>
-                </div>
-
-                <!-- Recent Activity -->
-                <div class="content-card">
-                    <div class="card-header">
-                        <h3><i class="fas fa-history"></i> Recent Activity</h3>
-                    </div>
-                    <div class="activity-timeline" id="activityTimeline">
-                        <!-- Filled by JS -->
-                    </div>
-                </div>
+            <!-- Loading State -->
+            <div class="hidden flex-col items-center justify-center p-12 bg-surface-container-lowest rounded-xl border border-border-subtle mb-8 shadow-sm text-center" id="loadingState">
+                <div class="w-16 h-16 border-4 border-border-subtle border-t-[#2563EB] rounded-full animate-spin mb-6"></div>
+                <h3 class="text-xl font-bold text-primary mb-2">Analyzing Candidate Profile...</h3>
+                <p class="text-sm text-on-surface-variant">Fetching GitHub data & running AI analysis</p>
             </div>
 
-            <!-- LinkedIn Results -->
-            <div class="linkedin-results" id="linkedinResults">
-                <!-- LinkedIn Header -->
-                <div class="linkedin-header-card">
-                    <div class="linkedin-icon-big">
-                        <i class="fab fa-linkedin-in"></i>
-                    </div>
-                    <div class="linkedin-header-info">
-                        <h2 id="linkedinName">LinkedIn Insights</h2>
-                        <p class="headline" id="linkedinHeadline"></p>
-                        <p class="location-role" id="linkedinRole"></p>
-                    </div>
-                </div>
+            <!-- Results Section -->
+            <div class="hidden flex-col gap-8" id="profileResults">
 
-                <div class="profile-content-grid">
-                    <!-- Work Experience -->
-                    <div class="content-card">
-                        <div class="card-header">
-                            <h3><i class="fas fa-briefcase"></i> Work Experience</h3>
+                <!-- GitHub Profile Card -->
+                <div class="bg-surface-container-lowest rounded-xl border border-border-subtle p-6 flex flex-col md:flex-row items-center md:items-start gap-6 shadow-sm relative overflow-hidden" id="githubProfileCard">
+                    <!-- Accent bar -->
+                    <div class="absolute top-0 left-0 w-full md:w-2 h-2 md:h-full bg-gradient-to-r md:bg-gradient-to-b from-[#2563EB] to-[#7C3AED]"></div>
+                    
+                    <img class="w-24 h-24 rounded-full border-2 border-border-subtle object-cover shadow-sm shrink-0 md:ml-4" id="profileAvatar" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="Avatar">
+                    
+                    <div class="flex-1 text-center md:text-left">
+                        <h2 class="text-2xl font-bold text-primary mb-1" id="profileName"></h2>
+                        <p class="text-sm font-semibold text-[#2563EB] mb-3" id="profileUsername"></p>
+                        <p class="text-sm text-on-surface-variant mb-4 max-w-2xl" id="profileBio"></p>
+                        
+                        <div class="flex flex-wrap items-center justify-center md:justify-start gap-4 text-xs font-semibold text-slate-gray">
+                            <span class="flex items-center gap-1.5" id="profileLocation"><i class="fas fa-map-marker-alt"></i> <span></span></span>
+                            <span class="flex items-center gap-1.5" id="profileCompany"><i class="fas fa-building"></i> <span></span></span>
+                            <span class="flex items-center gap-1.5" id="profileJoined"><i class="fas fa-calendar"></i> <span></span></span>
                         </div>
-                        <div class="experience-list" id="experienceList">
+                    </div>
+                    
+                    <a class="mt-4 md:mt-0 px-5 py-2 border border-border-subtle text-primary font-bold rounded hover:bg-surface-variant transition-colors flex items-center gap-2 text-sm shrink-0" id="profileLink" href="#" target="_blank">
+                        <i class="fab fa-github text-[#333]"></i> View on GitHub
+                    </a>
+                </div>
+
+                <!-- Stats Grid -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                    <div class="bg-surface-container-lowest p-5 rounded-xl border border-border-subtle shadow-sm flex flex-col items-center text-center">
+                        <div class="w-10 h-10 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center text-lg mb-3"><i class="fas fa-code-branch"></i></div>
+                        <h3 class="text-2xl font-bold text-primary font-mono-data mb-1" id="statRepos">0</h3>
+                        <p class="text-xs text-on-surface-variant font-semibold uppercase tracking-wider">Repositories</p>
+                    </div>
+                    <div class="bg-surface-container-lowest p-5 rounded-xl border border-border-subtle shadow-sm flex flex-col items-center text-center">
+                        <div class="w-10 h-10 rounded-full bg-amber-50 text-amber-500 flex items-center justify-center text-lg mb-3"><i class="fas fa-star"></i></div>
+                        <h3 class="text-2xl font-bold text-primary font-mono-data mb-1" id="statStars">0</h3>
+                        <p class="text-xs text-on-surface-variant font-semibold uppercase tracking-wider">Total Stars</p>
+                    </div>
+                    <div class="bg-surface-container-lowest p-5 rounded-xl border border-border-subtle shadow-sm flex flex-col items-center text-center">
+                        <div class="w-10 h-10 rounded-full bg-indigo-50 text-indigo-500 flex items-center justify-center text-lg mb-3"><i class="fas fa-user-friends"></i></div>
+                        <h3 class="text-2xl font-bold text-primary font-mono-data mb-1" id="statFollowers">0</h3>
+                        <p class="text-xs text-on-surface-variant font-semibold uppercase tracking-wider">Followers</p>
+                    </div>
+                    <div class="bg-surface-container-lowest p-5 rounded-xl border border-border-subtle shadow-sm flex flex-col items-center text-center">
+                        <div class="w-10 h-10 rounded-full bg-emerald-50 text-emerald-500 flex items-center justify-center text-lg mb-3"><i class="fas fa-user-plus"></i></div>
+                        <h3 class="text-2xl font-bold text-primary font-mono-data mb-1" id="statFollowing">0</h3>
+                        <p class="text-xs text-on-surface-variant font-semibold uppercase tracking-wider">Following</p>
+                    </div>
+                </div>
+
+                <!-- Main Content Grid -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <!-- Top 5 Projects -->
+                    <div class="bg-surface-container-lowest rounded-xl border border-border-subtle shadow-sm flex flex-col">
+                        <div class="p-5 border-b border-border-subtle">
+                            <h3 class="font-bold text-primary flex items-center gap-2"><i class="fas fa-trophy text-amber-500"></i> Top 5 Projects</h3>
+                        </div>
+                        <div class="p-5 flex-1 overflow-y-auto flex flex-col gap-4" id="projectList">
                             <!-- Filled by JS -->
                         </div>
                     </div>
 
-                    <!-- Certifications -->
-                    <div class="content-card">
-                        <div class="card-header">
-                            <h3><i class="fas fa-certificate"></i> Certifications</h3>
+                    <!-- Commit Activity Graph -->
+                    <div class="bg-surface-container-lowest rounded-xl border border-border-subtle shadow-sm flex flex-col">
+                        <div class="p-5 border-b border-border-subtle">
+                            <h3 class="font-bold text-primary flex items-center gap-2"><i class="fas fa-chart-area text-indigo-500"></i> Commit Activity (12 Months)</h3>
                         </div>
-                        <div class="cert-grid" id="certGrid">
+                        <div class="p-5 flex-1 relative h-64">
+                            <canvas id="commitChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Languages -->
+                    <div class="bg-surface-container-lowest rounded-xl border border-border-subtle shadow-sm flex flex-col">
+                        <div class="p-5 border-b border-border-subtle">
+                            <h3 class="font-bold text-primary flex items-center gap-2"><i class="fas fa-code text-[#2563EB]"></i> Languages Used</h3>
+                        </div>
+                        <div class="p-5 flex flex-wrap gap-3" id="langGrid">
                             <!-- Filled by JS -->
                         </div>
                     </div>
 
-                    <!-- Education -->
-                    <div class="content-card">
-                        <div class="card-header">
-                            <h3><i class="fas fa-graduation-cap"></i> Education</h3>
+                    <!-- Recent Activity -->
+                    <div class="bg-surface-container-lowest rounded-xl border border-border-subtle shadow-sm flex flex-col">
+                        <div class="p-5 border-b border-border-subtle">
+                            <h3 class="font-bold text-primary flex items-center gap-2"><i class="fas fa-history text-slate-gray"></i> Recent Activity</h3>
                         </div>
-                        <div class="education-list" id="educationList">
+                        <div class="p-5 flex-1 flex flex-col gap-4 relative" id="activityTimeline">
+                            <!-- Timeline line -->
+                            <div class="absolute left-7 top-5 bottom-5 w-px bg-border-subtle z-0 hidden md:block"></div>
                             <!-- Filled by JS -->
                         </div>
                     </div>
+                </div>
 
-                    <!-- Key Highlights + Skills -->
-                    <div class="content-card">
-                        <div class="card-header">
-                            <h3><i class="fas fa-lightbulb"></i> Key Highlights</h3>
+                <!-- LinkedIn Results -->
+                <div class="hidden flex-col gap-8 mt-4" id="linkedinResults">
+                    
+                    <div class="flex items-center gap-3">
+                        <div class="w-12 h-12 bg-[#0077b5] text-white rounded flex items-center justify-center text-2xl shadow-sm shrink-0">
+                            <i class="fab fa-linkedin-in"></i>
                         </div>
-                        <div class="highlights-list" id="highlightsList">
-                            <!-- Filled by JS -->
+                        <div>
+                            <h2 class="text-2xl font-bold text-primary" id="linkedinName">LinkedIn Insights</h2>
+                            <p class="text-sm font-semibold text-on-surface-variant mt-0.5" id="linkedinHeadline"></p>
+                            <p class="text-xs text-slate-gray mt-1" id="linkedinRole"></p>
                         </div>
-                        <div style="margin-top: 20px;">
-                            <h4 style="font-size: 14px; font-weight: 700; color: var(--dark); margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
-                                <i class="fas fa-tags" style="color: var(--primary);"></i> Skills
-                            </h4>
-                            <div class="skills-cloud" id="skillsCloud">
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <!-- Work Experience -->
+                        <div class="bg-surface-container-lowest rounded-xl border border-border-subtle shadow-sm flex flex-col">
+                            <div class="p-5 border-b border-border-subtle">
+                                <h3 class="font-bold text-primary flex items-center gap-2"><i class="fas fa-briefcase text-slate-gray"></i> Work Experience</h3>
+                            </div>
+                            <div class="p-5 flex-1 flex flex-col gap-5" id="experienceList">
                                 <!-- Filled by JS -->
+                            </div>
+                        </div>
+
+                        <!-- Certifications -->
+                        <div class="bg-surface-container-lowest rounded-xl border border-border-subtle shadow-sm flex flex-col">
+                            <div class="p-5 border-b border-border-subtle">
+                                <h3 class="font-bold text-primary flex items-center gap-2"><i class="fas fa-certificate text-emerald-600"></i> Certifications</h3>
+                            </div>
+                            <div class="p-5 flex-1 grid grid-cols-1 sm:grid-cols-2 gap-4" id="certGrid">
+                                <!-- Filled by JS -->
+                            </div>
+                        </div>
+
+                        <!-- Education -->
+                        <div class="bg-surface-container-lowest rounded-xl border border-border-subtle shadow-sm flex flex-col">
+                            <div class="p-5 border-b border-border-subtle">
+                                <h3 class="font-bold text-primary flex items-center gap-2"><i class="fas fa-graduation-cap text-[#2563EB]"></i> Education</h3>
+                            </div>
+                            <div class="p-5 flex-1 flex flex-col gap-5" id="educationList">
+                                <!-- Filled by JS -->
+                            </div>
+                        </div>
+
+                        <!-- Key Highlights + Skills -->
+                        <div class="bg-surface-container-lowest rounded-xl border border-border-subtle shadow-sm flex flex-col">
+                            <div class="p-5 border-b border-border-subtle">
+                                <h3 class="font-bold text-primary flex items-center gap-2"><i class="fas fa-lightbulb text-amber-500"></i> Key Highlights</h3>
+                            </div>
+                            <div class="p-5 flex-1">
+                                <div class="flex flex-col gap-3 mb-6" id="highlightsList">
+                                    <!-- Filled by JS -->
+                                </div>
+                                <h4 class="text-sm font-bold text-primary mb-3 flex items-center gap-2"><i class="fas fa-tags text-[#2563EB]"></i> Skills</h4>
+                                <div class="flex flex-wrap gap-2" id="skillsCloud">
+                                    <!-- Filled by JS -->
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
     </main>
+</div>
 
-    <script src="../js/profile-lookup.js"></script>
-    <script src="../js/navbar.js"></script>
-    <script>
-        // Mobile Sidebar Toggle
-        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-        const sidebar = document.getElementById('sidebar');
-        const sidebarOverlay = document.getElementById('sidebarOverlay');
-
-        if (mobileMenuBtn && sidebar && sidebarOverlay) {
-            mobileMenuBtn.addEventListener('click', () => {
-                sidebar.classList.add('active');
-                sidebarOverlay.classList.add('active');
-            });
-
-            sidebarOverlay.addEventListener('click', () => {
-                sidebar.classList.remove('active');
-                sidebarOverlay.classList.remove('active');
-            });
-        }
-    </script>
+<script src="../js/profile-lookup.js"></script>
 </body>
-
 </html>
