@@ -74,7 +74,8 @@ function setupEventListeners() {
             // Show loader
             const loader = document.getElementById('loader');
             if (loader) {
-                loader.classList.add('active');
+                loader.classList.remove('hidden');
+                loader.classList.add('flex', 'active');
             }
 
             // Validate form
@@ -198,7 +199,7 @@ function updateTrend(element, trend, isAvgScore) {
         // For average score, show quality indicator
         const value = parseInt(element.previousElementSibling.textContent);
         let quality = 'Good';
-        let qualityClass = 'positive';
+        let trendColor = 'text-emerald-600';
 
         if (value >= 80) {
             quality = 'Excellent';
@@ -206,21 +207,21 @@ function updateTrend(element, trend, isAvgScore) {
             quality = 'Good';
         } else if (value >= 40) {
             quality = 'Fair';
-            qualityClass = 'neutral';
+            trendColor = 'text-amber-600';
         } else {
             quality = 'Needs Improvement';
-            qualityClass = 'negative';
+            trendColor = 'text-red-600';
         }
 
         element.innerHTML = `<i class="fas fa-chart-line"></i> ${quality}`;
-        element.className = `stat-change ${qualityClass}`;
+        element.className = `stat-change text-sm flex items-center gap-1 font-medium ${trendColor}`;
     } else if (trend !== null && trend !== undefined) {
         const isPositive = trend >= 0;
         const icon = isPositive ? 'up' : 'down';
-        const trendClass = isPositive ? 'positive' : 'negative';
+        const trendColor = isPositive ? 'text-emerald-600' : 'text-red-600';
 
         element.innerHTML = `<i class="fas fa-arrow-${icon}"></i> ${Math.abs(trend)}% from last month`;
-        element.className = `stat-change ${trendClass}`;
+        element.className = `stat-change text-sm flex items-center gap-1 font-medium ${trendColor}`;
     }
 }
 
@@ -273,30 +274,34 @@ async function loadRecentActivity() {
 
 function createActivityItem(candidate) {
     const item = document.createElement('div');
-    item.className = 'activity-item';
+    item.className = 'flex items-start gap-4 p-3 hover:bg-surface transition-colors rounded-lg border border-transparent hover:border-border-subtle';
 
     // Determine icon and color based on status
-    let iconClass, iconColor, statusText;
+    let iconClass, iconBg, iconText, statusText;
 
     switch (candidate.status) {
         case 'Shortlisted':
             iconClass = 'fa-check-circle';
-            iconColor = 'success';
+            iconBg = 'bg-emerald-100';
+            iconText = 'text-emerald-600';
             statusText = 'Candidate shortlisted';
             break;
         case 'Rejected':
             iconClass = 'fa-times-circle';
-            iconColor = 'danger';
+            iconBg = 'bg-red-100';
+            iconText = 'text-red-600';
             statusText = 'Candidate rejected';
             break;
         case 'Pending':
             iconClass = 'fa-clock';
-            iconColor = 'warning';
+            iconBg = 'bg-amber-100';
+            iconText = 'text-amber-600';
             statusText = 'Pending review';
             break;
         default:
             iconClass = 'fa-file-alt';
-            iconColor = 'success';
+            iconBg = 'bg-blue-100';
+            iconText = 'text-blue-600';
             statusText = 'Resume screened';
     }
 
@@ -305,13 +310,13 @@ function createActivityItem(candidate) {
 
     // Use template literal for better performance
     item.innerHTML = `
-        <div class="activity-icon ${iconColor}">
+        <div class="w-10 h-10 rounded-full flex items-center justify-center shrink-0 ${iconBg} ${iconText}">
             <i class="fas ${iconClass}"></i>
         </div>
-        <div class="activity-content">
-            <h4>${statusText}</h4>
-            <p>${candidate.fileName} - Match: ${candidate.matchScore}%</p>
-            <span class="activity-time">${timeAgo}</span>
+        <div>
+            <h4 class="text-sm font-bold text-primary">${statusText}</h4>
+            <p class="text-xs text-on-surface-variant mt-1 line-clamp-1">${candidate.fileName} - Match: ${candidate.matchScore}%</p>
+            <span class="text-[11px] text-on-surface-variant/70 mt-1 block">${timeAgo}</span>
         </div>
     `;
 
