@@ -180,7 +180,8 @@ function setupEventListeners() {
             
             // Show parsing loader overlay
             if (applyLoader) {
-                applyLoader.classList.add('active');
+                applyLoader.classList.remove('hidden');
+                applyLoader.classList.add('flex', 'active');
             }
         });
     }
@@ -247,39 +248,39 @@ async function fetchJobs() {
 
 function createJobCard(job) {
     const card = document.createElement('div');
-    card.className = 'job-card';
+    card.className = 'bg-surface-container-lowest rounded-xl border border-border-subtle p-6 flex flex-col hover:border-[#2563EB] hover:shadow-md transition-all group';
 
-    // Source Class for badge styling
     const sourceClass = (job.source || 'manual').toLowerCase();
-    
-    // Initial letter for logo
     const initial = (job.company || 'U').trim().charAt(0).toUpperCase();
-
-    // Limit skill tags in card
     const skills = job.skillsRequired || [];
-    const skillTags = skills.slice(0, 3).map(skill => `<span class="skill-tag">${skill}</span>`).join('');
-    const extraSkills = skills.length > 3 ? `<span class="skill-tag">+${skills.length - 3} more</span>` : '';
+    const skillTags = skills.slice(0, 3).map(skill => `<span class="px-2 py-1 bg-surface-variant text-on-surface-variant text-xs font-semibold rounded">${skill}</span>`).join('');
+    const extraSkills = skills.length > 3 ? `<span class="px-2 py-1 bg-surface-variant text-on-surface-variant text-xs font-semibold rounded">+${skills.length - 3}</span>` : '';
 
     card.innerHTML = `
-        <div class="job-card-header">
-            <div class="company-logo-placeholder">${initial}</div>
-        </div>
-        <div class="job-card-info">
-            <h3>${job.jobTitle}</h3>
-            <div class="company-name">${job.company}</div>
-            <div class="job-meta-details">
-                <span><i class="fas fa-map-marker-alt"></i> ${job.location || 'India'}</span>
-                <span><i class="fas fa-briefcase"></i> ${job.experience || 'Not specified'}</span>
-                <span><i class="fas fa-wallet"></i> ${job.salary || 'Not specified'}</span>
+        <div class="flex items-center gap-4 mb-4">
+            <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-blue-100 to-indigo-100 text-blue-700 flex items-center justify-center font-bold text-xl shrink-0 shadow-sm border border-blue-200">
+                ${initial}
             </div>
-            <div class="job-skills-tags">
-                ${skillTags}
-                ${extraSkills}
+            <div>
+                <h3 class="font-bold text-primary text-lg leading-tight group-hover:text-[#2563EB] transition-colors line-clamp-1">${job.jobTitle}</h3>
+                <p class="text-sm font-semibold text-slate-gray mt-0.5 line-clamp-1">${job.company}</p>
             </div>
         </div>
-        <div class="job-card-actions">
-            <button class="btn-details" onclick="openDetailsModal('${job._id}')">View Details</button>
-            <button class="btn-apply-now" onclick="openApplyModal('${job._id}', '${job.jobTitle.replace(/'/g, "\\'")}', '${job.company.replace(/'/g, "\\'")}')">Apply Now</button>
+        
+        <div class="flex flex-col gap-2 text-sm text-on-surface-variant mb-4 font-medium">
+            <span class="flex items-center gap-2"><i class="fas fa-map-marker-alt w-4 text-center opacity-70"></i> ${job.location || 'India'}</span>
+            <span class="flex items-center gap-2"><i class="fas fa-briefcase w-4 text-center opacity-70"></i> ${job.experience || 'Not specified'}</span>
+            <span class="flex items-center gap-2"><i class="fas fa-wallet w-4 text-center opacity-70"></i> ${job.salary || 'Not specified'}</span>
+        </div>
+        
+        <div class="flex flex-wrap gap-2 mb-6">
+            ${skillTags}
+            ${extraSkills}
+        </div>
+        
+        <div class="mt-auto grid grid-cols-2 gap-3 pt-4 border-t border-border-subtle">
+            <button class="px-4 py-2 border border-border-subtle text-primary text-sm font-bold rounded hover:bg-surface-variant transition-colors text-center" onclick="openDetailsModal('${job._id}')">Details</button>
+            <button class="px-4 py-2 bg-[#2563EB] text-white text-sm font-bold rounded hover:bg-opacity-90 transition-colors shadow-sm text-center" onclick="openApplyModal('${job._id}', '${job.jobTitle.replace(/'/g, "\\'")}', '${job.company.replace(/'/g, "\\'")}')">Apply</button>
         </div>
     `;
 
@@ -300,7 +301,7 @@ async function openDetailsModal(jobId) {
     document.getElementById('modalSkills').innerHTML = '';
     
     // Open Modal
-    jobDetailsModal.classList.add('active');
+    jobDetailsModal.classList.remove('hidden');
 
     try {
         // Find job info from page data or fetch (here we fetch the specific list)
@@ -331,11 +332,12 @@ async function openDetailsModal(jobId) {
             if (job.skillsRequired && job.skillsRequired.length > 0) {
                 job.skillsRequired.forEach(skill => {
                     const span = document.createElement('span');
+                    span.className = 'px-3 py-1.5 bg-surface-variant text-on-surface-variant text-sm font-semibold rounded-md';
                     span.textContent = skill;
                     skillsDiv.appendChild(span);
                 });
             } else {
-                skillsDiv.innerHTML = '<span style="background:transparent; color:#94a3b8; padding:0;">No skills listed.</span>';
+                skillsDiv.innerHTML = '<span class="text-sm text-on-surface-variant italic">No skills listed.</span>';
             }
         } else {
             document.getElementById('modalTitle').textContent = 'Job Not Found';
@@ -358,7 +360,7 @@ function openApplyModal(jobId, jobTitle, companyName) {
     applyDropZone.style.display = 'block';
     applyDropZone.classList.remove('file-selected');
     
-    jobApplyModal.classList.add('active');
+    jobApplyModal.classList.remove('hidden');
 }
 
 function handleFileSelected(fileName) {
@@ -369,7 +371,7 @@ function handleFileSelected(fileName) {
 
 function closeModal(modal) {
     if (modal) {
-        modal.classList.remove('active');
+        modal.classList.add('hidden');
     }
 }
 
