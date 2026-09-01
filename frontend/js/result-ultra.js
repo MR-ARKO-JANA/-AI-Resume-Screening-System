@@ -148,7 +148,7 @@ async function loadResult() {
             // Add new skills
             data.skills.forEach((skill, index) => {
                 const skillDiv = document.createElement('div');
-                skillDiv.className = 'skill';
+                skillDiv.className = 'skill mb-3';
 
                 // Determine color based on percentage
                 let barColor = '';
@@ -161,16 +161,19 @@ async function loadResult() {
                 }
 
                 skillDiv.innerHTML = `
-                    <span>${skill.name}</span>
-                    <div class="bar">
-                        <div style="width:0%; background: ${barColor}"></div>
+                    <div class="flex justify-between items-center mb-1">
+                        <span class="text-sm font-semibold text-primary">${skill.name}</span>
+                        <span class="text-xs font-bold text-on-surface-variant">${skill.percentage}%</span>
+                    </div>
+                    <div class="w-full bg-surface-variant rounded-full h-2 overflow-hidden">
+                        <div class="h-2 rounded-full transition-all duration-1000 ease-in-out" style="width:0%; background: ${barColor}"></div>
                     </div>
                 `;
                 skillsSection.appendChild(skillDiv);
 
                 // Animate bar
                 setTimeout(() => {
-                    const bar = skillDiv.querySelector('.bar div');
+                    const bar = skillDiv.querySelector('.h-2.transition-all');
                     bar.style.width = skill.percentage + '%';
                 }, 100 + (index * 100));
             });
@@ -385,39 +388,39 @@ function updateActionButtons(matchScore, currentStatus) {
     if (matchScore >= 75) {
         // High score - Show Shortlist prominently
         actionsSection.innerHTML = `
-            <button class="btn-primary-action" onclick="updateStatus('Shortlisted')">
+            <button class="w-full py-3 bg-emerald-600 text-white font-bold rounded-lg shadow-sm hover:bg-emerald-700 transition-colors flex items-center justify-center gap-2" onclick="updateStatus('Shortlisted')">
                 <i class="fas fa-check"></i> Shortlist Candidate
             </button>
-            <button class="btn-reject" onclick="updateStatus('Rejected')">
+            <button class="w-full py-3 bg-white text-red-600 border border-border-subtle font-bold rounded-lg shadow-sm hover:bg-red-50 transition-colors flex items-center justify-center gap-2" onclick="updateStatus('Rejected')">
                 <i class="fas fa-times"></i> Reject
             </button>
-            <button class="btn-schedule">
+            <button class="w-full py-3 bg-surface-variant text-primary font-bold rounded-lg shadow-sm hover:bg-slate-300 transition-colors flex items-center justify-center gap-2">
                 <i class="fas fa-calendar-alt"></i> Schedule Interview
             </button>
         `;
     } else if (matchScore >= 50) {
         // Medium score - Show all options
         actionsSection.innerHTML = `
-            <button class="btn-primary-action" onclick="updateStatus('Shortlisted')">
+            <button class="w-full py-3 bg-emerald-600 text-white font-bold rounded-lg shadow-sm hover:bg-emerald-700 transition-colors flex items-center justify-center gap-2" onclick="updateStatus('Shortlisted')">
                 <i class="fas fa-check"></i> Shortlist Candidate
             </button>
-            <button class="btn-reject" onclick="updateStatus('Rejected')">
+            <button class="w-full py-3 bg-white text-red-600 border border-border-subtle font-bold rounded-lg shadow-sm hover:bg-red-50 transition-colors flex items-center justify-center gap-2" onclick="updateStatus('Rejected')">
                 <i class="fas fa-times"></i> Reject
             </button>
-            <button class="btn-schedule">
+            <button class="w-full py-3 bg-surface-variant text-primary font-bold rounded-lg shadow-sm hover:bg-slate-300 transition-colors flex items-center justify-center gap-2">
                 <i class="fas fa-clock"></i> Keep Pending
             </button>
         `;
     } else {
         // Low score - Show Reject prominently
         actionsSection.innerHTML = `
-            <button class="btn-reject" onclick="updateStatus('Rejected')">
+            <button class="w-full py-3 bg-red-600 text-white font-bold rounded-lg shadow-sm hover:bg-red-700 transition-colors flex items-center justify-center gap-2" onclick="updateStatus('Rejected')">
                 <i class="fas fa-times"></i> Reject Candidate
             </button>
-            <button class="btn-schedule" onclick="updateStatus('Pending')">
+            <button class="w-full py-3 bg-white text-primary border border-border-subtle font-bold rounded-lg shadow-sm hover:bg-slate-50 transition-colors flex items-center justify-center gap-2" onclick="updateStatus('Pending')">
                 <i class="fas fa-clock"></i> Keep for Review
             </button>
-            <button class="btn-primary-action" onclick="updateStatus('Shortlisted')">
+            <button class="w-full py-3 bg-surface-variant text-emerald-700 font-bold rounded-lg shadow-sm hover:bg-emerald-100 transition-colors flex items-center justify-center gap-2" onclick="updateStatus('Shortlisted')">
                 <i class="fas fa-check"></i> Shortlist Anyway
             </button>
         `;
@@ -456,19 +459,8 @@ async function updateStatus(newStatus) {
 function showSuccess(message) {
     // Create toast notification
     const toast = document.createElement('div');
-    toast.style.cssText = `
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        background: linear-gradient(135deg, #10b981, #059669);
-        color: white;
-        padding: 16px 24px;
-        border-radius: 12px;
-        box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
-        z-index: 10000;
-        font-weight: 600;
-        animation: slideIn 0.3s ease;
-    `;
+    toast.className = 'fixed top-5 right-5 bg-gradient-to-br from-emerald-500 to-emerald-600 text-white px-6 py-4 rounded-xl shadow-lg z-[10000] font-bold';
+    toast.style.animation = 'slideIn 0.3s ease';
     toast.textContent = message;
     document.body.appendChild(toast);
 
@@ -481,19 +473,8 @@ function showSuccess(message) {
 // Helper function to show error message
 function showError(message) {
     const toast = document.createElement('div');
-    toast.style.cssText = `
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        background: linear-gradient(135deg, #ef4444, #dc2626);
-        color: white;
-        padding: 16px 24px;
-        border-radius: 12px;
-        box-shadow: 0 8px 20px rgba(239, 68, 68, 0.3);
-        z-index: 10000;
-        font-weight: 600;
-        animation: slideIn 0.3s ease;
-    `;
+    toast.className = 'fixed top-5 right-5 bg-gradient-to-br from-red-500 to-red-600 text-white px-6 py-4 rounded-xl shadow-lg z-[10000] font-bold';
+    toast.style.animation = 'slideIn 0.3s ease';
     toast.textContent = message;
     document.body.appendChild(toast);
 
