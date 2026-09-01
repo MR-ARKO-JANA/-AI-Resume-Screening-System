@@ -8,9 +8,13 @@ document.addEventListener('DOMContentLoaded', () => {
     tabButtons.forEach(btn => {
         btn.addEventListener('click', () => {
             // Remove active class from all tabs
-            tabButtons.forEach(b => b.classList.remove('active'));
+            tabButtons.forEach(b => {
+                b.classList.remove('bg-[#2563EB]', 'text-white', 'active');
+                b.classList.add('bg-surface-variant', 'text-on-surface-variant');
+            });
             // Add active class to clicked tab
-            btn.classList.add('active');
+            btn.classList.remove('bg-surface-variant', 'text-on-surface-variant');
+            btn.classList.add('bg-[#2563EB]', 'text-white', 'active');
 
             const category = btn.getAttribute('data-category');
 
