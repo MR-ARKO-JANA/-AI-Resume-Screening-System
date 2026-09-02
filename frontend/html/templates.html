@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="light" lang="en">
+<html lang="en">
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
@@ -9,6 +9,23 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
     .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+
+    .dark {
+        --surface-container-lowest: #1e293b;
+        --border-subtle: #334155;
+        --surface: #0f172a;
+        --on-surface-variant: #94a3b8;
+        --primary: #f8fafc;
+        --on-surface: #cbd5e1;
+        --surface-container-high: #334155;
+        --secondary-container: #3b82f6;
+        --on-secondary-container: #ffffff;
+        --surface-container: #1e293b;
+    }
+    body.dark {
+        background-color: #0f172a !important;
+    }
+
 </style>
 <script id="tailwind-config">
     tailwind.config = {
@@ -16,15 +33,15 @@
         theme: {
             extend: {
                 "colors": {
-                    "surface-container-lowest": "#ffffff",
-                    "surface": "#fcf8fa",
-                    "primary": "#000000",
-                    "on-surface-variant": "#45464d",
-                    "border-subtle": "#E2E8F0",
+                    "surface-container-lowest": "var(--surface-container-lowest, #ffffff)",
+                    "surface": "var(--surface, #fcf8fa)",
+                    "primary": "var(--primary, #000000)",
+                    "on-surface-variant": "var(--on-surface-variant, #45464d)",
+                    "border-subtle": "var(--border-subtle, #E2E8F0)",
                     "surface-variant": "#e4e2e4",
                     "score-high": "#7C3AED",
-                    "secondary-container": "#316bf3",
-                    "on-secondary-container": "#fefcff"
+                    "secondary-container": "var(--secondary-container, #316bf3)",
+                    "on-secondary-container": "var(--on-secondary-container, #fefcff)"
                 },
                 "fontFamily": {
                     "label-md": ["Inter"],
@@ -46,9 +63,14 @@
 <body class="bg-[#F8FAFC] text-slate-800 font-body-md min-h-screen flex">
 <!-- SideNavBar Component -->
 <nav class="hidden md:flex flex-col h-screen p-4 bg-surface-container-lowest fixed left-0 top-0 w-[280px] border-r border-border-subtle z-20">
-    <div class="mb-8 px-4">
-        <h1 class="font-headline-md text-[24px] font-bold text-primary">RecruitAI</h1>
-        <p class="font-label-md text-[12px] text-on-surface-variant mt-1 font-semibold tracking-wider">Enterprise Intelligence</p>
+    <div class="mb-8 px-4 flex items-center gap-3">
+        <div class="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-600 text-white rounded-xl flex items-center justify-center text-xl shadow-[0_0_15px_rgba(99,102,241,0.4)] shrink-0">
+            <i class="fas fa-brain"></i>
+        </div>
+        <div>
+            <h1 class="font-headline-md text-[22px] font-bold text-primary leading-tight">Recruit<span class="text-indigo-500">AI</span></h1>
+            <p class="font-label-md text-[10px] text-on-surface-variant font-semibold tracking-wider uppercase mt-0.5">Enterprise Intelligence</p>
+        </div>
     </div>
     <ul class="flex flex-col gap-2 flex-grow">
         <li>
@@ -116,6 +138,9 @@
             </div>
         </div>
         <div class="flex items-center gap-4">
+            <button onclick="toggleTheme()" class="p-2 text-on-surface-variant hover:bg-surface-container rounded-full transition-colors">
+                <i id="theme-icon" class="fas fa-moon text-xl"></i>
+            </button>
             <button class="p-2 text-on-surface-variant hover:bg-surface-variant rounded-full transition-colors relative">
                 <span class="material-symbols-outlined" data-icon="notifications">notifications</span>
                 <span class="absolute top-2 right-2 w-2 h-2 bg-score-high rounded-full"></span>
@@ -289,6 +314,39 @@
     </main>
 </div>
 
+<script>
+    // Initialize theme
+    (function() {
+        const isDark = localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        const icon = document.getElementById('theme-icon');
+        if (isDark) {
+            document.documentElement.classList.add('dark');
+            document.body.classList.add('dark');
+            if (icon && icon.classList.contains('fa-moon')) icon.classList.replace('fa-moon', 'fa-sun');
+        } else {
+            document.documentElement.classList.remove('dark');
+            document.body.classList.remove('dark');
+            if (icon && icon.classList.contains('fa-sun')) icon.classList.replace('fa-sun', 'fa-moon');
+        }
+    })();
+
+    // Toggle theme logic
+    window.toggleTheme = function() {
+        const html = document.documentElement;
+        const icon = document.getElementById('theme-icon');
+        if (html.classList.contains('dark')) {
+            html.classList.remove('dark');
+            document.body.classList.remove('dark');
+            localStorage.setItem('theme', 'light');
+            if (icon) icon.classList.replace('fa-sun', 'fa-moon');
+        } else {
+            html.classList.add('dark');
+            document.body.classList.add('dark');
+            localStorage.setItem('theme', 'dark');
+            if (icon) icon.classList.replace('fa-moon', 'fa-sun');
+        }
+    };
+</script>
 <script src="../js/templates.js"></script>
 </body>
 </html>

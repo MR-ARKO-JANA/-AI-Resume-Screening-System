@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>RecruitAI - Candidates</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@450&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-fixed-variant": "#003ea8",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary-fixed": "#e0e3e5",
+                        "tertiary-container": "#191c1e",
+                        "on-tertiary-fixed-variant": "#444749",
+                        "on-tertiary-fixed": "#191c1e",
+                        "primary-container": "#131b2e",
+                        "inverse-surface": "#303032",
+                        "surface-container-highest": "#e4e2e4",
+                        "warning-pending": "#D97706",
+                        "error-rejected": "#DC2626",
+                        "primary-fixed": "#dae2fd",
+                        "on-surface": "#1b1b1d",
+                        "surface-variant": "#e4e2e4",
+                        "on-primary": "#ffffff",
+                        "on-primary-container": "#7c839b",
+                        "on-secondary-container": "#fefcff",
+                        "tertiary": "#000000",
+                        "on-secondary-fixed": "#00174b",
+                        "on-secondary": "#ffffff",
+                        "surface-bright": "#fcf8fa",
+                        "surface-container-high": "#eae7e9",
+                        "error-container": "#ffdad6",
+                        "surface-container": "#f0edef",
+                        "success-shortlisted": "#059669",
+                        "on-primary-fixed-variant": "#3f465c",
+                        "secondary-fixed-dim": "#b4c5ff",
+                        "score-high": "#7C3AED",
+                        "tertiary-fixed-dim": "#c4c7c9",
+                        "secondary-container": "#316bf3",
+                        "on-background": "#1b1b1d",
+                        "slate-gray": "#64748B",
+                        "outline": "#76777d",
+                        "background": "#fcf8fa",
+                        "on-error": "#ffffff",
+                        "surface": "#fcf8fa",
+                        "primary": "#000000",
+                        "inverse-primary": "#bec6e0",
+                        "on-tertiary-container": "#818486",
+                        "primary-fixed-dim": "#bec6e0",
+                        "border-subtle": "#E2E8F0",
+                        "inverse-on-surface": "#f3f0f2",
+                        "secondary-fixed": "#dbe1ff",
+                        "surface-container-low": "#f6f3f5",
+                        "on-tertiary": "#ffffff",
+                        "outline-variant": "#c6c6cd",
+                        "on-surface-variant": "#45464d",
+                        "surface-dim": "#dcd9db",
+                        "error": "#ba1a1a",
+                        "secondary": "#0051d5",
+                        "on-error-container": "#93000a",
+                        "surface-tint": "#565e74",
+                        "on-primary-fixed": "#131b2e"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "base": "4px",
+                        "container-max": "1440px",
+                        "margin-desktop": "32px",
+                        "gutter": "24px",
+                        "margin-mobile": "16px"
+                    },
+                    "fontFamily": {
+                        "label-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "title-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "mono-data": ["JetBrains Mono"]
+                    },
+                    "fontSize": {
+                        "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "title-lg": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "600" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "mono-data": ["13px", { "lineHeight": "18px", "fontWeight": "450" }]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-[#F8FAFC] text-on-surface font-body-md min-h-screen flex">
+<!-- SideNavBar Component -->
+<nav class="hidden md:flex flex-col h-screen p-4 bg-surface-container-lowest fixed left-0 top-0 w-[280px] border-r border-border-subtle z-20">
+<div class="mb-8 px-4">
+<h1 class="font-headline-md text-headline-md font-bold text-primary">RecruitAI</h1>
+<p class="font-label-md text-label-md text-on-surface-variant mt-1">Enterprise Intelligence</p>
+</div>
+<ul class="flex flex-col gap-2 flex-grow">
+<li>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-body-md text-body-md">Dashboard</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg bg-secondary-container text-on-secondary-container font-bold hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="groups">groups</span>
+<span class="font-body-md text-body-md">Candidates</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="work">work</span>
+<span class="font-body-md text-body-md">Jobs</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="person_search">person_search</span>
+<span class="font-body-md text-body-md">Profile Lookup</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-body-md text-body-md">Settings</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-high transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+<span class="font-body-md text-body-md">Help</span>
+</a>
+</li>
+</ul>
+<div class="mt-auto pt-4">
+<button class="w-full bg-gradient-to-r from-[#2563EB] to-score-high text-white font-label-md text-label-md py-3 px-4 rounded hover:opacity-90 transition-opacity">
+                Process Resumes
+            </button>
+</div>
+</nav>
+<!-- Main Content Area -->
+<div class="flex-1 flex flex-col min-w-0 md:ml-[280px]">
+<!-- TopAppBar Component -->
+<header class="flex justify-between items-center h-16 px-gutter bg-surface border-b border-border-subtle sticky top-0 z-10 w-full">
+<div class="flex items-center md:hidden">
+<span class="font-headline-md text-headline-md font-bold text-primary">RecruitAI</span>
+</div>
+<div class="flex-1 max-w-md ml-4 md:ml-0 hidden md:block">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant" data-icon="search">search</span>
+<input class="w-full pl-10 pr-4 py-2 border border-border-subtle rounded focus:border-[#2563EB] focus:ring-0 focus:outline-none font-body-md text-body-md bg-surface-container-lowest" placeholder="Search candidates, jobs..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-on-surface-variant hover:bg-surface-container rounded-full transition-colors relative">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-score-high rounded-full"></span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container rounded-full transition-colors hidden sm:block">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+<div class="w-8 h-8 rounded-full overflow-hidden border border-border-subtle shrink-0">
+<img alt="User Avatar" class="w-full h-full object-cover" data-alt="A close up, professional headshot of a corporate recruiter in modern office lighting, sharp focus, clean background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBILnaCLuVWzhkYuZ13HUJpO4ggKzo1ky3pnhOLv710aghXY8PJBfGFPkobpjfpoSTtYxNTQ7LT7qnPIkLWyvCOymTZzb7AmN0vAl-4wV8-Nkkp3QrQXL8g65u6-Gqt2Jr8MBHpvkm3xZUqI6JfgAipXYiQ5vrPGkLPlZDoO2cQT4Lr-IGao13EuXGj9Pk98O-pxG3ZlM-OnrFFQuz1KS5pR1x9o2cxUjKACWLNEJxCO62dnPdMZMmI"/>
+</div>
+</div>
+</header>
+<!-- Canvas -->
+<main class="flex-1 p-gutter overflow-x-hidden overflow-y-auto">
+<div class="max-w-container-max mx-auto">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+<h2 class="font-headline-lg text-headline-lg text-primary">Candidate Management</h2>
+<div class="flex items-center gap-3">
+<select class="border border-border-subtle rounded py-2 pl-3 pr-8 font-body-md text-body-md bg-surface-container-lowest focus:border-[#2563EB] focus:ring-0 focus:outline-none cursor-pointer">
+<option value="">All Statuses</option>
+<option value="shortlisted">Shortlisted</option>
+<option value="pending">Pending</option>
+<option value="rejected">Rejected</option>
+</select>
+<button class="flex items-center gap-2 border border-[#2563EB] text-[#2563EB] font-label-md text-label-md py-2 px-4 rounded hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined" data-icon="download">download</span>
+                            Export CSV
+                        </button>
+</div>
+</div>
+<!-- Data Table -->
+<div class="bg-surface-container-lowest border border-border-subtle rounded-lg overflow-hidden">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse min-w-[800px]">
+<thead>
+<tr class="bg-[#F8FAFC] border-b border-border-subtle">
+<th class="py-3 px-4 font-label-md text-label-md text-on-surface-variant font-semibold">Candidate</th>
+<th class="py-3 px-4 font-label-md text-label-md text-on-surface-variant font-semibold">Job Title</th>
+<th class="py-3 px-4 font-label-md text-label-md text-on-surface-variant font-semibold">Match Score</th>
+<th class="py-3 px-4 font-label-md text-label-md text-on-surface-variant font-semibold">Status</th>
+<th class="py-3 px-4 font-label-md text-label-md text-on-surface-variant font-semibold">Skills</th>
+<th class="py-3 px-4 font-label-md text-label-md text-on-surface-variant font-semibold text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-border-subtle">
+<!-- Row 1 -->
+<tr class="hover:bg-[#F8FAFC] transition-colors group">
+<td class="py-4 px-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full overflow-hidden bg-surface-variant shrink-0">
+<img class="w-full h-full object-cover" data-alt="Professional portrait of a female software engineer with short hair, confident smile, modern tech office background, soft natural lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDC6AmHk2vvkdueL17B4O6cFehesqA90YczEjxkC8DMo5wcG4oLByRiNNK5gDxJPsCpufWMLrQevm5a-ndn3GGRS_-s6roblYGSPI6C9rr78aYriLlfT3vDby6gLZb3OUvoMCRlWo6o8V4vOIY4ofTXmB7NhnhnMjzm0A2h3ZOefS8nifw11cQITGyPzRaIvPa8B_KxsJQexMMquBL2A2klihmP2aRmXhkUGPJxY4QdQE9_haKMs2nY"/>
+</div>
+<div>
+<p class="font-title-lg text-body-md font-semibold text-primary">Sarah Jenkins</p>
+<div class="flex items-center gap-1 mt-0.5">
+<a class="text-slate-gray hover:text-[#2563EB]" href="#"><span class="material-symbols-outlined text-[16px]" data-icon="link">link</span></a>
+</div>
+</div>
+</div>
+</td>
+<td class="py-4 px-4">
+<p class="font-body-md text-body-md text-on-surface">Senior Frontend Engineer</p>
+</td>
+<td class="py-4 px-4">
+<div class="flex items-center gap-2">
+<div class="relative w-8 h-8 flex items-center justify-center">
+<svg class="w-full h-full transform -rotate-90" viewbox="0 0 36 36">
+<path class="text-surface-variant" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="3"></path>
+<path class="text-score-high" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="94, 100" stroke-width="3"></path>
+</svg>
+<span class="absolute font-mono-data text-mono-data text-score-high font-bold">94</span>
+</div>
+</div>
+</td>
+<td class="py-4 px-4">
+<span class="inline-flex items-center px-2 py-1 rounded bg-[#D1FAE5] text-[#065F46] font-label-md text-label-md">
+                                            Shortlisted
+                                        </span>
+</td>
+<td class="py-4 px-4">
+<div class="flex flex-wrap gap-1">
+<span class="px-2 py-0.5 rounded border border-border-subtle bg-surface-container-lowest font-mono-data text-[11px] text-on-surface-variant">React</span>
+<span class="px-2 py-0.5 rounded border border-border-subtle bg-surface-container-lowest font-mono-data text-[11px] text-on-surface-variant">TypeScript</span>
+<span class="px-2 py-0.5 rounded border border-border-subtle bg-surface-container-lowest font-mono-data text-[11px] text-on-surface-variant">+3</span>
+</div>
+</td>
+<td class="py-4 px-4 text-right">
+<div class="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-1.5 text-slate-gray hover:text-[#2563EB] hover:bg-surface-container-low rounded" title="Download Resume">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+</button>
+<button class="p-1.5 text-slate-gray hover:text-primary hover:bg-surface-container-low rounded" title="View Details">
+<span class="material-symbols-outlined" data-icon="visibility">visibility</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-[#F8FAFC] transition-colors group">
+<td class="py-4 px-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full overflow-hidden bg-surface-variant shrink-0">
+<img class="w-full h-full object-cover" data-alt="Portrait of a male data scientist wearing glasses, casual smart attire, neutral studio background, crisp high-resolution photography." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDNfoVmjGd42n8SxWBRkxlpprrQ5exYou2eWTjzCyesHJBXpFEav8DpykGbs-wXq-NW_0My83iopi7vatHga8TSDr0y-hyUhHf6y614qSh0iz7VZ2tCg-s1Fv1n0-DSAOZ2IZ3T6hLxmvJqHbqYiuYNQRJbp47Rz9oHny1VjrxyrUn5meoOT9imsQbIWYjuuJlR0FMcx3IaIgr-Zg9h08YNXxbnghUp2Mu6Cy2zPYcwUzWY0-PkHH_5"/>
+</div>
+<div>
+<p class="font-title-lg text-body-md font-semibold text-primary">David Chen</p>
+<div class="flex items-center gap-1 mt-0.5">
+<a class="text-slate-gray hover:text-[#2563EB]" href="#"><span class="material-symbols-outlined text-[16px]" data-icon="link">link</span></a>
+</div>
+</div>
+</div>
+</td>
+<td class="py-4 px-4">
+<p class="font-body-md text-body-md text-on-surface">Data Scientist</p>
+</td>
+<td class="py-4 px-4">
+<div class="flex items-center gap-2">
+<div class="relative w-8 h-8 flex items-center justify-center">
+<svg class="w-full h-full transform -rotate-90" viewbox="0 0 36 36">
+<path class="text-surface-variant" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="3"></path>
+<path class="text-warning-pending" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="72, 100" stroke-width="3"></path>
+</svg>
+<span class="absolute font-mono-data text-mono-data text-warning-pending font-bold">72</span>
+</div>
+</div>
+</td>
+<td class="py-4 px-4">
+<span class="inline-flex items-center px-2 py-1 rounded bg-[#FEF3C7] text-[#92400E] font-label-md text-label-md">
+                                            Pending
+                                        </span>
+</td>
+<td class="py-4 px-4">
+<div class="flex flex-wrap gap-1">
+<span class="px-2 py-0.5 rounded border border-border-subtle bg-surface-container-lowest font-mono-data text-[11px] text-on-surface-variant">Python</span>
+<span class="px-2 py-0.5 rounded border border-border-subtle bg-surface-container-lowest font-mono-data text-[11px] text-on-surface-variant">SQL</span>
+<span class="px-2 py-0.5 rounded border border-border-subtle bg-surface-container-lowest font-mono-data text-[11px] text-on-surface-variant">+2</span>
+</div>
+</td>
+<td class="py-4 px-4 text-right">
+<div class="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-1.5 text-slate-gray hover:text-[#2563EB] hover:bg-surface-container-low rounded" title="Download Resume">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+</button>
+<button class="p-1.5 text-slate-gray hover:text-primary hover:bg-surface-container-low rounded" title="View Details">
+<span class="material-symbols-outlined" data-icon="visibility">visibility</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-[#F8FAFC] transition-colors group">
+<td class="py-4 px-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full overflow-hidden bg-surface-variant shrink-0 flex items-center justify-center">
+<span class="font-title-lg text-on-surface-variant">MK</span>
+</div>
+<div>
+<p class="font-title-lg text-body-md font-semibold text-primary">Marcus Kim</p>
+<div class="flex items-center gap-1 mt-0.5">
+<a class="text-slate-gray hover:text-[#2563EB]" href="#"><span class="material-symbols-outlined text-[16px]" data-icon="link">link</span></a>
+</div>
+</div>
+</div>
+</td>
+<td class="py-4 px-4">
+<p class="font-body-md text-body-md text-on-surface">Product Manager</p>
+</td>
+<td class="py-4 px-4">
+<div class="flex items-center gap-2">
+<div class="relative w-8 h-8 flex items-center justify-center">
+<svg class="w-full h-full transform -rotate-90" viewbox="0 0 36 36">
+<path class="text-surface-variant" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="3"></path>
+<path class="text-error-rejected" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="45, 100" stroke-width="3"></path>
+</svg>
+<span class="absolute font-mono-data text-mono-data text-error-rejected font-bold">45</span>
+</div>
+</div>
+</td>
+<td class="py-4 px-4">
+<span class="inline-flex items-center px-2 py-1 rounded bg-[#FEE2E2] text-[#991B1B] font-label-md text-label-md">
+                                            Rejected
+                                        </span>
+</td>
+<td class="py-4 px-4">
+<div class="flex flex-wrap gap-1">
+<span class="px-2 py-0.5 rounded border border-border-subtle bg-surface-container-lowest font-mono-data text-[11px] text-on-surface-variant">Agile</span>
+<span class="px-2 py-0.5 rounded border border-border-subtle bg-surface-container-lowest font-mono-data text-[11px] text-on-surface-variant">Jira</span>
+</div>
+</td>
+<td class="py-4 px-4 text-right">
+<div class="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-1.5 text-slate-gray hover:text-[#2563EB] hover:bg-surface-container-low rounded" title="Download Resume">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+</button>
+<button class="p-1.5 text-slate-gray hover:text-primary hover:bg-surface-container-low rounded" title="View Details">
+<span class="material-symbols-outlined" data-icon="visibility">visibility</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination Footer -->
+<div class="px-4 py-3 border-t border-border-subtle bg-surface-container-lowest flex items-center justify-between">
+<p class="font-body-md text-[13px] text-on-surface-variant">Showing 1 to 3 of 45 entries</p>
+<div class="flex gap-1">
+<button class="px-3 py-1 border border-border-subtle rounded text-on-surface-variant hover:bg-surface-container-low text-[13px] disabled:opacity-50" disabled="">Prev</button>
+<button class="px-3 py-1 border border-[#2563EB] bg-[#2563EB] text-white rounded text-[13px]">1</button>
+<button class="px-3 py-1 border border-border-subtle rounded text-on-surface-variant hover:bg-surface-container-low text-[13px]">2</button>
+<button class="px-3 py-1 border border-border-subtle rounded text-on-surface-variant hover:bg-surface-container-low text-[13px]">Next</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

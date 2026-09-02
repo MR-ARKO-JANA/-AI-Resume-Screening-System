@@ -1,6 +1,5 @@
 // AI Resume Screening System - Main Server Entry Point
 // Copyright 2024 AI Recruiter
-
 require('dotenv').config({ path: require('path').join(__dirname, '..', '.env') });
 const express = require('express');
 const path = require('path');
@@ -171,7 +170,7 @@ app.use((err, req, res, next) => {
 
 const PORT = process.env.PORT || 5000;
 if (process.env.NODE_ENV !== 'test') {
-    app.listen(PORT, '0.0.0.0', () => {
+    app.listen(PORT, () => {
         console.log(`Server running on http://localhost:${PORT}`);
     });
 }
