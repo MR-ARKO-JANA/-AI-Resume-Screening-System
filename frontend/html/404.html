@@ -1,75 +1,79 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>404 - Page Not Found | AI Recruiter</title>
-    <link rel="icon" type="image/png" href="/images/favicon.png">
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0B0F19;
+            color: #e5e7eb;
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
-            font-family: 'Segoe UI', sans-serif;
-            color: #e2e8f0;
+            overflow: hidden;
+            position: relative;
         }
-        .container {
-            text-align: center;
-            padding: 3rem;
+        h1, h2, h3, .font-outfit {
+            font-family: 'Outfit', sans-serif;
         }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+        }
+
+        /* Glow animations */
+        @keyframes pulse-glow {
+            0%, 100% { opacity: 0.4; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.05); }
+        }
+        .orb-1 { animation: pulse-glow 8s infinite alternate; }
+        .orb-2 { animation: pulse-glow 10s infinite alternate-reverse; }
+
         .error-code {
             font-size: 8rem;
             font-weight: 900;
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: linear-gradient(135deg, #6366f1, #8b5cf6, #ec4899);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            line-height: 1;
+            line-height: 1.1;
+            filter: drop-shadow(0 10px 20px rgba(99, 102, 241, 0.4));
         }
-        h2 { font-size: 1.8rem; margin: 1rem 0; color: #cbd5e1; }
-        p { color: #94a3b8; margin-bottom: 2rem; max-width: 400px; margin-inline: auto; }
-        .btn-home {
-            display: inline-block;
-            padding: 12px 32px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            text-decoration: none;
-            border-radius: 12px;
-            font-weight: 600;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        .btn-home:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
-        }
-    
-    .dark {
-        --surface-container-lowest: #1e293b;
-        --border-subtle: #334155;
-        --surface: #0f172a;
-        --on-surface-variant: #94a3b8;
-        --primary: #f8fafc;
-        --on-surface: #cbd5e1;
-        --surface-container-high: #334155;
-        --secondary-container: #3b82f6;
-        --on-secondary-container: #ffffff;
-        --surface-container: #1e293b;
-    }
-    body.dark {
-        background-color: #0f172a !important;
-    }
 
-</style>
+        @media (min-width: 768px) {
+            .error-code {
+                font-size: 12rem;
+            }
+        }
+    </style>
+<script src="../js/theme.js"></script>
 </head>
 <body>
-    <div class="container">
-        <div class="error-code">404</div>
-        <h2>Page Not Found</h2>
-        <p>The page you're looking for doesn't exist or has been moved.</p>
-        <a href="/dashboard" class="btn-home"><i class="fas fa-home"></i> Back to Dashboard</a>
+    
+    <!-- Background Animated Orbs -->
+    <div class="orb-1 absolute top-[10%] left-[10%] w-[30vw] h-[30vw] rounded-full bg-gradient-to-br from-indigo-500/30 to-purple-600/30 blur-[100px] z-0 pointer-events-none"></div>
+    <div class="orb-2 absolute bottom-[10%] right-[10%] w-[35vw] h-[35vw] rounded-full bg-gradient-to-tl from-pink-500/20 to-purple-600/30 blur-[120px] z-0 pointer-events-none"></div>
+
+    <div class="container mx-auto px-6 relative z-10 text-center max-w-2xl">
+        <div class="glass-card rounded-3xl p-10 md:p-16 transform transition-transform duration-500 hover:scale-[1.02]">
+            <div class="error-code font-outfit mb-2">404</div>
+            <h2 class="text-3xl md:text-4xl font-bold text-white font-outfit mb-4">Page Not Found</h2>
+            <p class="text-gray-400 text-lg mb-10 max-w-md mx-auto">The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.</p>
+            
+            <a href="/dashboard" class="inline-flex items-center justify-center gap-3 px-8 py-4 bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-bold rounded-xl shadow-[0_10px_20px_-10px_rgba(99,102,241,0.6)] hover:shadow-[0_15px_25px_-10px_rgba(99,102,241,0.8)] hover:-translate-y-1 transition-all duration-300">
+                <i class="fas fa-home"></i> Back to Dashboard
+            </a>
+        </div>
     </div>
+
 </body>
 </html>

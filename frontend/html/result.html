@@ -1,32 +1,78 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>RecruitAI - Resume Screening Result</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@450&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@450&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
-    .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
-    /* Keeping custom progress bar classes for JS to target if needed */
-    .progress-bar { width: 100%; background: #E2E8F0; border-radius: 9999px; height: 8px; overflow: hidden; margin-top: 8px; }
-    .progress-fill { height: 100%; border-radius: 9999px; transition: width 1s ease-in-out; }
-
-    .dark {
-        --surface-container-lowest: #1e293b;
-        --border-subtle: #334155;
-        --surface: #0f172a;
-        --on-surface-variant: #94a3b8;
-        --primary: #f8fafc;
-        --on-surface: #cbd5e1;
-        --surface-container-high: #334155;
-        --secondary-container: #3b82f6;
-        --on-secondary-container: #ffffff;
-        --surface-container: #1e293b;
+    body {
+        font-family: 'Inter', sans-serif;
     }
-    body.dark {
-        background-color: #0f172a !important;
+    h1, h2, h3, h4, h5, h6, .font-outfit {
+        font-family: 'Outfit', sans-serif;
+    }
+    
+    /* Custom animations for glass cards */
+    .glass-card {
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3), inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+    }
+    
+    .glass-sidebar {
+        background: rgba(11, 15, 25, 0.7);
+        backdrop-filter: blur(30px);
+        -webkit-backdrop-filter: blur(30px);
+        border-right: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .glass-header {
+        background: rgba(11, 15, 25, 0.7);
+        backdrop-filter: blur(30px);
+        -webkit-backdrop-filter: blur(30px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    /* Glow animations */
+    @keyframes pulse-glow {
+        0%, 100% { opacity: 0.3; transform: scale(1); }
+        50% { opacity: 0.6; transform: scale(1.05); }
+    }
+    .orb-1 { animation: pulse-glow 10s infinite alternate; }
+    .orb-2 { animation: pulse-glow 12s infinite alternate-reverse; }
+    
+    .input-focus-glow:focus-within {
+        box-shadow: 0 0 15px rgba(99, 102, 241, 0.3);
+        border-color: rgba(99, 102, 241, 0.8);
+    }
+
+    /* Hide scrollbar */
+    .no-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+    .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+
+    /* Progress Bars */
+    .progress-bar { 
+        width: 100%; 
+        background: rgba(255, 255, 255, 0.1); 
+        border-radius: 9999px; 
+        height: 8px; 
+        overflow: hidden; 
+        margin-top: 8px; 
+    }
+    .progress-fill { 
+        height: 100%; 
+        border-radius: 9999px; 
+        transition: width 1s ease-in-out; 
     }
 
 </style>
@@ -35,137 +81,132 @@
         darkMode: "class",
         theme: {
             extend: {
-                "colors": {
-                    "surface-container-lowest": "var(--surface-container-lowest, #ffffff)",
-                    "surface": "var(--surface, #fcf8fa)",
-                    "primary": "var(--primary, #000000)",
-                    "on-surface-variant": "var(--on-surface-variant, #45464d)",
-                    "border-subtle": "var(--border-subtle, #E2E8F0)",
-                    "surface-variant": "#e4e2e4",
-                    "score-high": "#7C3AED",
-                    "secondary-container": "var(--secondary-container, #316bf3)",
-                    "on-secondary-container": "var(--on-secondary-container, #fefcff)"
+                colors: {
+                    primary: "#6366f1",
+                    secondary: "#8b5cf6",
+                    surface: "#111827",
+                    "surface-light": "#1f2937",
+                    "border-subtle": "rgba(255,255,255,0.1)",
                 },
-                "fontFamily": {
-                    "label-md": ["Inter"],
-                    "body-md": ["Inter"],
-                    "headline-lg": ["Inter"],
-                    "title-lg": ["Inter"],
-                    "headline-md": ["Inter"],
+                fontFamily: {
                     "mono-data": ["JetBrains Mono"]
-                },
-                "spacing": {
-                    "container-max": "1440px",
-                    "gutter": "24px"
                 }
             }
         }
     }
 </script>
+<script src="../js/theme.js"></script>
 </head>
-<body class="bg-[#F8FAFC] text-slate-800 font-body-md min-h-screen flex">
+<body class="bg-[#0B0F19] text-gray-200 min-h-screen flex relative overflow-hidden">
+    
+<!-- Background Animated Orbs -->
+<div class="orb-1 fixed top-[-10%] left-[-5%] w-[50vw] h-[50vw] rounded-full bg-gradient-to-br from-indigo-500/20 to-purple-600/20 blur-[120px] z-0 pointer-events-none"></div>
+<div class="orb-2 fixed bottom-[-10%] right-[-5%] w-[50vw] h-[50vw] rounded-full bg-gradient-to-tl from-blue-500/20 to-indigo-600/20 blur-[120px] z-0 pointer-events-none"></div>
+
 <!-- SideNavBar Component -->
-<nav class="hidden md:flex flex-col h-screen p-4 bg-surface-container-lowest fixed left-0 top-0 w-[280px] border-r border-border-subtle z-20">
+<nav class="hidden md:flex flex-col h-screen p-4 glass-sidebar fixed left-0 top-0 w-[280px] z-20">
     <div class="mb-8 px-4 flex items-center gap-3">
         <div class="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-600 text-white rounded-xl flex items-center justify-center text-xl shadow-[0_0_15px_rgba(99,102,241,0.4)] shrink-0">
             <i class="fas fa-brain"></i>
         </div>
         <div>
-            <h1 class="font-headline-md text-[22px] font-bold text-primary leading-tight">Recruit<span class="text-indigo-500">AI</span></h1>
-            <p class="font-label-md text-[10px] text-on-surface-variant font-semibold tracking-wider uppercase mt-0.5">Enterprise Intelligence</p>
+            <h1 class="text-[22px] font-bold text-white font-outfit leading-tight">Recruit<span class="text-indigo-400">AI</span></h1>
+            <p class="text-[10px] text-gray-400 font-semibold tracking-wider uppercase mt-0.5">Enterprise Intelligence</p>
         </div>
     </div>
-    <ul class="flex flex-col gap-2 flex-grow">
+    <ul class="flex flex-col gap-2 flex-grow relative z-10">
         <li>
-            <a class="flex items-center justify-between px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-variant transition-colors" href="/dashboard">
+            <a class="flex items-center justify-between px-4 py-3 rounded-xl text-gray-400 hover:text-white hover:bg-white/5 transition-colors" href="/dashboard">
                 <div class="flex items-center gap-3">
-                    <span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
-                    <span class="font-body-md text-[14px]">Dashboard</span>
+                    <i class="fas fa-th-large w-5 text-center"></i>
+                    <span class="text-[14px]">Dashboard</span>
                 </div>
             </a>
         </li>
         <li>
-            <a class="flex items-center justify-between px-4 py-3 rounded-lg bg-secondary-container text-on-secondary-container font-bold hover:opacity-90 transition-opacity" href="/result">
+            <a class="flex items-center justify-between px-4 py-3 rounded-xl bg-gradient-to-r from-indigo-500/20 to-purple-500/10 border border-indigo-500/30 text-indigo-300 font-semibold shadow-[inset_0_0_20px_rgba(99,102,241,0.1)] transition-colors" href="/result">
                 <div class="flex items-center gap-3">
-                    <span class="material-symbols-outlined" data-icon="analytics">analytics</span>
-                    <span class="font-body-md text-[14px]">Results</span>
+                    <i class="fas fa-chart-line w-5 text-center text-indigo-400"></i>
+                    <span class="text-[14px]">Results</span>
                 </div>
             </a>
         </li>
         <li>
-            <a class="flex items-center justify-between px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-variant transition-colors" href="/candidates">
+            <a class="flex items-center justify-between px-4 py-3 rounded-xl text-gray-400 hover:text-white hover:bg-white/5 transition-colors" href="/candidates">
                 <div class="flex items-center gap-3">
-                    <span class="material-symbols-outlined" data-icon="groups">groups</span>
-                    <span class="font-body-md text-[14px]">Candidates</span>
+                    <i class="fas fa-users w-5 text-center"></i>
+                    <span class="text-[14px]">Candidates</span>
                 </div>
-                <span class="bg-emerald-100 text-emerald-700 text-xs font-bold px-2 rounded-full">New</span>
+                <span class="bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-[10px] uppercase tracking-wider font-bold px-2 py-0.5 rounded-full">New</span>
             </a>
         </li>
         <li>
-            <a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-variant transition-colors" href="/profile-lookup">
-                <span class="material-symbols-outlined" data-icon="person_search">person_search</span>
-                <span class="font-body-md text-[14px]">Profile Lookup</span>
+            <a class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-400 hover:text-white hover:bg-white/5 transition-colors" href="/profile-lookup">
+                <i class="fas fa-search w-5 text-center"></i>
+                <span class="text-[14px]">Profile Lookup</span>
             </a>
         </li>
         <li>
-            <a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-variant transition-colors" href="/jobs">
-                <span class="material-symbols-outlined" data-icon="work">work</span>
-                <span class="font-body-md text-[14px]">Jobs</span>
+            <a class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-400 hover:text-white hover:bg-white/5 transition-colors" href="/jobs">
+                <i class="fas fa-briefcase w-5 text-center"></i>
+                <span class="text-[14px]">Jobs</span>
             </a>
         </li>
         <li>
-            <a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-variant transition-colors" href="/settings">
-                <span class="material-symbols-outlined" data-icon="settings">settings</span>
-                <span class="font-body-md text-[14px]">Settings</span>
+            <a class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-400 hover:text-white hover:bg-white/5 transition-colors" href="/settings">
+                <i class="fas fa-cog w-5 text-center"></i>
+                <span class="text-[14px]">Settings</span>
             </a>
         </li>
     </ul>
+    <div class="mt-auto pt-4 relative z-10">
+        <button class="w-full bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-semibold text-sm py-3 px-4 rounded-xl shadow-[0_10px_20px_-10px_rgba(99,102,241,0.6)] hover:shadow-[0_15px_25px_-10px_rgba(99,102,241,0.8)] hover:-translate-y-0.5 transition-all duration-300" onclick="window.location.href='/dashboard'">
+            <i class="fas fa-file-upload mr-2"></i> Process Resumes
+        </button>
+    </div>
 </nav>
 
 <!-- Main Content Area -->
-<div class="flex-1 flex flex-col min-w-0 md:ml-[280px]">
+<div class="flex-1 flex flex-col min-w-0 md:ml-[280px] relative z-10">
     <!-- TopAppBar Component -->
-    <header class="flex justify-between items-center h-16 px-gutter bg-surface border-b border-border-subtle sticky top-0 z-10 w-full">
+    <header class="flex justify-between items-center h-16 px-6 glass-header sticky top-0 z-10 w-full">
         <div class="flex items-center md:hidden">
-            <span class="font-headline-md text-headline-md font-bold text-primary">RecruitAI</span>
+            <span class="text-xl font-bold text-white font-outfit">RecruitAI</span>
         </div>
         <div class="flex-1 max-w-md ml-4 md:ml-0 hidden md:block">
-            <div class="relative">
-                <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant" data-icon="search">search</span>
-                <input class="w-full pl-10 pr-4 py-2 border border-border-subtle rounded focus:border-[#2563EB] focus:ring-0 focus:outline-none font-body-md text-[14px] bg-surface-container-lowest" placeholder="Search candidates, resumes..." type="text"/>
+            <div class="relative input-focus-glow rounded-xl transition-all duration-300">
+                <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-500"></i>
+                <input class="w-full pl-10 pr-4 py-2 bg-gray-900/50 border border-gray-700/50 rounded-xl focus:outline-none focus:ring-0 text-white placeholder-gray-500 text-sm transition-colors" placeholder="Search candidates, resumes..." type="text"/>
             </div>
         </div>
         <div class="flex items-center gap-4">
-            <button onclick="toggleTheme()" class="p-2 text-on-surface-variant hover:bg-surface-container rounded-full transition-colors">
-                <i id="theme-icon" class="fas fa-moon text-xl"></i>
+            <button class="p-2 text-gray-400 hover:text-white hover:bg-white/10 rounded-full transition-colors relative">
+                <i class="fas fa-bell text-lg"></i>
+                <span class="absolute top-1 right-1 w-2 h-2 bg-indigo-500 rounded-full shadow-[0_0_8px_rgba(99,102,241,0.8)]"></span>
             </button>
-            <button class="p-2 text-on-surface-variant hover:bg-surface-variant rounded-full transition-colors relative">
-                <span class="material-symbols-outlined" data-icon="notifications">notifications</span>
-                <span class="absolute top-2 right-2 w-2 h-2 bg-score-high rounded-full"></span>
-            </button>
-            <div class="w-8 h-8 rounded-full overflow-hidden border border-border-subtle shrink-0">
+            <div class="w-9 h-9 rounded-full overflow-hidden border-2 border-indigo-500/50 shrink-0">
                 <img alt="User Avatar" class="w-full h-full object-cover" src="../images/user_img.webp"/>
             </div>
         </div>
     </header>
     
     <!-- Canvas -->
-    <main class="flex-1 p-gutter overflow-x-hidden overflow-y-auto">
-        <div class="max-w-container-max mx-auto space-y-6 pb-12">
+    <main class="flex-1 p-4 md:p-6 overflow-x-hidden overflow-y-auto no-scrollbar">
+        <div class="max-w-[1440px] mx-auto space-y-6 pb-12">
             
             <!-- Page Header -->
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
                 <div>
-                    <h1 class="text-[32px] font-semibold tracking-tight text-primary flex items-center gap-3">
-                        <i class="fas fa-chart-line text-[#2563EB]"></i> Screening Result
+                    <h1 class="text-3xl font-bold tracking-tight text-white font-outfit flex items-center gap-3">
+                        <i class="fas fa-chart-line text-indigo-500"></i> Screening Result
                     </h1>
-                    <p class="text-on-surface-variant text-sm mt-1">Detailed AI-powered analysis of candidate resume</p>
+                    <p class="text-gray-400 text-sm mt-1">Detailed AI-powered analysis of candidate resume</p>
                 </div>
                 <div class="flex flex-wrap items-center gap-3">
-                    <button id="downloadPDF" class="px-4 py-2 bg-surface-container-lowest text-primary border border-border-subtle font-bold rounded shadow-sm hover:bg-surface transition-colors flex items-center gap-2">
-                        <i class="fas fa-file-pdf text-red-500"></i> Download PDF Report
+                    <button id="downloadPDF" class="px-4 py-2.5 glass-card border border-white/10 text-white font-bold rounded-xl hover:bg-white/10 transition-colors flex items-center gap-2">
+                        <i class="fas fa-file-pdf text-red-400"></i> Download PDF Report
                     </button>
-                    <button onclick="window.location.href='/dashboard'" class="px-4 py-2 bg-[#2563EB] text-white font-bold rounded shadow-sm hover:opacity-95 transition-opacity flex items-center gap-2">
+                    <button onclick="window.location.href='/dashboard'" class="px-4 py-2.5 bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-bold rounded-xl shadow-[0_10px_20px_-10px_rgba(99,102,241,0.6)] hover:shadow-[0_15px_25px_-10px_rgba(99,102,241,0.8)] hover:-translate-y-0.5 transition-all duration-300 flex items-center gap-2">
                         <i class="fas fa-arrow-left"></i> Back to Dashboard
                     </button>
                 </div>
@@ -173,39 +214,43 @@
 
             <!-- Summary Cards -->
             <section class="summary grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div class="summary-card score bg-surface-container-lowest p-6 rounded-xl border border-border-subtle shadow-sm flex items-start gap-4">
-                    <div class="w-12 h-12 bg-purple-100 text-purple-600 rounded-lg flex items-center justify-center text-xl shrink-0"><i class="fas fa-percentage"></i></div>
-                    <div class="card-content flex-1">
-                        <h3 class="text-sm font-semibold text-on-surface-variant mb-1">Match Score</h3>
-                        <p class="text-2xl font-bold text-primary mb-2">--%</p>
-                        <span class="card-trend text-xs font-semibold px-2 py-1 bg-surface-variant rounded text-on-surface-variant inline-flex items-center gap-1">Loading...</span>
+                <div class="summary-card score glass-card p-6 rounded-2xl flex items-start gap-4 relative overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-transparent z-0 pointer-events-none"></div>
+                    <div class="w-12 h-12 bg-purple-500/20 border border-purple-500/30 text-purple-400 rounded-xl flex items-center justify-center text-xl shrink-0 relative z-10"><i class="fas fa-percentage"></i></div>
+                    <div class="card-content flex-1 relative z-10">
+                        <h3 class="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-1">Match Score</h3>
+                        <p class="text-3xl font-bold text-white font-mono-data mb-2">--%</p>
+                        <span class="card-trend text-[10px] font-bold px-2 py-1 bg-white/5 border border-white/10 rounded-lg text-gray-400 inline-flex items-center gap-1">Loading...</span>
                     </div>
                 </div>
                 
-                <div class="summary-card status bg-surface-container-lowest p-6 rounded-xl border border-border-subtle shadow-sm flex items-start gap-4">
-                    <div class="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-lg flex items-center justify-center text-xl shrink-0"><i class="fas fa-check-circle"></i></div>
-                    <div class="card-content flex-1">
-                        <h3 class="text-sm font-semibold text-on-surface-variant mb-1">Status</h3>
-                        <p class="text-2xl font-bold text-primary mb-2">Loading...</p>
-                        <span class="card-trend text-xs font-semibold px-2 py-1 bg-surface-variant rounded text-on-surface-variant inline-flex items-center gap-1">Loading...</span>
+                <div class="summary-card status glass-card p-6 rounded-2xl flex items-start gap-4 relative overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-br from-emerald-500/10 to-transparent z-0 pointer-events-none"></div>
+                    <div class="w-12 h-12 bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 rounded-xl flex items-center justify-center text-xl shrink-0 relative z-10"><i class="fas fa-check-circle"></i></div>
+                    <div class="card-content flex-1 relative z-10">
+                        <h3 class="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-1">Status</h3>
+                        <p class="text-2xl font-bold text-white font-outfit mb-2 mt-1 truncate">Loading...</p>
+                        <span class="card-trend text-[10px] font-bold px-2 py-1 bg-white/5 border border-white/10 rounded-lg text-gray-400 inline-flex items-center gap-1">Loading...</span>
                     </div>
                 </div>
 
-                <div class="summary-card experience bg-surface-container-lowest p-6 rounded-xl border border-border-subtle shadow-sm flex items-start gap-4">
-                    <div class="w-12 h-12 bg-blue-100 text-[#2563EB] rounded-lg flex items-center justify-center text-xl shrink-0"><i class="fas fa-briefcase"></i></div>
-                    <div class="card-content flex-1">
-                        <h3 class="text-sm font-semibold text-on-surface-variant mb-1">Experience</h3>
-                        <p class="text-2xl font-bold text-primary mb-2">Loading...</p>
-                        <span class="card-trend text-xs font-semibold px-2 py-1 bg-surface-variant rounded text-on-surface-variant inline-flex items-center gap-1">Loading...</span>
+                <div class="summary-card experience glass-card p-6 rounded-2xl flex items-start gap-4 relative overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-transparent z-0 pointer-events-none"></div>
+                    <div class="w-12 h-12 bg-blue-500/20 border border-blue-500/30 text-blue-400 rounded-xl flex items-center justify-center text-xl shrink-0 relative z-10"><i class="fas fa-briefcase"></i></div>
+                    <div class="card-content flex-1 relative z-10">
+                        <h3 class="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-1">Experience</h3>
+                        <p class="text-2xl font-bold text-white font-outfit mb-2 mt-1">Loading...</p>
+                        <span class="card-trend text-[10px] font-bold px-2 py-1 bg-white/5 border border-white/10 rounded-lg text-gray-400 inline-flex items-center gap-1">Loading...</span>
                     </div>
                 </div>
 
-                <div class="summary-card confidence bg-surface-container-lowest p-6 rounded-xl border border-border-subtle shadow-sm flex items-start gap-4">
-                    <div class="w-12 h-12 bg-amber-100 text-amber-600 rounded-lg flex items-center justify-center text-xl shrink-0"><i class="fas fa-brain"></i></div>
-                    <div class="card-content flex-1">
-                        <h3 class="text-sm font-semibold text-on-surface-variant mb-1">AI Confidence</h3>
-                        <p class="text-2xl font-bold text-primary mb-2">--%</p>
-                        <span class="card-trend text-xs font-semibold px-2 py-1 bg-surface-variant rounded text-on-surface-variant inline-flex items-center gap-1">Loading...</span>
+                <div class="summary-card confidence glass-card p-6 rounded-2xl flex items-start gap-4 relative overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-br from-amber-500/10 to-transparent z-0 pointer-events-none"></div>
+                    <div class="w-12 h-12 bg-amber-500/20 border border-amber-500/30 text-amber-400 rounded-xl flex items-center justify-center text-xl shrink-0 relative z-10"><i class="fas fa-brain"></i></div>
+                    <div class="card-content flex-1 relative z-10">
+                        <h3 class="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-1">AI Confidence</h3>
+                        <p class="text-3xl font-bold text-white font-mono-data mb-2">--%</p>
+                        <span class="card-trend text-[10px] font-bold px-2 py-1 bg-white/5 border border-white/10 rounded-lg text-gray-400 inline-flex items-center gap-1">Loading...</span>
                     </div>
                 </div>
             </section>
@@ -215,54 +260,54 @@
                 <div class="col-span-1 lg:col-span-2 space-y-6">
                     
                     <!-- Scoring Breakdown -->
-                    <section class="scoring-breakdown bg-surface-container-lowest p-6 rounded-xl border border-border-subtle shadow-sm">
-                        <div class="flex items-center justify-between mb-6 pb-4 border-b border-border-subtle">
-                            <h2 class="text-lg font-bold text-primary flex items-center gap-2"><i class="fas fa-chart-pie text-[#2563EB]"></i> Scoring Breakdown</h2>
-                            <button id="downloadPDFSecondary" class="text-sm font-bold text-[#2563EB] hover:underline flex items-center gap-1">
+                    <section class="scoring-breakdown glass-card rounded-2xl flex flex-col">
+                        <div class="p-6 border-b border-white/10 bg-black/20 flex items-center justify-between">
+                            <h2 class="text-xl font-bold text-white font-outfit flex items-center gap-2"><i class="fas fa-chart-pie text-indigo-400"></i> Scoring Breakdown</h2>
+                            <button id="downloadPDFSecondary" class="text-xs font-bold text-indigo-400 hover:text-indigo-300 flex items-center gap-1 uppercase tracking-wider transition-colors">
                                 <i class="fas fa-download"></i> Export
                             </button>
                         </div>
-                        <div class="space-y-6">
-                            <div class="breakdown-item">
+                        <div class="p-6 space-y-6">
+                            <div class="breakdown-item bg-white/5 p-4 rounded-xl border border-white/5">
                                 <div class="flex justify-between items-center mb-1">
-                                    <h3 class="text-sm font-bold text-primary">Skill Match (60%)</h3>
+                                    <h3 class="text-sm font-bold text-white">Skill Match (60%)</h3>
                                 </div>
-                                <p id="skillBreakdown" class="text-sm text-on-surface-variant mb-2">Loading analysis...</p>
-                                <div class="progress-bar">
-                                    <div id="skillProgress" class="progress-fill"></div>
+                                <p id="skillBreakdown" class="text-sm text-gray-400 mb-3">Loading analysis...</p>
+                                <div class="progress-bar bg-white/10 h-2 rounded-full overflow-hidden">
+                                    <div id="skillProgress" class="progress-fill bg-gradient-to-r from-indigo-500 to-purple-600 h-full rounded-full transition-all duration-1000 w-0"></div>
                                 </div>
                             </div>
-                            <div class="breakdown-item">
+                            <div class="breakdown-item bg-white/5 p-4 rounded-xl border border-white/5">
                                 <div class="flex justify-between items-center mb-1">
-                                    <h3 class="text-sm font-bold text-primary">Keyword Match (30%)</h3>
+                                    <h3 class="text-sm font-bold text-white">Keyword Match (30%)</h3>
                                 </div>
-                                <p id="keywordBreakdown" class="text-sm text-on-surface-variant mb-2">Loading analysis...</p>
-                                <div class="progress-bar">
-                                    <div id="keywordProgress" class="progress-fill"></div>
+                                <p id="keywordBreakdown" class="text-sm text-gray-400 mb-3">Loading analysis...</p>
+                                <div class="progress-bar bg-white/10 h-2 rounded-full overflow-hidden">
+                                    <div id="keywordProgress" class="progress-fill bg-gradient-to-r from-blue-500 to-cyan-500 h-full rounded-full transition-all duration-1000 w-0"></div>
                                 </div>
                             </div>
-                            <div class="breakdown-item">
+                            <div class="breakdown-item bg-white/5 p-4 rounded-xl border border-white/5">
                                 <div class="flex justify-between items-center mb-1">
-                                    <h3 class="text-sm font-bold text-primary">Experience (10%)</h3>
+                                    <h3 class="text-sm font-bold text-white">Experience (10%)</h3>
                                 </div>
-                                <p id="experienceBreakdown" class="text-sm text-on-surface-variant mb-2">Loading analysis...</p>
-                                <div class="progress-bar">
-                                    <div id="experienceProgress" class="progress-fill"></div>
+                                <p id="experienceBreakdown" class="text-sm text-gray-400 mb-3">Loading analysis...</p>
+                                <div class="progress-bar bg-white/10 h-2 rounded-full overflow-hidden">
+                                    <div id="experienceProgress" class="progress-fill bg-gradient-to-r from-emerald-500 to-teal-500 h-full rounded-full transition-all duration-1000 w-0"></div>
                                 </div>
                             </div>
+                            <p id="scoringExplanation" class="text-xs font-semibold text-gray-500 italic mt-6 pt-4 border-t border-white/10"></p>
                         </div>
-                        <p id="scoringExplanation" class="text-xs font-semibold text-slate-500 italic mt-6 pt-4 border-t border-border-subtle"></p>
                     </section>
 
                     <!-- Skills -->
-                    <section class="skills-section bg-surface-container-lowest p-6 rounded-xl border border-border-subtle shadow-sm">
-                        <div class="flex items-center justify-between mb-6 pb-4 border-b border-border-subtle section-header">
-                            <h2 class="text-lg font-bold text-primary flex items-center gap-2"><i class="fas fa-code text-purple-600"></i> Skill Match</h2>
-                            <span class="skill-count text-xs font-bold px-2 py-1 bg-surface-variant text-on-surface-variant rounded-full">0 skills found</span>
+                    <section class="skills-section glass-card rounded-2xl flex flex-col">
+                        <div class="p-6 border-b border-white/10 bg-black/20 flex items-center justify-between">
+                            <h2 class="text-xl font-bold text-white font-outfit flex items-center gap-2"><i class="fas fa-code text-purple-400"></i> Skill Match</h2>
+                            <span class="skill-count text-xs font-bold px-2.5 py-1 bg-white/10 text-white rounded-lg border border-white/5 uppercase tracking-wider">0 skills found</span>
                         </div>
-                        <div class="skills space-y-4">
+                        <div class="p-6 skills space-y-4">
                             <!-- Dynamic Skills Render Here -->
-                            <p class="text-sm text-on-surface-variant italic">Extracting skills...</p>
+                            <p class="text-sm text-gray-400 italic">Extracting skills...</p>
                         </div>
                     </section>
                 </div>
@@ -271,47 +316,53 @@
                 <div class="col-span-1 space-y-6">
                     
                     <!-- AI Recommendation -->
-                    <section class="bg-gradient-to-br from-[#2563EB]/5 to-[#7C3AED]/5 p-6 rounded-xl border border-[#2563EB]/20 shadow-sm relative overflow-hidden">
-                        <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-[#2563EB]/10 to-transparent rounded-bl-full pointer-events-none"></div>
-                        <div class="flex items-center justify-between mb-4 relative z-10">
-                            <h2 class="text-lg font-bold text-primary flex items-center gap-2"><i class="fas fa-lightbulb text-amber-500"></i> Recommendation</h2>
-                            <span class="recommendation-badge text-xs font-bold px-2 py-1 rounded inline-flex items-center gap-1 bg-surface-variant text-on-surface-variant">
+                    <section class="glass-card bg-gradient-to-br from-indigo-500/10 to-purple-600/10 p-6 rounded-2xl border-indigo-500/30 relative overflow-hidden shadow-[inset_0_0_20px_rgba(99,102,241,0.1)]">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-indigo-500/20 blur-[50px] rounded-full pointer-events-none"></div>
+                        <div class="flex items-center justify-between mb-5 relative z-10">
+                            <h2 class="text-lg font-bold text-white font-outfit flex items-center gap-2"><i class="fas fa-lightbulb text-amber-400"></i> Recommendation</h2>
+                            <span class="recommendation-badge text-[10px] uppercase tracking-wider font-bold px-2 py-1 rounded-lg inline-flex items-center gap-1 bg-white/10 text-white border border-white/5">
                                 Processing...
                             </span>
                         </div>
                         <div class="recommendation relative z-10">
-                            <p class="text-sm text-slate-700 leading-relaxed font-medium">Generating AI insights and recommendation based on the candidate's profile...</p>
+                            <p class="text-sm text-gray-300 leading-relaxed font-medium">Generating AI insights and recommendation based on the candidate's profile...</p>
                         </div>
                     </section>
 
                     <!-- Resume Preview -->
-                    <section class="bg-surface-container-lowest p-6 rounded-xl border border-border-subtle shadow-sm">
-                        <h2 class="text-lg font-bold text-primary flex items-center gap-2 mb-4"><i class="fas fa-file-pdf text-red-500"></i> Original Resume</h2>
-                        <div class="flex items-center justify-between p-4 bg-surface rounded-lg border border-border-subtle">
-                            <div class="flex items-center gap-3">
-                                <i class="fas fa-file-pdf text-3xl text-red-400"></i>
-                                <div>
-                                    <p class="file-name font-bold text-primary text-sm truncate max-w-[120px]">Loading...</p>
-                                    <span class="text-xs text-on-surface-variant">Uploaded Document</span>
+                    <section class="glass-card rounded-2xl flex flex-col">
+                        <div class="p-5 border-b border-white/10 bg-black/20">
+                            <h2 class="text-lg font-bold text-white font-outfit flex items-center gap-2"><i class="fas fa-file-pdf text-red-400"></i> Original Resume</h2>
+                        </div>
+                        <div class="p-5">
+                            <div class="flex items-center justify-between p-4 bg-white/5 rounded-xl border border-white/10">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 bg-red-500/20 text-red-400 rounded-lg flex items-center justify-center text-xl shrink-0"><i class="fas fa-file-pdf"></i></div>
+                                    <div>
+                                        <p class="file-name font-bold text-white text-sm truncate max-w-[120px]">Loading...</p>
+                                        <span class="text-xs text-gray-400">Uploaded Document</span>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="flex items-center gap-2">
-                                <button class="btn-view w-8 h-8 flex items-center justify-center bg-white border border-border-subtle rounded hover:bg-slate-50 text-slate-600 transition-colors" title="View">
-                                    <i class="fas fa-eye"></i>
-                                </button>
-                                <button class="btn-download w-8 h-8 flex items-center justify-center bg-white border border-border-subtle rounded hover:bg-slate-50 text-slate-600 transition-colors" title="Download">
-                                    <i class="fas fa-download"></i>
-                                </button>
+                                <div class="flex items-center gap-2">
+                                    <button class="btn-view w-9 h-9 flex items-center justify-center bg-white/5 border border-white/10 rounded-lg hover:bg-white/10 hover:text-white text-gray-400 transition-colors" title="View">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="btn-download w-9 h-9 flex items-center justify-center bg-white/5 border border-white/10 rounded-lg hover:bg-white/10 hover:text-white text-gray-400 transition-colors" title="Download">
+                                        <i class="fas fa-download"></i>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </section>
 
                     <!-- Actions Panel -->
-                    <section class="bg-surface-container-lowest p-6 rounded-xl border border-border-subtle shadow-sm">
-                        <h2 class="text-lg font-bold text-primary flex items-center gap-2 mb-4"><i class="fas fa-tasks text-emerald-600"></i> Take Action</h2>
-                        <div class="actions flex flex-col gap-3">
+                    <section class="glass-card rounded-2xl flex flex-col">
+                        <div class="p-5 border-b border-white/10 bg-black/20">
+                            <h2 class="text-lg font-bold text-white font-outfit flex items-center gap-2"><i class="fas fa-tasks text-emerald-400"></i> Take Action</h2>
+                        </div>
+                        <div class="p-5 actions flex flex-col gap-3">
                             <!-- Dynamic Actions Render Here -->
-                            <p class="text-xs text-on-surface-variant italic">Waiting for analysis...</p>
+                            <p class="text-xs text-gray-400 italic">Waiting for analysis...</p>
                         </div>
                     </section>
                 </div>
@@ -321,41 +372,19 @@
     </main>
 </div>
 
-<script>
-    // Initialize theme
-    (function() {
-        const isDark = localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches);
-        const icon = document.getElementById('theme-icon');
-        if (isDark) {
-            document.documentElement.classList.add('dark');
-            document.body.classList.add('dark');
-            if (icon && icon.classList.contains('fa-moon')) icon.classList.replace('fa-moon', 'fa-sun');
-        } else {
-            document.documentElement.classList.remove('dark');
-            document.body.classList.remove('dark');
-            if (icon && icon.classList.contains('fa-sun')) icon.classList.replace('fa-sun', 'fa-moon');
-        }
-    })();
-
-    // Toggle theme logic
-    window.toggleTheme = function() {
-        const html = document.documentElement;
-        const icon = document.getElementById('theme-icon');
-        if (html.classList.contains('dark')) {
-            html.classList.remove('dark');
-            document.body.classList.remove('dark');
-            localStorage.setItem('theme', 'light');
-            if (icon) icon.classList.replace('fa-sun', 'fa-moon');
-        } else {
-            html.classList.add('dark');
-            document.body.classList.add('dark');
-            localStorage.setItem('theme', 'dark');
-            if (icon) icon.classList.replace('fa-moon', 'fa-sun');
-        }
-    };
-</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
 <script src="../js/result-ultra.js"></script>
+<script>
+    // Load custom profile picture
+    document.addEventListener('DOMContentLoaded', () => {
+        const savedImg = localStorage.getItem('userProfileImage');
+        if (savedImg) {
+            document.querySelectorAll('img[alt="User Avatar"]').forEach(img => {
+                img.src = savedImg;
+            });
+        }
+    });
+</script>
 </body>
 </html>

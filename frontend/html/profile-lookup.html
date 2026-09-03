@@ -1,30 +1,64 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>RecruitAI - Profile Lookup</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@450&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@450&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <style>
-    .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
-
-    .dark {
-        --surface-container-lowest: #1e293b;
-        --border-subtle: #334155;
-        --surface: #0f172a;
-        --on-surface-variant: #94a3b8;
-        --primary: #f8fafc;
-        --on-surface: #cbd5e1;
-        --surface-container-high: #334155;
-        --secondary-container: #3b82f6;
-        --on-secondary-container: #ffffff;
-        --surface-container: #1e293b;
+    body {
+        font-family: 'Inter', sans-serif;
     }
-    body.dark {
-        background-color: #0f172a !important;
+    h1, h2, h3, h4, h5, h6, .font-outfit {
+        font-family: 'Outfit', sans-serif;
+    }
+    
+    /* Custom animations for glass cards */
+    .glass-card {
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3), inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+    }
+    
+    .glass-sidebar {
+        background: rgba(11, 15, 25, 0.7);
+        backdrop-filter: blur(30px);
+        -webkit-backdrop-filter: blur(30px);
+        border-right: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .glass-header {
+        background: rgba(11, 15, 25, 0.7);
+        backdrop-filter: blur(30px);
+        -webkit-backdrop-filter: blur(30px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    /* Glow animations */
+    @keyframes pulse-glow {
+        0%, 100% { opacity: 0.3; transform: scale(1); }
+        50% { opacity: 0.6; transform: scale(1.05); }
+    }
+    .orb-1 { animation: pulse-glow 10s infinite alternate; }
+    .orb-2 { animation: pulse-glow 12s infinite alternate-reverse; }
+    
+    .input-focus-glow:focus-within {
+        box-shadow: 0 0 15px rgba(99, 102, 241, 0.3);
+        border-color: rgba(99, 102, 241, 0.8);
+    }
+
+    /* Hide scrollbar */
+    .no-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+    .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
     }
 
 </style>
@@ -33,206 +67,206 @@
         darkMode: "class",
         theme: {
             extend: {
-                "colors": {
-                    "surface-container-lowest": "var(--surface-container-lowest, #ffffff)",
-                    "surface": "var(--surface, #fcf8fa)",
-                    "primary": "var(--primary, #000000)",
-                    "on-surface-variant": "var(--on-surface-variant, #45464d)",
-                    "border-subtle": "var(--border-subtle, #E2E8F0)",
-                    "surface-variant": "#e4e2e4",
-                    "score-high": "#7C3AED",
-                    "secondary-container": "var(--secondary-container, #316bf3)",
-                    "on-secondary-container": "var(--on-secondary-container, #fefcff)"
+                colors: {
+                    primary: "#6366f1",
+                    secondary: "#8b5cf6",
+                    surface: "#111827",
+                    "surface-light": "#1f2937",
+                    "border-subtle": "rgba(255,255,255,0.1)",
                 },
-                "fontFamily": {
-                    "label-md": ["Inter"],
-                    "body-md": ["Inter"],
-                    "headline-lg": ["Inter"],
-                    "title-lg": ["Inter"],
-                    "headline-md": ["Inter"],
+                fontFamily: {
                     "mono-data": ["JetBrains Mono"]
-                },
-                "spacing": {
-                    "container-max": "1440px",
-                    "gutter": "24px"
                 }
             }
         }
     }
 </script>
+<script src="../js/theme.js"></script>
 </head>
-<body class="bg-[#F8FAFC] text-slate-800 font-body-md min-h-screen flex">
+<body class="bg-[#0B0F19] text-gray-200 min-h-screen flex relative overflow-hidden">
+    
+<!-- Background Animated Orbs -->
+<div class="orb-1 fixed top-[-10%] left-[-5%] w-[50vw] h-[50vw] rounded-full bg-gradient-to-br from-indigo-500/20 to-purple-600/20 blur-[120px] z-0 pointer-events-none"></div>
+<div class="orb-2 fixed bottom-[-10%] right-[-5%] w-[50vw] h-[50vw] rounded-full bg-gradient-to-tl from-blue-500/20 to-indigo-600/20 blur-[120px] z-0 pointer-events-none"></div>
+
 <!-- SideNavBar Component -->
-<nav class="hidden md:flex flex-col h-screen p-4 bg-surface-container-lowest fixed left-0 top-0 w-[280px] border-r border-border-subtle z-20">
+<nav class="hidden md:flex flex-col h-screen p-4 glass-sidebar fixed left-0 top-0 w-[280px] z-20">
     <div class="mb-8 px-4 flex items-center gap-3">
         <div class="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-600 text-white rounded-xl flex items-center justify-center text-xl shadow-[0_0_15px_rgba(99,102,241,0.4)] shrink-0">
             <i class="fas fa-brain"></i>
         </div>
         <div>
-            <h1 class="font-headline-md text-[22px] font-bold text-primary leading-tight">Recruit<span class="text-indigo-500">AI</span></h1>
-            <p class="font-label-md text-[10px] text-on-surface-variant font-semibold tracking-wider uppercase mt-0.5">Enterprise Intelligence</p>
+            <h1 class="text-[22px] font-bold text-white font-outfit leading-tight">Recruit<span class="text-indigo-400">AI</span></h1>
+            <p class="text-[10px] text-gray-400 font-semibold tracking-wider uppercase mt-0.5">Enterprise Intelligence</p>
         </div>
     </div>
-    <ul class="flex flex-col gap-2 flex-grow">
+    <ul class="flex flex-col gap-2 flex-grow relative z-10">
         <li>
-            <a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-variant transition-colors" href="/dashboard">
-                <span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
-                <span class="font-body-md text-[14px]">Dashboard</span>
+            <a class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-400 hover:text-white hover:bg-white/5 transition-colors" href="/dashboard">
+                <i class="fas fa-th-large w-5 text-center"></i>
+                <span class="text-[14px]">Dashboard</span>
             </a>
         </li>
         <li>
-            <a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-variant transition-colors" href="/candidates">
-                <span class="material-symbols-outlined" data-icon="groups">groups</span>
-                <span class="font-body-md text-[14px]">Candidates</span>
+            <a class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-400 hover:text-white hover:bg-white/5 transition-colors" href="/candidates">
+                <i class="fas fa-users w-5 text-center"></i>
+                <span class="text-[14px]">Candidates</span>
             </a>
         </li>
         <li>
-            <a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-variant transition-colors" href="/jobs">
-                <span class="material-symbols-outlined" data-icon="work">work</span>
-                <span class="font-body-md text-[14px]">Jobs</span>
+            <a class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-400 hover:text-white hover:bg-white/5 transition-colors" href="/jobs">
+                <i class="fas fa-briefcase w-5 text-center"></i>
+                <span class="text-[14px]">Jobs</span>
             </a>
         </li>
         <li>
-            <a class="flex items-center gap-3 px-4 py-3 rounded-lg bg-secondary-container text-on-secondary-container font-bold hover:opacity-90 transition-opacity" href="/profile-lookup">
-                <span class="material-symbols-outlined" data-icon="person_search">person_search</span>
-                <span class="font-body-md text-[14px]">Profile Lookup</span>
+            <a class="flex items-center gap-3 px-4 py-3 rounded-xl bg-gradient-to-r from-indigo-500/20 to-purple-500/10 border border-indigo-500/30 text-indigo-300 font-semibold shadow-[inset_0_0_20px_rgba(99,102,241,0.1)] transition-colors" href="/profile-lookup">
+                <i class="fas fa-search w-5 text-center text-indigo-400"></i>
+                <span class="text-[14px]">Profile Lookup</span>
             </a>
         </li>
         <li>
-            <a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-variant transition-colors" href="/settings">
-                <span class="material-symbols-outlined" data-icon="settings">settings</span>
-                <span class="font-body-md text-[14px]">Settings</span>
+            <a class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-400 hover:text-white hover:bg-white/5 transition-colors" href="/settings">
+                <i class="fas fa-cog w-5 text-center"></i>
+                <span class="text-[14px]">Settings</span>
             </a>
         </li>
         <li>
-            <a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-variant transition-colors" href="/help">
-                <span class="material-symbols-outlined" data-icon="help">help</span>
-                <span class="font-body-md text-[14px]">Help</span>
+            <a class="flex items-center gap-3 px-4 py-3 rounded-xl text-gray-400 hover:text-white hover:bg-white/5 transition-colors" href="/help">
+                <i class="fas fa-question-circle w-5 text-center"></i>
+                <span class="text-[14px]">Help</span>
             </a>
         </li>
     </ul>
+    <div class="mt-auto pt-4 relative z-10">
+        <button class="w-full bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-semibold text-sm py-3 px-4 rounded-xl shadow-[0_10px_20px_-10px_rgba(99,102,241,0.6)] hover:shadow-[0_15px_25px_-10px_rgba(99,102,241,0.8)] hover:-translate-y-0.5 transition-all duration-300" onclick="window.location.href='/dashboard'">
+            <i class="fas fa-file-upload mr-2"></i> Process Resumes
+        </button>
+    </div>
 </nav>
 
 <!-- Main Content Area -->
-<div class="flex-1 flex flex-col min-w-0 md:ml-[280px]">
+<div class="flex-1 flex flex-col min-w-0 md:ml-[280px] relative z-10">
     <!-- TopAppBar Component -->
-    <header class="flex justify-between items-center h-16 px-gutter bg-surface border-b border-border-subtle sticky top-0 z-10 w-full">
+    <header class="flex justify-between items-center h-16 px-6 glass-header sticky top-0 z-10 w-full">
         <div class="flex items-center md:hidden">
-            <span class="font-headline-md text-headline-md font-bold text-primary">RecruitAI</span>
+            <span class="text-xl font-bold text-white font-outfit">RecruitAI</span>
         </div>
         <div class="flex-1 max-w-md ml-4 md:ml-0 hidden md:block">
         </div>
         <div class="flex items-center gap-4">
-            <button onclick="toggleTheme()" class="p-2 text-on-surface-variant hover:bg-surface-container rounded-full transition-colors">
-                <i id="theme-icon" class="fas fa-moon text-xl"></i>
+            <button class="p-2 text-gray-400 hover:text-white hover:bg-white/10 rounded-full transition-colors relative">
+                <i class="fas fa-bell text-lg"></i>
+                <span class="absolute top-1 right-1 w-2 h-2 bg-indigo-500 rounded-full shadow-[0_0_8px_rgba(99,102,241,0.8)]"></span>
             </button>
-            <button class="p-2 text-on-surface-variant hover:bg-surface-variant rounded-full transition-colors relative">
-                <span class="material-symbols-outlined" data-icon="notifications">notifications</span>
-                <span class="absolute top-2 right-2 w-2 h-2 bg-score-high rounded-full"></span>
-            </button>
-            <div class="w-8 h-8 rounded-full overflow-hidden border border-border-subtle shrink-0">
+            <div class="w-9 h-9 rounded-full overflow-hidden border-2 border-indigo-500/50 shrink-0">
                 <img alt="User Avatar" class="w-full h-full object-cover" src="../images/user_img.webp"/>
             </div>
         </div>
     </header>
     
     <!-- Canvas -->
-    <main class="flex-1 p-gutter overflow-x-hidden overflow-y-auto">
-        <div class="max-w-container-max mx-auto">
+    <main class="flex-1 p-4 md:p-6 overflow-x-hidden overflow-y-auto no-scrollbar">
+        <div class="max-w-[1440px] mx-auto">
             
             <!-- Page Header -->
             <div class="mb-8">
-                <h1 class="text-[32px] font-semibold tracking-tight text-primary flex items-center gap-3"><i class="fas fa-user-secret text-[#2563EB]"></i> Candidate Profile Lookup</h1>
-                <p class="text-on-surface-variant mt-2">Deep-dive into candidate's GitHub activity & LinkedIn profile using AI</p>
+                <h1 class="text-3xl font-bold tracking-tight text-white font-outfit flex items-center gap-3"><i class="fas fa-user-secret text-indigo-500"></i> Candidate Profile Lookup</h1>
+                <p class="text-gray-400 mt-2 text-sm">Deep-dive into candidate's GitHub activity & LinkedIn profile using AI</p>
             </div>
 
             <!-- Input Section -->
-            <div class="bg-surface-container-lowest p-6 rounded-xl border border-border-subtle mb-8 shadow-sm">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                    <div>
-                        <label class="block text-sm font-semibold text-primary mb-2"><i class="fab fa-github text-[#333]"></i> GitHub Profile URL</label>
-                        <input type="url" id="githubUrl" class="w-full px-4 py-3 bg-surface border border-border-subtle rounded-lg focus:border-[#2563EB] focus:ring-0 outline-none text-sm transition-colors" placeholder="https://github.com/username" autocomplete="off">
+            <div class="glass-card p-6 rounded-2xl mb-8 shadow-sm relative overflow-hidden">
+                <div class="absolute inset-0 bg-gradient-to-r from-indigo-500/5 to-purple-600/5 z-0 pointer-events-none"></div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6 relative z-10">
+                    <div class="relative input-focus-glow rounded-xl transition-all duration-300">
+                        <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider mb-2"><i class="fab fa-github text-gray-400"></i> GitHub Profile URL</label>
+                        <input type="url" id="githubUrl" class="w-full px-4 py-3 bg-gray-900/50 border border-gray-700/50 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-0 transition-colors text-sm" placeholder="https://github.com/username" autocomplete="off">
                     </div>
-                    <div>
-                        <label class="block text-sm font-semibold text-primary mb-2"><i class="fab fa-linkedin text-[#0077b5]"></i> LinkedIn Profile URL</label>
-                        <input type="url" id="linkedinUrl" class="w-full px-4 py-3 bg-surface border border-border-subtle rounded-lg focus:border-[#2563EB] focus:ring-0 outline-none text-sm transition-colors" placeholder="https://linkedin.com/in/username" autocomplete="off">
+                    <div class="relative input-focus-glow rounded-xl transition-all duration-300">
+                        <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider mb-2"><i class="fab fa-linkedin text-blue-400"></i> LinkedIn Profile URL</label>
+                        <input type="url" id="linkedinUrl" class="w-full px-4 py-3 bg-gray-900/50 border border-gray-700/50 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-0 transition-colors text-sm" placeholder="https://linkedin.com/in/username" autocomplete="off">
                     </div>
                 </div>
-                <button class="w-full md:w-auto px-8 py-3 bg-gradient-to-r from-[#2563EB] to-[#7C3AED] text-white font-bold rounded-lg shadow-sm hover:opacity-95 transition-opacity flex items-center justify-center gap-2 mx-auto" id="checkBtn" onclick="checkProfile()">
-                    <i class="fas fa-search"></i> Check Candidate Profile
+                <button class="w-full md:w-auto px-8 py-3.5 bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-bold rounded-xl shadow-[0_10px_20px_-10px_rgba(99,102,241,0.6)] hover:shadow-[0_15px_25px_-10px_rgba(99,102,241,0.8)] hover:-translate-y-0.5 transition-all duration-300 flex items-center justify-center gap-2 mx-auto relative z-10" id="checkBtn" onclick="checkProfile()">
+                    <i class="fas fa-magic"></i> Check Candidate Profile
                 </button>
             </div>
 
             <!-- Error Message -->
-            <div class="hidden items-center gap-3 p-4 bg-red-50 border border-red-200 text-red-700 rounded-lg mb-8 font-semibold shadow-sm" id="errorMessage">
+            <div class="hidden items-center gap-3 p-4 bg-red-950/50 border border-red-500/30 text-red-400 rounded-xl mb-8 font-semibold shadow-sm backdrop-blur-md" id="errorMessage">
                 <i class="fas fa-exclamation-circle text-xl shrink-0"></i>
                 <span id="errorText"></span>
             </div>
 
             <!-- Loading State -->
-            <div class="hidden flex-col items-center justify-center p-12 bg-surface-container-lowest rounded-xl border border-border-subtle mb-8 shadow-sm text-center" id="loadingState">
-                <div class="w-16 h-16 border-4 border-border-subtle border-t-[#2563EB] rounded-full animate-spin mb-6"></div>
-                <h3 class="text-xl font-bold text-primary mb-2">Analyzing Candidate Profile...</h3>
-                <p class="text-sm text-on-surface-variant">Fetching GitHub data & running AI analysis</p>
+            <div class="hidden flex-col items-center justify-center p-12 glass-card rounded-xl mb-8 text-center" id="loadingState">
+                <div class="relative w-16 h-16 mb-6">
+                    <div class="absolute inset-0 border-4 border-white/10 rounded-full"></div>
+                    <div class="absolute inset-0 border-4 border-indigo-500 rounded-full border-t-transparent animate-spin"></div>
+                    <i class="fas fa-brain absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-indigo-400 text-xl"></i>
+                </div>
+                <h3 class="text-xl font-bold text-white font-outfit mb-2">Analyzing Candidate Profile...</h3>
+                <p class="text-sm text-gray-400">Fetching GitHub data & running AI analysis</p>
             </div>
 
             <!-- Results Section -->
             <div class="hidden flex-col gap-8" id="profileResults">
 
                 <!-- GitHub Profile Card -->
-                <div class="bg-surface-container-lowest rounded-xl border border-border-subtle p-6 flex flex-col md:flex-row items-center md:items-start gap-6 shadow-sm relative overflow-hidden" id="githubProfileCard">
-                    <!-- Accent bar -->
-                    <div class="absolute top-0 left-0 w-full md:w-2 h-2 md:h-full bg-gradient-to-r md:bg-gradient-to-b from-[#2563EB] to-[#7C3AED]"></div>
+                <div class="glass-card rounded-2xl p-6 flex flex-col md:flex-row items-center md:items-start gap-6 relative overflow-hidden" id="githubProfileCard">
+                    <!-- Accent blur -->
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-indigo-500/20 blur-[50px] rounded-full pointer-events-none"></div>
                     
-                    <img class="w-24 h-24 rounded-full border-2 border-border-subtle object-cover shadow-sm shrink-0 md:ml-4" id="profileAvatar" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="Avatar">
+                    <img class="w-24 h-24 rounded-full border-2 border-indigo-500/30 object-cover shadow-[0_0_15px_rgba(99,102,241,0.3)] shrink-0 md:ml-4 relative z-10" id="profileAvatar" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="Avatar">
                     
-                    <div class="flex-1 text-center md:text-left">
-                        <h2 class="text-2xl font-bold text-primary mb-1" id="profileName"></h2>
-                        <p class="text-sm font-semibold text-[#2563EB] mb-3" id="profileUsername"></p>
-                        <p class="text-sm text-on-surface-variant mb-4 max-w-2xl" id="profileBio"></p>
+                    <div class="flex-1 text-center md:text-left relative z-10">
+                        <h2 class="text-2xl font-bold text-white font-outfit mb-1" id="profileName"></h2>
+                        <p class="text-sm font-semibold text-indigo-400 mb-3" id="profileUsername"></p>
+                        <p class="text-sm text-gray-300 mb-4 max-w-2xl leading-relaxed" id="profileBio"></p>
                         
-                        <div class="flex flex-wrap items-center justify-center md:justify-start gap-4 text-xs font-semibold text-slate-gray">
-                            <span class="flex items-center gap-1.5" id="profileLocation"><i class="fas fa-map-marker-alt"></i> <span></span></span>
-                            <span class="flex items-center gap-1.5" id="profileCompany"><i class="fas fa-building"></i> <span></span></span>
-                            <span class="flex items-center gap-1.5" id="profileJoined"><i class="fas fa-calendar"></i> <span></span></span>
+                        <div class="flex flex-wrap items-center justify-center md:justify-start gap-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">
+                            <span class="flex items-center gap-1.5 bg-white/5 px-2.5 py-1 rounded-lg border border-white/5" id="profileLocation"><i class="fas fa-map-marker-alt text-gray-500"></i> <span></span></span>
+                            <span class="flex items-center gap-1.5 bg-white/5 px-2.5 py-1 rounded-lg border border-white/5" id="profileCompany"><i class="fas fa-building text-gray-500"></i> <span></span></span>
+                            <span class="flex items-center gap-1.5 bg-white/5 px-2.5 py-1 rounded-lg border border-white/5" id="profileJoined"><i class="fas fa-calendar text-gray-500"></i> <span></span></span>
                         </div>
                     </div>
                     
-                    <a class="mt-4 md:mt-0 px-5 py-2 border border-border-subtle text-primary font-bold rounded hover:bg-surface-variant transition-colors flex items-center gap-2 text-sm shrink-0" id="profileLink" href="#" target="_blank">
-                        <i class="fab fa-github text-[#333]"></i> View on GitHub
+                    <a class="mt-4 md:mt-0 px-5 py-2.5 bg-white/5 border border-white/10 text-white font-bold rounded-xl hover:bg-white/10 transition-colors flex items-center gap-2 text-sm shrink-0 relative z-10" id="profileLink" href="#" target="_blank">
+                        <i class="fab fa-github"></i> View on GitHub
                     </a>
                 </div>
 
                 <!-- Stats Grid -->
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-                    <div class="bg-surface-container-lowest p-5 rounded-xl border border-border-subtle shadow-sm flex flex-col items-center text-center">
-                        <div class="w-10 h-10 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center text-lg mb-3"><i class="fas fa-code-branch"></i></div>
-                        <h3 class="text-2xl font-bold text-primary font-mono-data mb-1" id="statRepos">0</h3>
-                        <p class="text-xs text-on-surface-variant font-semibold uppercase tracking-wider">Repositories</p>
+                    <div class="glass-card p-5 rounded-2xl flex flex-col items-center text-center hover:bg-white/5 transition-colors">
+                        <div class="w-12 h-12 rounded-xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center text-xl mb-4 border border-indigo-500/30"><i class="fas fa-code-branch"></i></div>
+                        <h3 class="text-3xl font-bold text-white font-mono-data mb-1" id="statRepos">0</h3>
+                        <p class="text-[10px] text-gray-500 font-bold uppercase tracking-widest mt-1 block">Repositories</p>
                     </div>
-                    <div class="bg-surface-container-lowest p-5 rounded-xl border border-border-subtle shadow-sm flex flex-col items-center text-center">
-                        <div class="w-10 h-10 rounded-full bg-amber-50 text-amber-500 flex items-center justify-center text-lg mb-3"><i class="fas fa-star"></i></div>
-                        <h3 class="text-2xl font-bold text-primary font-mono-data mb-1" id="statStars">0</h3>
-                        <p class="text-xs text-on-surface-variant font-semibold uppercase tracking-wider">Total Stars</p>
+                    <div class="glass-card p-5 rounded-2xl flex flex-col items-center text-center hover:bg-white/5 transition-colors">
+                        <div class="w-12 h-12 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-xl mb-4 border border-amber-500/30"><i class="fas fa-star"></i></div>
+                        <h3 class="text-3xl font-bold text-white font-mono-data mb-1" id="statStars">0</h3>
+                        <p class="text-[10px] text-gray-500 font-bold uppercase tracking-widest mt-1 block">Total Stars</p>
                     </div>
-                    <div class="bg-surface-container-lowest p-5 rounded-xl border border-border-subtle shadow-sm flex flex-col items-center text-center">
-                        <div class="w-10 h-10 rounded-full bg-indigo-50 text-indigo-500 flex items-center justify-center text-lg mb-3"><i class="fas fa-user-friends"></i></div>
-                        <h3 class="text-2xl font-bold text-primary font-mono-data mb-1" id="statFollowers">0</h3>
-                        <p class="text-xs text-on-surface-variant font-semibold uppercase tracking-wider">Followers</p>
+                    <div class="glass-card p-5 rounded-2xl flex flex-col items-center text-center hover:bg-white/5 transition-colors">
+                        <div class="w-12 h-12 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-xl mb-4 border border-emerald-500/30"><i class="fas fa-user-friends"></i></div>
+                        <h3 class="text-3xl font-bold text-white font-mono-data mb-1" id="statFollowers">0</h3>
+                        <p class="text-[10px] text-gray-500 font-bold uppercase tracking-widest mt-1 block">Followers</p>
                     </div>
-                    <div class="bg-surface-container-lowest p-5 rounded-xl border border-border-subtle shadow-sm flex flex-col items-center text-center">
-                        <div class="w-10 h-10 rounded-full bg-emerald-50 text-emerald-500 flex items-center justify-center text-lg mb-3"><i class="fas fa-user-plus"></i></div>
-                        <h3 class="text-2xl font-bold text-primary font-mono-data mb-1" id="statFollowing">0</h3>
-                        <p class="text-xs text-on-surface-variant font-semibold uppercase tracking-wider">Following</p>
+                    <div class="glass-card p-5 rounded-2xl flex flex-col items-center text-center hover:bg-white/5 transition-colors">
+                        <div class="w-12 h-12 rounded-xl bg-purple-500/20 text-purple-400 flex items-center justify-center text-xl mb-4 border border-purple-500/30"><i class="fas fa-user-plus"></i></div>
+                        <h3 class="text-3xl font-bold text-white font-mono-data mb-1" id="statFollowing">0</h3>
+                        <p class="text-[10px] text-gray-500 font-bold uppercase tracking-widest mt-1 block">Following</p>
                     </div>
                 </div>
 
                 <!-- Main Content Grid -->
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
                     <!-- Top 5 Projects -->
-                    <div class="bg-surface-container-lowest rounded-xl border border-border-subtle shadow-sm flex flex-col">
-                        <div class="p-5 border-b border-border-subtle">
-                            <h3 class="font-bold text-primary flex items-center gap-2"><i class="fas fa-trophy text-amber-500"></i> Top 5 Projects</h3>
+                    <div class="glass-card rounded-2xl flex flex-col">
+                        <div class="p-5 border-b border-white/10 bg-black/20">
+                            <h3 class="font-bold text-white font-outfit flex items-center gap-2"><i class="fas fa-trophy text-amber-500"></i> Top 5 Projects</h3>
                         </div>
                         <div class="p-5 flex-1 overflow-y-auto flex flex-col gap-4" id="projectList">
                             <!-- Filled by JS -->
@@ -240,19 +274,19 @@
                     </div>
 
                     <!-- Commit Activity Graph -->
-                    <div class="bg-surface-container-lowest rounded-xl border border-border-subtle shadow-sm flex flex-col">
-                        <div class="p-5 border-b border-border-subtle">
-                            <h3 class="font-bold text-primary flex items-center gap-2"><i class="fas fa-chart-area text-indigo-500"></i> Commit Activity (12 Months)</h3>
+                    <div class="glass-card rounded-2xl flex flex-col">
+                        <div class="p-5 border-b border-white/10 bg-black/20">
+                            <h3 class="font-bold text-white font-outfit flex items-center gap-2"><i class="fas fa-chart-area text-indigo-400"></i> Commit Activity (12 Months)</h3>
                         </div>
-                        <div class="p-5 flex-1 relative h-64">
+                        <div class="p-5 flex-1 relative h-64 bg-gray-900/30 rounded-b-2xl">
                             <canvas id="commitChart"></canvas>
                         </div>
                     </div>
 
                     <!-- Languages -->
-                    <div class="bg-surface-container-lowest rounded-xl border border-border-subtle shadow-sm flex flex-col">
-                        <div class="p-5 border-b border-border-subtle">
-                            <h3 class="font-bold text-primary flex items-center gap-2"><i class="fas fa-code text-[#2563EB]"></i> Languages Used</h3>
+                    <div class="glass-card rounded-2xl flex flex-col">
+                        <div class="p-5 border-b border-white/10 bg-black/20">
+                            <h3 class="font-bold text-white font-outfit flex items-center gap-2"><i class="fas fa-code text-purple-400"></i> Languages Used</h3>
                         </div>
                         <div class="p-5 flex flex-wrap gap-3" id="langGrid">
                             <!-- Filled by JS -->
@@ -260,37 +294,35 @@
                     </div>
 
                     <!-- Recent Activity -->
-                    <div class="bg-surface-container-lowest rounded-xl border border-border-subtle shadow-sm flex flex-col">
-                        <div class="p-5 border-b border-border-subtle">
-                            <h3 class="font-bold text-primary flex items-center gap-2"><i class="fas fa-history text-slate-gray"></i> Recent Activity</h3>
+                    <div class="glass-card rounded-2xl flex flex-col">
+                        <div class="p-5 border-b border-white/10 bg-black/20">
+                            <h3 class="font-bold text-white font-outfit flex items-center gap-2"><i class="fas fa-history text-gray-400"></i> Recent Activity</h3>
                         </div>
                         <div class="p-5 flex-1 flex flex-col gap-4 relative" id="activityTimeline">
                             <!-- Timeline line -->
-                            <div class="absolute left-7 top-5 bottom-5 w-px bg-border-subtle z-0 hidden md:block"></div>
+                            <div class="absolute left-7 top-5 bottom-5 w-px bg-white/10 z-0 hidden md:block"></div>
                             <!-- Filled by JS -->
                         </div>
                     </div>
                 </div>
 
                 <!-- LinkedIn Results -->
-                <div class="hidden flex-col gap-8 mt-4" id="linkedinResults">
+                <div class="hidden flex-col gap-8 mt-6" id="linkedinResults">
                     
-                    <div class="flex items-center gap-3">
-                        <div class="w-12 h-12 bg-[#0077b5] text-white rounded flex items-center justify-center text-2xl shadow-sm shrink-0">
-                            <i class="fab fa-linkedin-in"></i>
-                        </div>
+                    <div class="bg-gradient-to-r from-[#0a66c2]/80 to-[#004182]/80 p-6 rounded-2xl flex items-center gap-5 mb-2 shadow-[0_10px_30px_rgba(10,102,194,0.3)] border border-[#0a66c2]/50 backdrop-blur-md">
+                        <div class="w-14 h-14 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-3xl text-white shadow-inner"><i class="fab fa-linkedin-in"></i></div>
                         <div>
-                            <h2 class="text-2xl font-bold text-primary" id="linkedinName">LinkedIn Insights</h2>
-                            <p class="text-sm font-semibold text-on-surface-variant mt-0.5" id="linkedinHeadline"></p>
-                            <p class="text-xs text-slate-gray mt-1" id="linkedinRole"></p>
+                            <h3 class="text-2xl font-bold text-white font-outfit m-0" id="linkedinName">LinkedIn Insights</h3>
+                            <p class="text-blue-100 m-0 mt-1 text-sm font-medium" id="linkedinHeadline"></p>
+                            <p class="text-white/80 font-semibold m-0 mt-2 text-xs uppercase tracking-widest" id="linkedinRole"></p>
                         </div>
                     </div>
 
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
                         <!-- Work Experience -->
-                        <div class="bg-surface-container-lowest rounded-xl border border-border-subtle shadow-sm flex flex-col">
-                            <div class="p-5 border-b border-border-subtle">
-                                <h3 class="font-bold text-primary flex items-center gap-2"><i class="fas fa-briefcase text-slate-gray"></i> Work Experience</h3>
+                        <div class="glass-card rounded-2xl flex flex-col">
+                            <div class="p-5 border-b border-white/10 bg-black/20">
+                                <h3 class="font-bold text-white font-outfit flex items-center gap-2"><i class="fas fa-briefcase text-gray-400"></i> Work Experience</h3>
                             </div>
                             <div class="p-5 flex-1 flex flex-col gap-5" id="experienceList">
                                 <!-- Filled by JS -->
@@ -298,9 +330,9 @@
                         </div>
 
                         <!-- Certifications -->
-                        <div class="bg-surface-container-lowest rounded-xl border border-border-subtle shadow-sm flex flex-col">
-                            <div class="p-5 border-b border-border-subtle">
-                                <h3 class="font-bold text-primary flex items-center gap-2"><i class="fas fa-certificate text-emerald-600"></i> Certifications</h3>
+                        <div class="glass-card rounded-2xl flex flex-col">
+                            <div class="p-5 border-b border-white/10 bg-black/20">
+                                <h3 class="font-bold text-white font-outfit flex items-center gap-2"><i class="fas fa-certificate text-emerald-400"></i> Certifications</h3>
                             </div>
                             <div class="p-5 flex-1 grid grid-cols-1 sm:grid-cols-2 gap-4" id="certGrid">
                                 <!-- Filled by JS -->
@@ -308,9 +340,9 @@
                         </div>
 
                         <!-- Education -->
-                        <div class="bg-surface-container-lowest rounded-xl border border-border-subtle shadow-sm flex flex-col">
-                            <div class="p-5 border-b border-border-subtle">
-                                <h3 class="font-bold text-primary flex items-center gap-2"><i class="fas fa-graduation-cap text-[#2563EB]"></i> Education</h3>
+                        <div class="glass-card rounded-2xl flex flex-col">
+                            <div class="p-5 border-b border-white/10 bg-black/20">
+                                <h3 class="font-bold text-white font-outfit flex items-center gap-2"><i class="fas fa-graduation-cap text-indigo-400"></i> Education</h3>
                             </div>
                             <div class="p-5 flex-1 flex flex-col gap-5" id="educationList">
                                 <!-- Filled by JS -->
@@ -318,15 +350,15 @@
                         </div>
 
                         <!-- Key Highlights + Skills -->
-                        <div class="bg-surface-container-lowest rounded-xl border border-border-subtle shadow-sm flex flex-col">
-                            <div class="p-5 border-b border-border-subtle">
-                                <h3 class="font-bold text-primary flex items-center gap-2"><i class="fas fa-lightbulb text-amber-500"></i> Key Highlights</h3>
+                        <div class="glass-card rounded-2xl flex flex-col">
+                            <div class="p-5 border-b border-white/10 bg-black/20">
+                                <h3 class="font-bold text-white font-outfit flex items-center gap-2"><i class="fas fa-lightbulb text-amber-400"></i> Key Highlights</h3>
                             </div>
                             <div class="p-5 flex-1">
-                                <div class="flex flex-col gap-3 mb-6" id="highlightsList">
+                                <div class="flex flex-col gap-3 mb-6 text-sm text-gray-300 leading-relaxed" id="highlightsList">
                                     <!-- Filled by JS -->
                                 </div>
-                                <h4 class="text-sm font-bold text-primary mb-3 flex items-center gap-2"><i class="fas fa-tags text-[#2563EB]"></i> Skills</h4>
+                                <h4 class="text-sm font-bold text-white font-outfit mb-4 flex items-center gap-2"><i class="fas fa-tags text-indigo-400"></i> Verified Skills</h4>
                                 <div class="flex flex-wrap gap-2" id="skillsCloud">
                                     <!-- Filled by JS -->
                                 </div>
@@ -339,39 +371,23 @@
     </main>
 </div>
 
-<script>
-    // Initialize theme
-    (function() {
-        const isDark = localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches);
-        const icon = document.getElementById('theme-icon');
-        if (isDark) {
-            document.documentElement.classList.add('dark');
-            document.body.classList.add('dark');
-            if (icon && icon.classList.contains('fa-moon')) icon.classList.replace('fa-moon', 'fa-sun');
-        } else {
-            document.documentElement.classList.remove('dark');
-            document.body.classList.remove('dark');
-            if (icon && icon.classList.contains('fa-sun')) icon.classList.replace('fa-sun', 'fa-moon');
-        }
-    })();
-
-    // Toggle theme logic
-    window.toggleTheme = function() {
-        const html = document.documentElement;
-        const icon = document.getElementById('theme-icon');
-        if (html.classList.contains('dark')) {
-            html.classList.remove('dark');
-            document.body.classList.remove('dark');
-            localStorage.setItem('theme', 'light');
-            if (icon) icon.classList.replace('fa-sun', 'fa-moon');
-        } else {
-            html.classList.add('dark');
-            document.body.classList.add('dark');
-            localStorage.setItem('theme', 'dark');
-            if (icon) icon.classList.replace('fa-moon', 'fa-sun');
-        }
-    };
-</script>
 <script src="../js/profile-lookup.js"></script>
+<script>
+    // Load custom profile picture
+    document.addEventListener('DOMContentLoaded', () => {
+        const savedImg = localStorage.getItem('userProfileImage');
+        if (savedImg) {
+            document.querySelectorAll('img[alt="User Avatar"]').forEach(img => {
+                img.src = savedImg;
+            });
+        }
+        
+        // Setup chart defaults for dark theme
+        if (typeof Chart !== 'undefined') {
+            Chart.defaults.color = '#94a3b8';
+            Chart.defaults.borderColor = 'rgba(255, 255, 255, 0.1)';
+        }
+    });
+</script>
 </body>
 </html>

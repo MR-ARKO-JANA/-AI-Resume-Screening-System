@@ -104,6 +104,9 @@ function savePreferences() {
         darkMode
     }));
 
+    // Fire event for theme.js to pick up
+    window.dispatchEvent(new Event('preferencesUpdated'));
+
     showMessage('Preferences saved successfully!', 'success');
 }
 
@@ -139,16 +142,26 @@ function updateWeights() {
 
 // Save Scoring Configuration
 function saveScoring() {
-    const skillWeight = parseInt(document.getElementById('skillWeight').value);
-    const keywordWeight = parseInt(document.getElementById('keywordWeight').value);
-    const expWeight = parseInt(document.getElementById('expWeight').value);
+    let skillWeight = parseInt(document.getElementById('skillWeight').value);
+    let keywordWeight = parseInt(document.getElementById('keywordWeight').value);
+    let expWeight = parseInt(document.getElementById('expWeight').value);
 
-    const total = skillWeight + keywordWeight + expWeight;
+    let total = skillWeight + keywordWeight + expWeight;
 
-    if (total !== 100) {
-        showMessage('Total weight must equal 100%', 'error');
-        return;
+    // Normalize to 100%
+    if (total === 0) {
+        skillWeight = 34; keywordWeight = 33; expWeight = 33;
+    } else {
+        skillWeight = Math.round((skillWeight / total) * 100);
+        keywordWeight = Math.round((keywordWeight / total) * 100);
+        expWeight = 100 - skillWeight - keywordWeight;
     }
+
+    // Update UI with normalized values
+    document.getElementById('skillWeight').value = skillWeight;
+    document.getElementById('keywordWeight').value = keywordWeight;
+    document.getElementById('expWeight').value = expWeight;
+    updateWeights();
 
     localStorage.setItem('scoringWeights', JSON.stringify({
         skillWeight,
@@ -156,7 +169,7 @@ function saveScoring() {
         expWeight
     }));
 
-    showMessage('Scoring configuration saved!', 'success');
+    showMessage('Scoring configuration normalized and saved!', 'success');
 }
 
 // Delete All Data
@@ -235,6 +248,14 @@ window.addEventListener('DOMContentLoaded', () => {
         const prefs = JSON.parse(savedPrefs);
         document.getElementById('emailNotif').checked = prefs.emailNotif;
         document.getElementById('autoArchive').checked = prefs.autoArchive;
+        if (document.getElementById('darkMode')) {
+            document.getElementById('darkMode').checked = prefs.darkMode !== false;
+        }
+    } else {
+        // Defaults
+        if (document.getElementById('darkMode')) {
+            document.getElementById('darkMode').checked = true;
+        }
     }
 
     const savedWeights = localStorage.getItem('scoringWeights');
@@ -245,4 +266,48 @@ window.addEventListener('DOMContentLoaded', () => {
         document.getElementById('expWeight').value = weights.expWeight;
         updateWeights();
     }
+
+    // Load saved profile image
+    const savedImg = localStorage.getItem('userProfileImage');
+    if (savedImg) {
+        updateAllAvatars(savedImg);
+    }
 });
+
+// Profile Image Upload Handlers
+document.getElementById('profileImageInput')?.addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (file) {
+        if (file.size > 2 * 1024 * 1024) {
+            showMessage('Image must be less than 2MB', 'error');
+            return;
+        }
+        const reader = new FileReader();
+        reader.onload = function(event) {
+            const base64Str = event.target.result;
+            localStorage.setItem('userProfileImage', base64Str);
+            updateAllAvatars(base64Str);
+            showMessage('Profile photo updated', 'success');
+        };
+        reader.readAsDataURL(file);
+    }
+});
+
+function removeProfileImage() {
+    localStorage.removeItem('userProfileImage');
+    const defaultImg = '../images/user_img.webp';
+    updateAllAvatars(defaultImg);
+    showMessage('Profile photo removed', 'success');
+}
+
+function updateAllAvatars(src) {
+    // Update preview if it exists on page
+    const preview = document.getElementById('profilePreview');
+    if (preview) preview.src = src;
+    
+    // Update all header avatars
+    document.querySelectorAll('img[alt="User Avatar"]').forEach(img => {
+        img.src = src;
+    });
+}
+
