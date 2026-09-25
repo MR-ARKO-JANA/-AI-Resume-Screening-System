@@ -97,7 +97,7 @@
 <script src="../js/theme.js"></script>
 </head>
 
-<body class="bg-[#0B0F19] text-gray-200 min-h-screen flex relative overflow-hidden">
+<body class="bg-[#0B0F19] text-gray-200 h-screen flex relative overflow-hidden">
     
     <!-- Background Animated Orbs -->
     <div class="orb-1 fixed top-[-10%] left-[-5%] w-[50vw] h-[50vw] rounded-full bg-gradient-to-br from-indigo-500/20 to-purple-600/20 blur-[120px] z-0 pointer-events-none"></div>
@@ -155,7 +155,7 @@
     </nav>
 
     <!-- Main Content Area -->
-    <div class="flex-1 flex flex-col min-w-0 md:ml-[280px] relative z-10">
+    <div class="flex-1 flex flex-col min-w-0 md:ml-[280px] relative z-10 h-screen overflow-y-auto">
         <!-- TopAppBar Component -->
         <header class="flex justify-between items-center h-16 px-6 glass-header sticky top-0 z-10 w-full">
             <div class="flex items-center md:hidden">
@@ -272,18 +272,113 @@
                                     <span class="text-[10px] text-gray-500 mt-1 font-semibold uppercase tracking-wider block">Supported: PDF, DOC, DOCX (Max 5MB)</span>
                                 </div>
 
+                                <!-- Target Role Selection -->
+                                <div class="mb-3">
+                                    <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider mb-1">
+                                        <i class="fas fa-crosshairs text-indigo-400 mr-1"></i> Target Role or Career Goal
+                                    </label>
+                                    <div class="relative input-focus-glow rounded-xl transition-all duration-300">
+                                        <select id="targetRoleKey" name="targetRoleKey" class="w-full px-3 py-2 bg-gray-900/50 border border-gray-700/50 rounded-xl text-white text-xs focus:outline-none focus:ring-0 transition-colors">
+                                            <option value="frontend-developer">Frontend Developer (React, Next.js, TypeScript, Tailwind, REST)</option>
+                                            <option value="backend-developer">Backend Developer (Node.js, Express, Python, MongoDB, PostgreSQL, Docker)</option>
+                                            <option value="fullstack-developer">Full Stack Developer (React, Node.js, Express, MongoDB, TypeScript, CI/CD)</option>
+                                            <option value="data-scientist">Data Scientist / AI Engineer (Python, Pandas, Scikit-learn, SQL, ML)</option>
+                                            <option value="devops-cloud-engineer">DevOps & Cloud Engineer (Linux, Docker, Kubernetes, AWS, CI/CD)</option>
+                                            <option value="custom">Custom Job Description (Paste Below)</option>
+                                        </select>
+                                    </div>
+                                    <!-- Dynamic Role Skills Preview -->
+                                    <div id="roleSkillsPreview" class="mt-2 flex flex-wrap gap-1.5 items-center">
+                                        <span class="text-[10px] text-gray-400 font-semibold uppercase tracking-wider">Required Skills:</span>
+                                        <div id="skillsTagsContainer" class="flex flex-wrap gap-1"></div>
+                                    </div>
+                                </div>
+
                                 <!-- Job Description -->
                                 <div class="mb-3">
-                                    <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider mb-1"><i class="fas fa-briefcase text-indigo-400 mr-1"></i> Job Description Context</label>
+                                    <div class="flex items-center justify-between mb-1">
+                                        <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider">
+                                            <i class="fas fa-briefcase text-indigo-400 mr-1"></i> Job Description Context (Optional if role selected)
+                                        </label>
+                                        <span class="text-[10px] text-indigo-400 cursor-pointer hover:underline" id="autoFillRoleJd">
+                                            <i class="fas fa-magic mr-0.5"></i> Auto-fill from selected role
+                                        </span>
+                                    </div>
                                     <div class="relative input-focus-glow rounded-xl transition-all duration-300">
-                                        <textarea id="jobDesc" name="jobDesc" class="w-full h-16 px-3 py-2 bg-gray-900/50 border border-gray-700/50 rounded-xl text-white placeholder-gray-600 focus:outline-none focus:ring-0 transition-colors resize-none text-xs" placeholder="Paste the exact job description here for the AI to match against..." required></textarea>
+                                        <textarea id="jobDesc" name="jobDesc" class="w-full h-16 px-3 py-2 bg-gray-900/50 border border-gray-700/50 rounded-xl text-white placeholder-gray-600 focus:outline-none focus:ring-0 transition-colors resize-none text-xs" placeholder="Paste the job description here, or choose a target role above..."></textarea>
                                     </div>
                                 </div>
 
                                 <button class="w-full py-2.5 bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-bold rounded-xl shadow-[0_10px_20px_-10px_rgba(99,102,241,0.6)] hover:shadow-[0_15px_25px_-10px_rgba(99,102,241,0.8)] hover:-translate-y-0.5 transition-all duration-300 flex items-center justify-center gap-2 text-sm" type="submit">
-                                    <i class="fas fa-magic"></i> Start AI Analysis
+                                    <i class="fas fa-magic"></i> Start AI Analysis & Generate Roadmap
                                 </button>
                             </form>
+                        </div>
+
+                        <!-- 1-Click Interactive EdTech Demos Showcase -->
+                        <div class="glass-card rounded-2xl p-4 border border-indigo-500/20 bg-gradient-to-br from-indigo-500/5 via-purple-500/5 to-transparent">
+                            <div class="flex items-center justify-between border-b border-white/10 pb-2 mb-3">
+                                <div>
+                                    <h2 class="text-base font-bold text-white font-outfit flex items-center gap-2">
+                                        <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                                        Instant 1-Click Demos (3 Resumes & 3 Target Roles)
+                                    </h2>
+                                    <p class="text-[11px] text-gray-400 mt-0.5">Test pre-loaded student resumes against industry roles with full skill gap analysis & roadmaps</p>
+                                </div>
+                                <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
+                                    Live Evaluation
+                                </span>
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                                <!-- Demo Card 1 -->
+                                <div class="bg-white/5 border border-white/10 hover:border-indigo-500/50 rounded-xl p-3 flex flex-col justify-between transition-all duration-300 hover:-translate-y-0.5 group">
+                                    <div>
+                                        <div class="flex items-center justify-between mb-1.5">
+                                            <span class="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-blue-500/20 text-blue-300 border border-blue-500/30">Demo 1</span>
+                                            <span class="text-[10px] text-gray-400 font-mono-data">Fresher</span>
+                                        </div>
+                                        <h3 class="text-sm font-bold text-white group-hover:text-indigo-300 transition-colors">Alex Sharma</h3>
+                                        <p class="text-[11px] text-indigo-400 font-medium mb-1">Target: Frontend Developer</p>
+                                        <p class="text-[10px] text-gray-400 leading-relaxed mb-2 line-clamp-2">CS Senior with React & JS fundamentals. Gaps in TypeScript, Next.js, and Jest.</p>
+                                    </div>
+                                    <button onclick="runDemo('demo-frontend-fresher')" class="w-full mt-2 py-1.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white rounded-lg text-xs font-bold transition-all shadow flex items-center justify-center gap-1.5">
+                                        <i class="fas fa-bolt text-[11px]"></i> Run Frontend Demo
+                                    </button>
+                                </div>
+
+                                <!-- Demo Card 2 -->
+                                <div class="bg-white/5 border border-white/10 hover:border-purple-500/50 rounded-xl p-3 flex flex-col justify-between transition-all duration-300 hover:-translate-y-0.5 group">
+                                    <div>
+                                        <div class="flex items-center justify-between mb-1.5">
+                                            <span class="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 border border-purple-500/30">Demo 2</span>
+                                            <span class="text-[10px] text-gray-400 font-mono-data">Junior Dev</span>
+                                        </div>
+                                        <h3 class="text-sm font-bold text-white group-hover:text-purple-300 transition-colors">Priya Patel</h3>
+                                        <p class="text-[11px] text-purple-400 font-medium mb-1">Target: Full Stack Developer</p>
+                                        <p class="text-[10px] text-gray-400 leading-relaxed mb-2 line-clamp-2">Node.js/Express specialist. Gaps in Docker, React hydration, and CI/CD pipelines.</p>
+                                    </div>
+                                    <button onclick="runDemo('demo-fullstack-junior')" class="w-full mt-2 py-1.5 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white rounded-lg text-xs font-bold transition-all shadow flex items-center justify-center gap-1.5">
+                                        <i class="fas fa-bolt text-[11px]"></i> Run Full Stack Demo
+                                    </button>
+                                </div>
+
+                                <!-- Demo Card 3 -->
+                                <div class="bg-white/5 border border-white/10 hover:border-emerald-500/50 rounded-xl p-3 flex flex-col justify-between transition-all duration-300 hover:-translate-y-0.5 group">
+                                    <div>
+                                        <div class="flex items-center justify-between mb-1.5">
+                                            <span class="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Demo 3</span>
+                                            <span class="text-[10px] text-gray-400 font-mono-data">Math & Stats</span>
+                                        </div>
+                                        <h3 class="text-sm font-bold text-white group-hover:text-emerald-300 transition-colors">David Kim</h3>
+                                        <p class="text-[11px] text-emerald-400 font-medium mb-1">Target: Data Scientist / AI</p>
+                                        <p class="text-[10px] text-gray-400 leading-relaxed mb-2 line-clamp-2">Python, EDA, and Scikit-Learn foundation. Gaps in PyTorch, MLOps, and SQL.</p>
+                                    </div>
+                                    <button onclick="runDemo('demo-datascience-student')" class="w-full mt-2 py-1.5 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white rounded-lg text-xs font-bold transition-all shadow flex items-center justify-center gap-1.5">
+                                        <i class="fas fa-bolt text-[11px]"></i> Run AI/Data Demo
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </div>
 

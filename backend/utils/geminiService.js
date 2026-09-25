@@ -11,10 +11,8 @@ async function analyzeWithGemini(resumeText, jobDescription) {
 
     try {
         const genAI = new GoogleGenerativeAI(apiKey);
-        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-
         const prompt = `
-            You are an expert HR Recruitment AI. Analyze the following resume against the job description.
+            You are an expert HR Recruitment AI and EdTech Career Coach. Analyze the following resume against the job description.
             
             JOB DESCRIPTION:
             ${jobDescription}
@@ -24,16 +22,28 @@ async function analyzeWithGemini(resumeText, jobDescription) {
             
             Provide a concise (2-3 sentences) professional recommendation. 
             Focus on:
-            1. Core technical alignment.
+            1. Core technical alignment and key missing areas.
             2. Any unique strengths or glaring gaps.
-            3. Final verdict (Shortlist/Review/Reject).
+            3. Final verdict (Shortlist/Review/Reject) and recommendation for upskilling.
             
             Return ONLY the analysis text.
         `;
 
-        const result = await model.generateContent(prompt);
-        const response = await result.response;
-        return response.text();
+        const modelsToTry = ["gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash"];
+        for (const modelName of modelsToTry) {
+            try {
+                const model = genAI.getGenerativeModel({ model: modelName });
+                const result = await model.generateContent(prompt);
+                const response = await result.response;
+                const text = response.text();
+                if (text && text.trim().length > 0) {
+                    return text.trim();
+                }
+            } catch (err) {
+                console.warn(`Model ${modelName} call failed:`, err.message);
+            }
+        }
+        return null;
     } catch (error) {
         console.error("Gemini Analysis Error:", error);
         return null;

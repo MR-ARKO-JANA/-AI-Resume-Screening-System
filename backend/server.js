@@ -17,6 +17,7 @@ const resumeRoutes = require('./routes/resume.routes');
 const dashboardRoutes = require('./routes/dashboard.routes');
 const profileRoutes = require('./routes/profile.routes');
 const jobRoutes = require('./routes/job.routes');
+const edtechRoutes = require('./routes/edtech.routes');
 
 const JWT_SECRET = process.env.JWT_SECRET || "default_secret_change_in_production";
 
@@ -154,6 +155,7 @@ app.use('/', resumeRoutes);
 app.use('/', dashboardRoutes);
 app.use('/', profileRoutes);
 app.use('/', jobRoutes);
+app.use('/', edtechRoutes);
 
 // Multer error handling middleware (must be AFTER routes to catch multer errors)
 app.use((err, req, res, next) => {

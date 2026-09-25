@@ -97,7 +97,7 @@
 </script>
 <script src="../js/theme.js"></script>
 </head>
-<body class="bg-[#0B0F19] text-gray-200 min-h-screen flex relative overflow-hidden">
+<body class="bg-[#0B0F19] text-gray-200 h-screen flex relative overflow-hidden">
     
 <!-- Background Animated Orbs -->
 <div class="orb-1 fixed top-[-10%] left-[-5%] w-[50vw] h-[50vw] rounded-full bg-gradient-to-br from-indigo-500/20 to-purple-600/20 blur-[120px] z-0 pointer-events-none"></div>
@@ -167,7 +167,7 @@
 </nav>
 
 <!-- Main Content Area -->
-<div class="flex-1 flex flex-col min-w-0 md:ml-[280px] relative z-10">
+<div class="flex-1 flex flex-col min-w-0 md:ml-[280px] relative z-10 h-screen overflow-y-auto">
     <!-- TopAppBar Component -->
     <header class="flex justify-between items-center h-16 px-6 glass-header sticky top-0 z-10 w-full">
         <div class="flex items-center md:hidden">
@@ -195,178 +195,322 @@
         <div class="max-w-[1440px] mx-auto space-y-6 pb-12">
             
             <!-- Page Header -->
-            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-2">
                 <div>
+                    <div class="flex items-center gap-2 mb-1">
+                        <span id="targetRoleBadge" class="px-2.5 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
+                            Target Role
+                        </span>
+                        <span id="candidateHeadlineBadge" class="text-xs text-gray-400 font-medium"></span>
+                    </div>
                     <h1 class="text-3xl font-bold tracking-tight text-white font-outfit flex items-center gap-3">
-                        <i class="fas fa-chart-line text-indigo-500"></i> Screening Result
+                        <span id="candidateNameHeader">Candidate Evaluation</span>
                     </h1>
-                    <p class="text-gray-400 text-sm mt-1">Detailed AI-powered analysis of candidate resume</p>
+                    <p class="text-gray-400 text-xs mt-1" id="analysisSubtitle">Personalized skill gap analysis, week-by-week learning roadmap, and resume improvement engine</p>
                 </div>
                 <div class="flex flex-wrap items-center gap-3">
-                    <button id="downloadPDF" class="px-4 py-2.5 glass-card border border-white/10 text-white font-bold rounded-xl hover:bg-white/10 transition-colors flex items-center gap-2">
-                        <i class="fas fa-file-pdf text-red-400"></i> Download PDF Report
+                    <button id="downloadPDF" class="px-4 py-2.5 bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white font-bold rounded-xl shadow-lg transition-all flex items-center gap-2 text-sm">
+                        <i class="fas fa-file-pdf"></i> Export Roadmap & Report (PDF)
                     </button>
-                    <button onclick="window.location.href='/dashboard'" class="px-4 py-2.5 bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-bold rounded-xl shadow-[0_10px_20px_-10px_rgba(99,102,241,0.6)] hover:shadow-[0_15px_25px_-10px_rgba(99,102,241,0.8)] hover:-translate-y-0.5 transition-all duration-300 flex items-center gap-2">
-                        <i class="fas fa-arrow-left"></i> Back to Dashboard
+                    <button onclick="window.location.href='/dashboard'" class="px-4 py-2.5 glass-card border border-white/10 text-white font-bold rounded-xl hover:bg-white/10 transition-colors flex items-center gap-2 text-sm">
+                        <i class="fas fa-arrow-left"></i> Dashboard
                     </button>
                 </div>
             </div>
 
-            <!-- Summary Cards -->
-            <section class="summary grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div class="summary-card score glass-card p-6 rounded-2xl flex items-start gap-4 relative overflow-hidden">
-                    <div class="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-transparent z-0 pointer-events-none"></div>
-                    <div class="w-12 h-12 bg-purple-500/20 border border-purple-500/30 text-purple-400 rounded-xl flex items-center justify-center text-xl shrink-0 relative z-10"><i class="fas fa-percentage"></i></div>
+            <!-- Summary Cards (4 Metrics) -->
+            <section class="summary grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <!-- Match Score -->
+                <div class="summary-card score glass-card p-5 rounded-2xl flex items-start gap-4 relative overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-br from-indigo-500/10 to-transparent z-0 pointer-events-none"></div>
+                    <div class="w-12 h-12 bg-indigo-500/20 border border-indigo-500/30 text-indigo-400 rounded-xl flex items-center justify-center text-xl shrink-0 relative z-10"><i class="fas fa-percentage"></i></div>
                     <div class="card-content flex-1 relative z-10">
-                        <h3 class="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-1">Match Score</h3>
-                        <p class="text-3xl font-bold text-white font-mono-data mb-2">--%</p>
-                        <span class="card-trend text-[10px] font-bold px-2 py-1 bg-white/5 border border-white/10 rounded-lg text-gray-400 inline-flex items-center gap-1">Loading...</span>
+                        <h3 class="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-0.5">Skill Match Score</h3>
+                        <p class="text-3xl font-bold text-white font-mono-data mb-1">--%</p>
+                        <span class="card-trend text-[10px] font-bold px-2 py-0.5 bg-white/5 border border-white/10 rounded-lg text-gray-400 inline-flex items-center gap-1">Analyzing...</span>
                     </div>
                 </div>
                 
-                <div class="summary-card status glass-card p-6 rounded-2xl flex items-start gap-4 relative overflow-hidden">
+                <!-- ATS Score -->
+                <div class="summary-card ats-score glass-card p-5 rounded-2xl flex items-start gap-4 relative overflow-hidden">
                     <div class="absolute inset-0 bg-gradient-to-br from-emerald-500/10 to-transparent z-0 pointer-events-none"></div>
-                    <div class="w-12 h-12 bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 rounded-xl flex items-center justify-center text-xl shrink-0 relative z-10"><i class="fas fa-check-circle"></i></div>
+                    <div class="w-12 h-12 bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 rounded-xl flex items-center justify-center text-xl shrink-0 relative z-10"><i class="fas fa-shield-alt"></i></div>
                     <div class="card-content flex-1 relative z-10">
-                        <h3 class="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-1">Status</h3>
-                        <p class="text-2xl font-bold text-white font-outfit mb-2 mt-1 truncate">Loading...</p>
-                        <span class="card-trend text-[10px] font-bold px-2 py-1 bg-white/5 border border-white/10 rounded-lg text-gray-400 inline-flex items-center gap-1">Loading...</span>
+                        <h3 class="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-0.5">ATS Compatibility</h3>
+                        <p id="atsScoreValue" class="text-3xl font-bold text-emerald-400 font-mono-data mb-1">--%</p>
+                        <span id="atsRatingBadge" class="text-[10px] font-bold px-2 py-0.5 bg-emerald-500/10 text-emerald-300 border border-emerald-500/20 rounded-lg inline-flex items-center gap-1">Checking ATS...</span>
                     </div>
                 </div>
 
-                <div class="summary-card experience glass-card p-6 rounded-2xl flex items-start gap-4 relative overflow-hidden">
-                    <div class="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-transparent z-0 pointer-events-none"></div>
-                    <div class="w-12 h-12 bg-blue-500/20 border border-blue-500/30 text-blue-400 rounded-xl flex items-center justify-center text-xl shrink-0 relative z-10"><i class="fas fa-briefcase"></i></div>
-                    <div class="card-content flex-1 relative z-10">
-                        <h3 class="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-1">Experience</h3>
-                        <p class="text-2xl font-bold text-white font-outfit mb-2 mt-1">Loading...</p>
-                        <span class="card-trend text-[10px] font-bold px-2 py-1 bg-white/5 border border-white/10 rounded-lg text-gray-400 inline-flex items-center gap-1">Loading...</span>
-                    </div>
-                </div>
-
-                <div class="summary-card confidence glass-card p-6 rounded-2xl flex items-start gap-4 relative overflow-hidden">
+                <!-- Skill Gaps Count -->
+                <div class="summary-card gaps glass-card p-5 rounded-2xl flex items-start gap-4 relative overflow-hidden">
                     <div class="absolute inset-0 bg-gradient-to-br from-amber-500/10 to-transparent z-0 pointer-events-none"></div>
-                    <div class="w-12 h-12 bg-amber-500/20 border border-amber-500/30 text-amber-400 rounded-xl flex items-center justify-center text-xl shrink-0 relative z-10"><i class="fas fa-brain"></i></div>
+                    <div class="w-12 h-12 bg-amber-500/20 border border-amber-500/30 text-amber-400 rounded-xl flex items-center justify-center text-xl shrink-0 relative z-10"><i class="fas fa-chart-line"></i></div>
                     <div class="card-content flex-1 relative z-10">
-                        <h3 class="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-1">AI Confidence</h3>
-                        <p class="text-3xl font-bold text-white font-mono-data mb-2">--%</p>
-                        <span class="card-trend text-[10px] font-bold px-2 py-1 bg-white/5 border border-white/10 rounded-lg text-gray-400 inline-flex items-center gap-1">Loading...</span>
+                        <h3 class="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-0.5">Skill Gaps Identified</h3>
+                        <p id="skillGapsCount" class="text-3xl font-bold text-amber-400 font-mono-data mb-1">0</p>
+                        <span id="skillsRatioBadge" class="text-[10px] font-bold px-2 py-0.5 bg-white/5 border border-white/10 rounded-lg text-gray-400 inline-flex items-center gap-1">0 matched</span>
+                    </div>
+                </div>
+
+                <!-- Roadmap Milestone Progress -->
+                <div class="summary-card roadmap-progress glass-card p-5 rounded-2xl flex items-start gap-4 relative overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-transparent z-0 pointer-events-none"></div>
+                    <div class="w-12 h-12 bg-purple-500/20 border border-purple-500/30 text-purple-400 rounded-xl flex items-center justify-center text-xl shrink-0 relative z-10"><i class="fas fa-graduation-cap"></i></div>
+                    <div class="card-content flex-1 relative z-10">
+                        <h3 class="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-0.5">Roadmap Progress</h3>
+                        <p id="milestoneProgressPct" class="text-3xl font-bold text-purple-400 font-mono-data mb-1">0%</p>
+                        <span id="milestoneRatioBadge" class="text-[10px] font-bold px-2 py-0.5 bg-purple-500/10 text-purple-300 border border-purple-500/20 rounded-lg inline-flex items-center gap-1">0/0 completed</span>
                     </div>
                 </div>
             </section>
 
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <!-- Main Details -->
-                <div class="col-span-1 lg:col-span-2 space-y-6">
-                    
-                    <!-- Scoring Breakdown -->
-                    <section class="scoring-breakdown glass-card rounded-2xl flex flex-col">
-                        <div class="p-6 border-b border-white/10 bg-black/20 flex items-center justify-between">
-                            <h2 class="text-xl font-bold text-white font-outfit flex items-center gap-2"><i class="fas fa-chart-pie text-indigo-400"></i> Scoring Breakdown</h2>
-                            <button id="downloadPDFSecondary" class="text-xs font-bold text-indigo-400 hover:text-indigo-300 flex items-center gap-1 uppercase tracking-wider transition-colors">
-                                <i class="fas fa-download"></i> Export
-                            </button>
-                        </div>
-                        <div class="p-6 space-y-6">
-                            <div class="breakdown-item bg-white/5 p-4 rounded-xl border border-white/5">
-                                <div class="flex justify-between items-center mb-1">
-                                    <h3 class="text-sm font-bold text-white">Skill Match (60%)</h3>
-                                </div>
-                                <p id="skillBreakdown" class="text-sm text-gray-400 mb-3">Loading analysis...</p>
-                                <div class="progress-bar bg-white/10 h-2 rounded-full overflow-hidden">
-                                    <div id="skillProgress" class="progress-fill bg-gradient-to-r from-indigo-500 to-purple-600 h-full rounded-full transition-all duration-1000 w-0"></div>
-                                </div>
-                            </div>
-                            <div class="breakdown-item bg-white/5 p-4 rounded-xl border border-white/5">
-                                <div class="flex justify-between items-center mb-1">
-                                    <h3 class="text-sm font-bold text-white">Keyword Match (30%)</h3>
-                                </div>
-                                <p id="keywordBreakdown" class="text-sm text-gray-400 mb-3">Loading analysis...</p>
-                                <div class="progress-bar bg-white/10 h-2 rounded-full overflow-hidden">
-                                    <div id="keywordProgress" class="progress-fill bg-gradient-to-r from-blue-500 to-cyan-500 h-full rounded-full transition-all duration-1000 w-0"></div>
-                                </div>
-                            </div>
-                            <div class="breakdown-item bg-white/5 p-4 rounded-xl border border-white/5">
-                                <div class="flex justify-between items-center mb-1">
-                                    <h3 class="text-sm font-bold text-white">Experience (10%)</h3>
-                                </div>
-                                <p id="experienceBreakdown" class="text-sm text-gray-400 mb-3">Loading analysis...</p>
-                                <div class="progress-bar bg-white/10 h-2 rounded-full overflow-hidden">
-                                    <div id="experienceProgress" class="progress-fill bg-gradient-to-r from-emerald-500 to-teal-500 h-full rounded-full transition-all duration-1000 w-0"></div>
-                                </div>
-                            </div>
-                            <p id="scoringExplanation" class="text-xs font-semibold text-gray-500 italic mt-6 pt-4 border-t border-white/10"></p>
-                        </div>
-                    </section>
+            <!-- Navigation Tabs for Detailed Views -->
+            <div class="flex items-center gap-2 border-b border-white/10 pb-2 overflow-x-auto no-scrollbar">
+                <button class="tab-pill px-4 py-2 rounded-xl text-xs font-bold transition-all bg-indigo-500/20 text-indigo-300 border border-indigo-500/30" data-target="tab-roadmap">
+                    <i class="fas fa-map-signs mr-1.5"></i> Learning Roadmap (6 Weeks)
+                </button>
+                <button class="tab-pill px-4 py-2 rounded-xl text-xs font-bold transition-all text-gray-400 hover:text-white hover:bg-white/5 border border-transparent" data-target="tab-skills">
+                    <i class="fas fa-balance-scale mr-1.5"></i> Matched vs Missing Skills
+                </button>
+                <button class="tab-pill px-4 py-2 rounded-xl text-xs font-bold transition-all text-gray-400 hover:text-white hover:bg-white/5 border border-transparent" data-target="tab-profile">
+                    <i class="fas fa-user-graduate mr-1.5"></i> Extracted Education & Projects
+                </button>
+                <button class="tab-pill px-4 py-2 rounded-xl text-xs font-bold transition-all text-gray-400 hover:text-white hover:bg-white/5 border border-transparent" data-target="tab-improvements">
+                    <i class="fas fa-magic mr-1.5"></i> Resume Improvement Tips
+                </button>
+                <button class="tab-pill px-4 py-2 rounded-xl text-xs font-bold transition-all text-gray-400 hover:text-white hover:bg-white/5 border border-transparent" data-target="tab-mock">
+                    <i class="fas fa-comments mr-1.5"></i> Mock Interview Prep
+                </button>
+            </div>
 
-                    <!-- Skills -->
-                    <section class="skills-section glass-card rounded-2xl flex flex-col">
-                        <div class="p-6 border-b border-white/10 bg-black/20 flex items-center justify-between">
-                            <h2 class="text-xl font-bold text-white font-outfit flex items-center gap-2"><i class="fas fa-code text-purple-400"></i> Skill Match</h2>
-                            <span class="skill-count text-xs font-bold px-2.5 py-1 bg-white/10 text-white rounded-lg border border-white/5 uppercase tracking-wider">0 skills found</span>
+            <!-- Tab 1: Learning Roadmap & Progress Tracker -->
+            <div id="tab-roadmap" class="tab-content space-y-6">
+                <!-- Roadmap Overview Banner -->
+                <div class="glass-card p-6 rounded-2xl border border-indigo-500/30 bg-gradient-to-r from-indigo-500/10 via-purple-500/5 to-transparent flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div>
+                        <div class="flex items-center gap-2 mb-1">
+                            <span class="px-2 py-0.5 text-[10px] font-bold uppercase rounded bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">Personalized Timeline</span>
+                            <span class="text-xs text-gray-400" id="roadmapHoursEst">Est. 8-12 hrs/week</span>
                         </div>
-                        <div class="p-6 skills space-y-4">
-                            <!-- Dynamic Skills Render Here -->
-                            <p class="text-sm text-gray-400 italic">Extracting skills...</p>
+                        <h2 class="text-xl font-bold text-white font-outfit">Time-Bound Learning Roadmap for <span id="roadmapRoleTitle" class="text-indigo-400">Target Role</span></h2>
+                        <p class="text-xs text-gray-400 mt-1">Check off weekly milestones as you study to track your job-readiness journey in real-time.</p>
+                    </div>
+                    <div class="w-full md:w-64">
+                        <div class="flex justify-between items-center text-xs font-bold mb-1.5">
+                            <span class="text-gray-300">Completion</span>
+                            <span id="roadmapOverallPct" class="text-indigo-400 font-mono-data">0%</span>
                         </div>
-                    </section>
+                        <div class="w-full h-2.5 bg-white/10 rounded-full overflow-hidden">
+                            <div id="roadmapProgressBar" class="h-full bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full transition-all duration-500 w-0"></div>
+                        </div>
+                    </div>
                 </div>
-                
-                <!-- Side Panel -->
-                <div class="col-span-1 space-y-6">
-                    
-                    <!-- AI Recommendation -->
-                    <section class="glass-card bg-gradient-to-br from-indigo-500/10 to-purple-600/10 p-6 rounded-2xl border-indigo-500/30 relative overflow-hidden shadow-[inset_0_0_20px_rgba(99,102,241,0.1)]">
-                        <div class="absolute top-0 right-0 w-32 h-32 bg-indigo-500/20 blur-[50px] rounded-full pointer-events-none"></div>
-                        <div class="flex items-center justify-between mb-5 relative z-10">
-                            <h2 class="text-lg font-bold text-white font-outfit flex items-center gap-2"><i class="fas fa-lightbulb text-amber-400"></i> Recommendation</h2>
-                            <span class="recommendation-badge text-[10px] uppercase tracking-wider font-bold px-2 py-1 rounded-lg inline-flex items-center gap-1 bg-white/10 text-white border border-white/5">
-                                Processing...
-                            </span>
-                        </div>
-                        <div class="recommendation relative z-10">
-                            <p class="text-sm text-gray-300 leading-relaxed font-medium">Generating AI insights and recommendation based on the candidate's profile...</p>
-                        </div>
-                    </section>
 
-                    <!-- Resume Preview -->
-                    <section class="glass-card rounded-2xl flex flex-col">
-                        <div class="p-5 border-b border-white/10 bg-black/20">
-                            <h2 class="text-lg font-bold text-white font-outfit flex items-center gap-2"><i class="fas fa-file-pdf text-red-400"></i> Original Resume</h2>
-                        </div>
-                        <div class="p-5">
-                            <div class="flex items-center justify-between p-4 bg-white/5 rounded-xl border border-white/10">
-                                <div class="flex items-center gap-3">
-                                    <div class="w-10 h-10 bg-red-500/20 text-red-400 rounded-lg flex items-center justify-center text-xl shrink-0"><i class="fas fa-file-pdf"></i></div>
-                                    <div>
-                                        <p class="file-name font-bold text-white text-sm truncate max-w-[120px]">Loading...</p>
-                                        <span class="text-xs text-gray-400">Uploaded Document</span>
-                                    </div>
-                                </div>
-                                <div class="flex items-center gap-2">
-                                    <button class="btn-view w-9 h-9 flex items-center justify-center bg-white/5 border border-white/10 rounded-lg hover:bg-white/10 hover:text-white text-gray-400 transition-colors" title="View">
-                                        <i class="fas fa-eye"></i>
-                                    </button>
-                                    <button class="btn-download w-9 h-9 flex items-center justify-center bg-white/5 border border-white/10 rounded-lg hover:bg-white/10 hover:text-white text-gray-400 transition-colors" title="Download">
-                                        <i class="fas fa-download"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
+                <!-- Weeks Grid -->
+                <div id="roadmapWeeksContainer" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Dynamic Week Cards Injected Here -->
+                </div>
 
-                    <!-- Actions Panel -->
-                    <section class="glass-card rounded-2xl flex flex-col">
-                        <div class="p-5 border-b border-white/10 bg-black/20">
-                            <h2 class="text-lg font-bold text-white font-outfit flex items-center gap-2"><i class="fas fa-tasks text-emerald-400"></i> Take Action</h2>
-                        </div>
-                        <div class="p-5 actions flex flex-col gap-3">
-                            <!-- Dynamic Actions Render Here -->
-                            <p class="text-xs text-gray-400 italic">Waiting for analysis...</p>
-                        </div>
-                    </section>
+                <!-- Suggested Projects Showcase -->
+                <div class="glass-card p-6 rounded-2xl">
+                    <div class="flex items-center justify-between border-b border-white/10 pb-3 mb-4">
+                        <h3 class="text-base font-bold text-white font-outfit flex items-center gap-2">
+                            <i class="fas fa-laptop-code text-indigo-400"></i> Recommended Portfolio Projects for Target Role
+                        </h3>
+                        <span class="text-xs text-gray-400">Build to prove skills to recruiters</span>
+                    </div>
+                    <div id="suggestedProjectsContainer" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- Dynamic Project Ideas Injected Here -->
+                    </div>
                 </div>
             </div>
+
+            <!-- Tab 2: Matched vs Missing Skills -->
+            <div id="tab-skills" class="tab-content hidden space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Matched Skills Card -->
+                    <div class="glass-card rounded-2xl p-6 border-emerald-500/30">
+                        <div class="flex items-center justify-between border-b border-white/10 pb-3 mb-4">
+                            <h3 class="text-base font-bold text-white font-outfit flex items-center gap-2">
+                                <span class="w-7 h-7 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-sm"><i class="fas fa-check"></i></span>
+                                Matched Skills (You Have These)
+                            </h3>
+                            <span id="matchedCountBadge" class="text-xs font-bold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300">0 skills</span>
+                        </div>
+                        <p class="text-xs text-gray-400 mb-3">Skills found in your resume that directly align with the target role requirements.</p>
+                        <div id="matchedSkillsList" class="flex flex-wrap gap-2">
+                            <!-- Injected Badges -->
+                        </div>
+                    </div>
+
+                    <!-- Missing Skills / Skill Gaps Card -->
+                    <div class="glass-card rounded-2xl p-6 border-amber-500/30">
+                        <div class="flex items-center justify-between border-b border-white/10 pb-3 mb-4">
+                            <h3 class="text-base font-bold text-white font-outfit flex items-center gap-2">
+                                <span class="w-7 h-7 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center text-sm"><i class="fas fa-exclamation-triangle"></i></span>
+                                Missing Skills (Skill Gaps to Bridge)
+                            </h3>
+                            <span id="missingCountBadge" class="text-xs font-bold px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300">0 skills</span>
+                        </div>
+                        <p class="text-xs text-gray-400 mb-3">Key proficiencies expected for this role not detected in your resume. Prioritized in your roadmap below.</p>
+                        <div id="missingSkillsList" class="flex flex-wrap gap-2">
+                            <!-- Injected Badges -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Detailed Breakdown Bars -->
+                <div class="glass-card rounded-2xl p-6">
+                    <h3 class="text-base font-bold text-white font-outfit mb-4 flex items-center gap-2">
+                        <i class="fas fa-chart-pie text-indigo-400"></i> Transparent Scoring Breakdown
+                    </h3>
+                    <div class="space-y-4">
+                        <div>
+                            <div class="flex justify-between text-xs font-semibold mb-1">
+                                <span class="text-gray-300">Skill Match (60% weight)</span>
+                                <span id="skillBreakdownPct" class="text-indigo-400 font-mono-data">--</span>
+                            </div>
+                            <div class="w-full bg-white/10 h-2 rounded-full overflow-hidden">
+                                <div id="skillProgress" class="h-full bg-indigo-500 transition-all duration-700 w-0"></div>
+                            </div>
+                            <p id="skillBreakdown" class="text-[11px] text-gray-400 mt-1"></p>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-xs font-semibold mb-1">
+                                <span class="text-gray-300">Keyword Match (30% weight)</span>
+                                <span id="keywordBreakdownPct" class="text-blue-400 font-mono-data">--</span>
+                            </div>
+                            <div class="w-full bg-white/10 h-2 rounded-full overflow-hidden">
+                                <div id="keywordProgress" class="h-full bg-blue-500 transition-all duration-700 w-0"></div>
+                            </div>
+                            <p id="keywordBreakdown" class="text-[11px] text-gray-400 mt-1"></p>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-xs font-semibold mb-1">
+                                <span class="text-gray-300">Experience Indicators (10% weight)</span>
+                                <span id="experienceBreakdownPct" class="text-emerald-400 font-mono-data">--</span>
+                            </div>
+                            <div class="w-full bg-white/10 h-2 rounded-full overflow-hidden">
+                                <div id="experienceProgress" class="h-full bg-emerald-500 transition-all duration-700 w-0"></div>
+                            </div>
+                            <p id="experienceBreakdown" class="text-[11px] text-gray-400 mt-1"></p>
+                        </div>
+                        <p id="scoringExplanation" class="text-xs font-semibold text-gray-500 italic pt-2 border-t border-white/10"></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 3: Extracted Education & Projects -->
+            <div id="tab-profile" class="tab-content hidden space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Extracted Education -->
+                    <div class="glass-card rounded-2xl p-6">
+                        <div class="flex items-center justify-between border-b border-white/10 pb-3 mb-4">
+                            <h3 class="text-base font-bold text-white font-outfit flex items-center gap-2">
+                                <i class="fas fa-graduation-cap text-indigo-400"></i> Extracted Education
+                            </h3>
+                            <span class="text-[10px] uppercase font-bold text-gray-400">Academic Background</span>
+                        </div>
+                        <div id="educationListContainer" class="space-y-3">
+                            <p class="text-xs text-gray-400 italic">No formal degree section detected in resume.</p>
+                        </div>
+                    </div>
+
+                    <!-- Extracted Projects -->
+                    <div class="glass-card rounded-2xl p-6">
+                        <div class="flex items-center justify-between border-b border-white/10 pb-3 mb-4">
+                            <h3 class="text-base font-bold text-white font-outfit flex items-center gap-2">
+                                <i class="fas fa-code-branch text-purple-400"></i> Extracted Projects
+                            </h3>
+                            <span class="text-[10px] uppercase font-bold text-gray-400">Practical Work</span>
+                        </div>
+                        <div id="projectsListContainer" class="space-y-3">
+                            <p class="text-xs text-gray-400 italic">No dedicated projects section parsed.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 4: Resume Improvement Suggestions -->
+            <div id="tab-improvements" class="tab-content hidden space-y-6">
+                <!-- Keywords to Add -->
+                <div class="glass-card rounded-2xl p-6">
+                    <h3 class="text-base font-bold text-white font-outfit mb-2 flex items-center gap-2">
+                        <i class="fas fa-tags text-indigo-400"></i> Missing Keywords to Add for ATS & Target Role
+                    </h3>
+                    <p class="text-xs text-gray-400 mb-3">Sprinkle these high-impact keywords across your bullet points and technical skills list:</p>
+                    <div id="keywordsToAddList" class="flex flex-wrap gap-2"></div>
+                </div>
+
+                <!-- Formatting & ATS Best Practices -->
+                <div class="glass-card rounded-2xl p-6">
+                    <h3 class="text-base font-bold text-white font-outfit mb-3 flex items-center gap-2">
+                        <i class="fas fa-list-check text-emerald-400"></i> Formatting & Structural Recommendations
+                    </h3>
+                    <ul id="formattingTipsList" class="space-y-2 text-xs text-gray-300"></ul>
+                </div>
+
+                <!-- Google XYZ Impact Statements -->
+                <div class="glass-card rounded-2xl p-6">
+                    <div class="border-b border-white/10 pb-3 mb-4">
+                        <h3 class="text-base font-bold text-white font-outfit flex items-center gap-2">
+                            <i class="fas fa-rocket text-amber-400"></i> Google XYZ Formula Impact Rewrites
+                        </h3>
+                        <p class="text-xs text-gray-400 mt-1">Transform weak, task-based bullet points into high-impact accomplishment statements: <em>"Accomplished [X] as measured by [Y] by doing [Z]"</em>.</p>
+                    </div>
+                    <div id="impactStatementsContainer" class="space-y-4"></div>
+                </div>
+            </div>
+
+            <!-- Tab 5: Mock Interview Questions -->
+            <div id="tab-mock" class="tab-content hidden space-y-4">
+                <div class="glass-card p-6 rounded-2xl">
+                    <div class="border-b border-white/10 pb-3 mb-4">
+                        <h3 class="text-base font-bold text-white font-outfit flex items-center gap-2">
+                            <i class="fas fa-user-tie text-indigo-400"></i> Role-Specific Mock Interview Questions
+                        </h3>
+                        <p class="text-xs text-gray-400 mt-1">Tailored for your target role and prioritized by your identified skill gaps.</p>
+                    </div>
+                    <div id="mockQuestionsContainer" class="space-y-3"></div>
+                </div>
+            </div>
+
+            <!-- Recommendation & Resume Actions Side-by-Side -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                <!-- AI Verdict -->
+                <div class="glass-card p-5 rounded-2xl bg-gradient-to-br from-indigo-500/10 to-transparent border border-indigo-500/20">
+                    <div class="flex items-center justify-between mb-3">
+                        <h3 class="text-sm font-bold text-white font-outfit flex items-center gap-2">
+                            <i class="fas fa-brain text-indigo-400"></i> AI Verdict & Readiness Advice
+                        </h3>
+                        <span class="recommendation-badge text-[10px] font-bold px-2 py-0.5 rounded bg-white/10 text-white"></span>
+                    </div>
+                    <div class="recommendation">
+                        <p class="text-xs text-gray-300 leading-relaxed"></p>
+                    </div>
+                </div>
+
+                <!-- Original Resume Document -->
+                <div class="glass-card p-5 rounded-2xl flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-sm font-bold text-white font-outfit mb-2 flex items-center gap-2">
+                            <i class="fas fa-file-pdf text-red-400"></i> Evaluated Resume Document
+                        </h3>
+                        <p class="file-name text-xs font-mono-data text-gray-300 truncate mb-3">Document</p>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button class="btn-view flex-1 py-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl text-xs font-semibold text-white transition-colors flex items-center justify-center gap-1.5">
+                            <i class="fas fa-eye text-indigo-400"></i> View Source
+                        </button>
+                        <button class="btn-download flex-1 py-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl text-xs font-semibold text-white transition-colors flex items-center justify-center gap-1.5">
+                            <i class="fas fa-download text-emerald-400"></i> Download
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
             
         </div>
     </main>

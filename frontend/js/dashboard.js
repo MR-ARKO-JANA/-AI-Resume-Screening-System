@@ -68,9 +68,23 @@ function setupEventListeners() {
         });
     }
 
+    // Setup target role selector & skills preview
+    setupRoleSelector();
+
     // Form submission - Show loader
     if (uploadForm) {
         uploadForm.addEventListener('submit', function (e) {
+            const roleSelect = document.getElementById('targetRoleKey');
+            const jobDesc = document.getElementById('jobDesc');
+
+            // Auto-populate job description if user chose a predefined role and left JD empty
+            if (roleSelect && roleSelect.value !== 'custom' && (!jobDesc || jobDesc.value.trim() === '')) {
+                const role = ROLE_SKILLS_DATA[roleSelect.value];
+                if (role && jobDesc) {
+                    jobDesc.value = `${role.title} Requirement: Must have strong proficiency in ${role.skills.join(', ')}. Solid problem solving and software engineering skills required.`;
+                }
+            }
+
             // Show loader
             const loader = document.getElementById('loader');
             if (loader) {
@@ -79,10 +93,9 @@ function setupEventListeners() {
             }
 
             // Validate form
-            const jobDesc = document.getElementById('jobDesc');
             if (jobDesc && jobDesc.value.trim() === '') {
                 e.preventDefault();
-                alert('Please enter a job description');
+                alert('Please select a target role or enter a job description');
                 if (loader) loader.classList.remove('active');
                 return false;
             }
@@ -97,6 +110,106 @@ function setupEventListeners() {
             // Form will submit normally to /resumedata
         });
     }
+}
+
+const ROLE_SKILLS_DATA = {
+    'frontend-developer': {
+        title: 'Frontend Developer',
+        skills: ['React', 'Next.js', 'JavaScript', 'TypeScript', 'Tailwind CSS', 'Redux', 'REST APIs', 'Git', 'Responsive Design', 'Jest']
+    },
+    'backend-developer': {
+        title: 'Backend Developer',
+        skills: ['Node.js', 'Express', 'Python', 'FastAPI', 'PostgreSQL', 'MongoDB', 'Redis', 'REST APIs', 'Docker', 'Authentication', 'Git']
+    },
+    'fullstack-developer': {
+        title: 'Full Stack Developer',
+        skills: ['React', 'Node.js', 'Express', 'TypeScript', 'MongoDB', 'Tailwind CSS', 'REST APIs', 'Docker', 'CI/CD Pipelines', 'Git']
+    },
+    'data-scientist': {
+        title: 'Data Scientist / AI Engineer',
+        skills: ['Python', 'Pandas', 'NumPy', 'Scikit-learn', 'SQL', 'Data Visualization', 'Machine Learning', 'Deep Learning', 'Statistics']
+    },
+    'devops-cloud-engineer': {
+        title: 'DevOps & Cloud Engineer',
+        skills: ['Linux', 'Docker', 'Kubernetes', 'AWS', 'CI/CD', 'Terraform', 'Git', 'Networking', 'Monitoring']
+    },
+    'custom': {
+        title: 'Custom Job Description',
+        skills: ['Custom Skill Extraction from JD']
+    }
+};
+
+function setupRoleSelector() {
+    const roleSelect = document.getElementById('targetRoleKey');
+    const container = document.getElementById('skillsTagsContainer');
+    const jobDesc = document.getElementById('jobDesc');
+    const autoFillBtn = document.getElementById('autoFillRoleJd');
+
+    function renderSkills(roleKey) {
+        if (!container) return;
+        container.innerHTML = '';
+        const role = ROLE_SKILLS_DATA[roleKey] || ROLE_SKILLS_DATA['frontend-developer'];
+
+        role.skills.forEach(skill => {
+            const badge = document.createElement('span');
+            badge.className = 'text-[10px] font-semibold px-2 py-0.5 rounded-full bg-indigo-500/10 text-indigo-300 border border-indigo-500/20';
+            badge.textContent = skill;
+            container.appendChild(badge);
+        });
+    }
+
+    if (roleSelect) {
+        roleSelect.addEventListener('change', () => {
+            renderSkills(roleSelect.value);
+        });
+        renderSkills(roleSelect.value);
+    }
+
+    if (autoFillBtn && jobDesc && roleSelect) {
+        autoFillBtn.addEventListener('click', () => {
+            const role = ROLE_SKILLS_DATA[roleSelect.value] || ROLE_SKILLS_DATA['frontend-developer'];
+            if (roleSelect.value === 'custom') {
+                jobDesc.value = 'Software Engineer Requirement: Looking for a motivated developer with strong problem solving and modern web architecture skills.';
+            } else {
+                jobDesc.value = `${role.title} Role Requirement: Must possess strong proficiency in ${role.skills.join(', ')}. Experience developing, testing, and deploying robust applications.`;
+            }
+        });
+    }
+}
+
+// 1-Click Interactive Demo Evaluation Runner
+async function runDemo(demoId) {
+    const loader = document.getElementById('loader');
+    if (loader) {
+        const title = loader.querySelector('h3');
+        const desc = loader.querySelector('p');
+        if (title) title.textContent = 'Running EdTech Demo...';
+        if (desc) desc.textContent = 'Analyzing sample student resume, matching skills against target role, calculating ATS score, and generating personalized week-by-week learning roadmap.';
+        loader.classList.remove('hidden');
+        loader.classList.add('flex', 'active');
+    }
+
+    try {
+        const response = await fetch(`/api/edtech/demo/${demoId}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' }
+        });
+        const data = await response.json();
+
+        if (data.success && data.scoreId) {
+            window.location.href = `/result?id=${data.scoreId}`;
+        } else {
+            alert('Demo evaluation failed: ' + (data.error || 'Unknown error'));
+            if (loader) loader.classList.remove('active');
+        }
+    } catch (err) {
+        console.error('Demo error:', err);
+        alert('Network error while running demo: ' + err.message);
+        if (loader) loader.classList.remove('active');
+    }
+}
+window.runDemo = runDemo;
+
 
     // View History button
     const viewHistoryBtn = document.querySelector('.btn-secondary');

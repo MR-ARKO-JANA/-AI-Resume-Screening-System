@@ -1,6 +1,5 @@
-// Resume Controller - Handles file upload and AI screening logic
+// Resume Controller - Enhanced with EdTech Roadmap, DOCX, and Skill Gap Processing
 
-// Resume Controller - handles file upload, parsing, and AI scoring pipeline
 const jwt = require('jsonwebtoken');
 const path = require('path');
 const User = require('../models/usermodels');
@@ -9,17 +8,32 @@ const Resume = require('../models/resumeModel');
 const Job = require('../models/jobModel');
 const resumeParser = require('../utils/resumeParser');
 const { exportToCSV } = require('../utils/exportCSV');
+const {
+    ROLE_CATALOG,
+    generateLearningRoadmap,
+    generateResumeImprovements,
+    calculateATSScore,
+    generateMockQuestions
+} = require('../utils/edtechRoadmap');
 
 const JWT_SECRET = process.env.JWT_SECRET || "default_secret_change_in_production";
 
 exports.uploadResumes = async (req, res) => {
     try {
         if (!req.files || req.files.length === 0) {
-            return res.status(400).send("No files uploaded. Please select PDF or DOC files.");
+            return res.status(400).send("No files uploaded. Please select PDF or DOC/DOCX files.");
         }
 
-        if (!req.body.jobDesc || req.body.jobDesc.trim() === '') {
-            return res.status(400).send("Job description is required");
+        const targetRoleKey = req.body.targetRoleKey || 'frontend-developer';
+        const roleInfo = ROLE_CATALOG[targetRoleKey] || { title: req.body.jobTitle || 'Target Role', requiredSkills: [] };
+
+        let jobDescriptionText = req.body.jobDesc;
+        if (!jobDescriptionText || jobDescriptionText.trim() === '') {
+            if (roleInfo.requiredSkills && roleInfo.requiredSkills.length > 0) {
+                jobDescriptionText = `${roleInfo.title} Requirement: Proficiency in ${roleInfo.requiredSkills.join(', ')}. Experience building and shipping production applications.`;
+            } else {
+                return res.status(400).send("Job description or target role is required");
+            }
         }
 
         let token = req.cookies.token;
@@ -27,45 +41,35 @@ exports.uploadResumes = async (req, res) => {
 
         let decoded = jwt.verify(token, JWT_SECRET);
         let user = await User.findOne({ email: decoded.email });
-
         if (!user) return res.status(404).send("User not found");
-
-        const processedResults = [];
 
         const newJob = new Job({
             userId: user._id,
-            jobTitle: req.files.length > 1 ? `Batch [${req.files.length} Resumes]` : (req.files[0].originalname.split('.')[0] + " Screening"),
-            jobDescription: req.body.jobDesc
+            jobTitle: req.body.jobTitle || (roleInfo.title ? `${roleInfo.title} Target Role` : (req.files.length > 1 ? `Batch [${req.files.length} Resumes]` : (req.files[0].originalname.split('.')[0] + " Analysis"))),
+            jobDescription: jobDescriptionText
         });
         await newJob.save();
 
         for (const file of req.files) {
             let resumeText = '';
             try {
-                const ext = path.extname(file.originalname).toLowerCase();
-                if (ext === '.pdf') {
-                    resumeText = await resumeParser.parsePDF(file.path);
-                } else {
-                    console.warn(`Word document detected: ${file.originalname}. PDF-Parse might fail or return junk.`);
-                    resumeText = await resumeParser.parsePDF(file.path);
-                }
-
+                resumeText = await resumeParser.parseResumeFile(file.path);
                 if (!resumeText || resumeText.trim() === '') continue;
             } catch (error) {
                 console.error(`Resume parsing error for ${file.originalname}:`, error);
                 continue;
             }
 
-            const scoringDetails = resumeParser.getTransparentScoring(resumeText, req.body.jobDesc);
+            const scoringDetails = resumeParser.getTransparentScoring(resumeText, jobDescriptionText);
             const matchScore = scoringDetails.totalScore;
-            const skillDetails = resumeParser.getSkillMatchDetails(resumeText, req.body.jobDesc);
+            const skillDetails = resumeParser.getSkillMatchDetails(resumeText, jobDescriptionText);
 
             const aiAnalysis = await resumeParser.generateAnalysis(
                 matchScore,
                 scoringDetails.matchedSkills,
                 scoringDetails.missingSkills,
                 resumeText,
-                req.body.jobDesc
+                jobDescriptionText
             );
 
             const status = matchScore >= 75 ? "Shortlisted" : matchScore >= 50 ? "Pending" : "Rejected";
@@ -84,7 +88,11 @@ exports.uploadResumes = async (req, res) => {
             });
             await newResume.save();
 
-            // Auto-extract candidate profile details on upload
+            // Extract candidate education and projects
+            let extractedEducation = resumeParser.extractEducation(resumeText);
+            let extractedProjects = resumeParser.extractProjects(resumeText);
+
+            // Auto-extract candidate profile details
             let candidateName = '';
             let githubUrl = '';
             let linkedinUrl = '';
@@ -92,23 +100,30 @@ exports.uploadResumes = async (req, res) => {
 
             try {
                 const { extractProfileFromResume } = require('../utils/geminiService');
-                const { extractBasicInfoFromResumeText } = require('./profile.controller');
-                
                 let extractedProfile = await extractProfileFromResume(resumeText);
-                if (!extractedProfile) {
-                    console.log('Gemini profile extraction failed on upload, using regex fallback.');
-                    extractedProfile = extractBasicInfoFromResumeText(resumeText, file.originalname);
-                }
-
                 if (extractedProfile) {
                     linkedinData = extractedProfile;
                     candidateName = extractedProfile.fullName || '';
                     githubUrl = extractedProfile.githubUrl || '';
                     linkedinUrl = extractedProfile.linkedinUrl || '';
+                    if (extractedProfile.education && extractedProfile.education.length > 0) {
+                        extractedEducation = extractedProfile.education.map(e => ({
+                            degree: e.degree || '',
+                            school: e.school || '',
+                            year: e.year || '',
+                            gpa: ''
+                        }));
+                    }
                 }
             } catch (profileErr) {
                 console.error("Error parsing profile on upload:", profileErr);
             }
+
+            // EdTech Enhancements
+            const atsDiagnostics = calculateATSScore(resumeText);
+            const learningRoadmap = generateLearningRoadmap(scoringDetails.missingSkills, targetRoleKey, 6);
+            const resumeImprovements = generateResumeImprovements(resumeText, targetRoleKey, scoringDetails.missingSkills);
+            const mockQuestions = generateMockQuestions(targetRoleKey, scoringDetails.missingSkills);
 
             const newScore = new Score({
                 userId: user._id,
@@ -124,14 +139,23 @@ exports.uploadResumes = async (req, res) => {
                     ...scoringDetails.breakdown,
                     explanation: scoringDetails.explanation
                 },
-                candidateName,
+                candidateName: candidateName || file.originalname.split('.')[0].replace(/[_-]/g, ' '),
                 githubUrl,
                 linkedinUrl,
-                linkedinData
+                linkedinData,
+                education: extractedEducation,
+                projects: extractedProjects,
+                targetRole: roleInfo.title,
+                matchedSkills: scoringDetails.matchedSkills,
+                missingSkills: scoringDetails.missingSkills,
+                atsScore: atsDiagnostics.atsScore,
+                atsBreakdown: atsDiagnostics,
+                learningRoadmap: learningRoadmap,
+                resumeImprovements: resumeImprovements,
+                mockQuestions: mockQuestions
             });
 
             await newScore.save();
-            processedResults.push(newScore);
         }
 
         if (req.files.length > 1) {
@@ -172,30 +196,57 @@ exports.createJob = async (req, res) => {
 
 exports.getLatestResult = async (req, res) => {
     try {
+        let query = {};
         let token = req.cookies.token;
-        if (!token) return res.json({ error: "Not logged in" });
 
-        let decoded = jwt.verify(token, JWT_SECRET);
-        let user = await User.findOne({ email: decoded.email });
+        if (req.query.id) {
+            query._id = req.query.id;
+        } else if (token) {
+            try {
+                let decoded = jwt.verify(token, JWT_SECRET);
+                let user = await User.findOne({ email: decoded.email });
+                if (user) query.userId = user._id;
+            } catch (e) {}
+        }
 
-        const latestScore = await Score.findOne({ userId: user._id })
+        let latestScore = await Score.findOne(query)
             .populate('resumeId')
             .populate('jobId')
             .sort({ createdDate: -1 });
 
+        // Fallback: if no user score found, try finding any latest score (useful for demo viewing)
+        if (!latestScore) {
+            latestScore = await Score.findOne()
+                .populate('resumeId')
+                .populate('jobId')
+                .sort({ createdDate: -1 });
+        }
+
         if (!latestScore) return res.json({ error: "No results found" });
 
         res.json({
+            scoreId: latestScore._id,
             matchScore: latestScore.matchScore,
             status: latestScore.status,
             fileName: (latestScore.resumeId && latestScore.resumeId.fileName) ? latestScore.resumeId.fileName : 'Resume.pdf',
             filePath: (latestScore.resumeId && latestScore.resumeId.filePath) ? latestScore.resumeId.filePath : '',
+            candidateName: latestScore.candidateName || 'Student Candidate',
+            targetRole: latestScore.targetRole || 'Target Role',
             aiAnalysis: latestScore.aiAnalysis,
             aiConfidence: latestScore.aiConfidence,
             experience: latestScore.experience,
             skills: latestScore.skills,
+            education: latestScore.education || [],
+            projects: latestScore.projects || [],
+            matchedSkills: latestScore.matchedSkills || [],
+            missingSkills: latestScore.missingSkills || [],
             scoringBreakdown: latestScore.scoringBreakdown,
-            explanation: latestScore.scoringBreakdown?.explanation
+            explanation: latestScore.scoringBreakdown?.explanation,
+            atsScore: latestScore.atsScore || 75,
+            atsBreakdown: latestScore.atsBreakdown,
+            learningRoadmap: latestScore.learningRoadmap,
+            resumeImprovements: latestScore.resumeImprovements,
+            mockQuestions: latestScore.mockQuestions
         });
     } catch (error) {
         res.json({ error: error.message });
@@ -209,7 +260,6 @@ exports.exportCSV = async (req, res) => {
 
         let decoded = jwt.verify(token, JWT_SECRET);
         let user = await User.findOne({ email: decoded.email });
-
         if (!user) return res.json({ error: "User not found" });
 
         const allScores = await Score.find({ userId: user._id })
@@ -235,4 +285,3 @@ exports.exportCSV = async (req, res) => {
         res.status(500).send("Error exporting data: " + error.message);
     }
 };
-
