@@ -68,7 +68,8 @@ exports.runDemoEvaluation = async (req, res) => {
             } catch (e) {}
         }
         if (!user) {
-            user = await User.findOne();
+            // Fallback: find or create a demo user
+            user = await User.findOne({ email: 'demo@student.edu' });
             if (!user) {
                 user = new User({ name: 'Demo Student', email: 'demo@student.edu', password: 'demo' });
                 await user.save();

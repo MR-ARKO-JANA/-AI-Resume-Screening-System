@@ -1,6 +1,3 @@
-// Auth Controller - Handles login, register, and JWT authentication
-
-// Authentication Controller - handles user login and registration
 const jwt = require('jsonwebtoken');
 const bc = require('bcrypt');
 const User = require('../models/usermodels');

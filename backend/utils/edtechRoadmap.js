@@ -183,92 +183,115 @@ const PROJECT_IDEAS_DATABASE = {
 const DEMO_PRESETS = [
     {
         id: 'demo-frontend-fresher',
-        candidateName: 'Alex Sharma',
-        headline: 'Aspiring Frontend Engineer | CS Undergrad (2025)',
+        candidateName: 'Liam Evans',
+        headline: 'Frontend Developer | React & Modern Web Specialist',
         targetRoleId: 'frontend-developer',
         targetRoleTitle: 'Frontend Developer',
-        resumeFileName: 'Alex_Sharma_Frontend_Fresher_Resume.pdf',
-        resumeText: `ALEX SHARMA
-alex.sharma@example.edu | github.com/alexsharma-dev | linkedin.com/in/alexsharma-web | +1 (555) 234-5678
+        resumeFileName: 'frontend_developer_resume.pdf',
+        resumeText: `LIAM EVANS
+Frontend Developer | React & Modern Web Specialist
+liam.evans@example.com | (555) 345-6789 | github.com/liamevans-dev | San Francisco, CA
 
-EDUCATION
-Bachelor of Science in Computer Science | State University (Graduation: May 2025)
-GPA: 3.8 / 4.0
+PROFESSIONAL SUMMARY
+Innovative Frontend Developer with 3+ years of experience building modern, responsive single-page web applications using React, JavaScript (ES6+), TypeScript, HTML5, CSS3, and Tailwind CSS. Proven track record in state management (Redux Toolkit), REST API integration, and Lighthouse optimization (95+ score).
 
 TECHNICAL SKILLS
-Languages: JavaScript (ES6+), HTML5, CSS3, Python (Basic), C++
-Frameworks & Libraries: React (Hooks, Router), Tailwind CSS, Bootstrap, jQuery
-Tools & Platforms: Git, GitHub, VS Code, Postman, Vite, Netlify
+Frontend: React, JavaScript (ES6+), TypeScript, Next.js, HTML5, CSS3, Tailwind CSS, Redux Toolkit, Vue.js
+Tools & UI: Git, GitHub, Webpack, Vite, Figma, Postman, Jest, React Testing Library, NPM
+
+WORK EXPERIENCE
+Frontend Engineer | TechSprint Solutions (2023 - Present)
+- Engineered scalable customer dashboard in React and Tailwind CSS, increasing user engagement by 35%.
+- Integrated RESTful APIs with Axios and implemented React Query for efficient data caching.
+- Optimized core web vitals, reducing page load time by 45% and improving SEO rankings.
 
 PROJECTS
-• Movie Discovery & Watchlist Web App (React, Tailwind CSS, TMDB API)
-  - Developed responsive single-page application fetching from TMDB REST API, supporting keyword search, genre filtering, and modal detail views.
-  - Implemented client-side bookmarks with localStorage caching, reducing redundant network requests by 40%.
-  - Deployed on Netlify with automated continuous preview builds.
+E-Commerce Cloud Storefront (React, Redux Toolkit, Stripe API)
+- Developed full-featured shopping cart with filterable catalog, real-time search, and checkout payment gateway.
 
-• Campus Food Ordering Portal (JavaScript, HTML5, CSS3, Express Basic)
-  - Built interactive menu cart calculation, promo code validation, and simulated checkout flow for 500+ campus students.
-  - Designed responsive mobile-first UI using CSS Flexbox/Grid with 98+ Google Lighthouse accessibility score.`,
-        summary: 'Proactive Computer Science senior with strong fundamentals in modern JavaScript, HTML5/CSS3, and React. Looking to master TypeScript, Next.js, and unit testing to secure a full-time Frontend Engineer role.'
+EDUCATION
+B.S. in Computer Science | University of California, Berkeley (2020 - 2024)`,
+        summary: 'Experienced Frontend Engineer skilled in building modern single-page apps with React, TypeScript, Redux, and Tailwind CSS.'
     },
     {
         id: 'demo-fullstack-junior',
-        candidateName: 'Priya Patel',
-        headline: 'Junior Web Developer | Node.js & Express Specialist',
+        candidateName: 'Marcus Hall',
+        headline: 'Oracle Certified Full Stack Developer | Java, React, Python',
         targetRoleId: 'fullstack-developer',
         targetRoleTitle: 'Full Stack Developer',
-        resumeFileName: 'Priya_Patel_FullStack_Resume.pdf',
-        resumeText: `PRIYA PATEL
-priya.patel@devmail.io | github.com/priyapatel-code | linkedin.com/in/priyapatel-dev | +1 (555) 876-5432
+        resumeFileName: 'New Resume (2).pdf',
+        resumeText: `MARCUS HALL
+Oracle Certified Full Stack Developer
+(234)-253-6506 | github.io/danette.east | San Fransisco, CA
 
-PROFESSIONAL SUMMARY
-Full-stack oriented developer with 1.5 years of hands-on experience developing REST APIs in Node.js, Express, and MongoDB. Eager to expand into modern React component architectures, TypeScript, and Dockerized deployments.
+SUMMARY
+Full Stack Developer with over 10 years of experience in Java/JS, Angular, Vue, React, Python, NumPy, SciPy, Scikit-learn. Led development of $500K research project which was deemed a "gold standard" by the client. Increased client's revenue 2-fold after fine-tuning AI/ML-based algorithms.
 
-TECHNICAL SKILLS
-Backend: Node.js, Express.js, REST API Design, JWT Authentication, Multer, Socket.IO
-Databases: MongoDB (Mongoose), PostgreSQL, MySQL, Redis (Basic)
-Frontend: JavaScript (ES6+), React, HTML5, CSS3, Tailwind CSS
-DevOps & Tools: Git, GitHub, Postman, Render, Vercel, npm
+EXPERIENCE
+Senior Full stack Developer | Boyle (2023 - 2025 San Fransisco, CA)
+• Hired, trained and led an Agile team of 7 full-stack developers.
+• Developed indexed database architecture using SQL procedures and triggers for 10 different applications.
+• Worked with Core Java to develop automated solutions to include web interfaces using HTML, CSS, JavaScript and Web services.
 
-EXPERIENCE & PROJECTS
-• Junior Backend Developer Intern | CloudTech Solutions (June 2024 - Dec 2024)
-  - Built and maintained 15+ secure RESTful API endpoints handling candidate profiling and automated email notifications.
-  - Optimized MongoDB queries with compound indexing, lowering API latency from 450ms to 120ms for 10,000+ daily requests.
-  - Integrated JWT-based authentication and Bcrypt password hashing with rate-limiting middlewares.
+Full Stack Developer | Lauzon (2019 - 2023 San Fransisco, CA)
+• Simultaneously created & maintained scheduled jobs in SQL Server for space maintenance and daily backups of system and user databases for 10 clients.
+• Increased company revenue by 30% within 2 months after developing and implementing business logic for over 20 features.
+• Designed and Developed UI design for over 15 clients using CSS, HTML, ASP.NET, Vue, and React; websites scoring over 85 on Lighthouse.
 
-• TaskPulse - Collaborative Team Workflow App (Node.js, Express, MongoDB, React)
-  - Implemented role-based authorization (Admin, Manager, Member) with granular project permissions.
-  - Added live task status updates utilizing WebSockets (Socket.IO).`,
-        summary: 'Backend-focused junior engineer with solid Node.js/MongoDB skills seeking to bridge full-stack capabilities with React, TypeScript, Docker, and CI/CD.'
+Solution Architect | Keeling Group (2015 - 2019 Palo Alto, CA)
+• Shortened project timeline by 14 months for company's largest customer by managing relationship with 3rd party vendors, saving over $800K.
+• Performed Web Scraping over a catalog of 100K+ school supply products using mainly NodeJS and MongoDB; completed in 1 month.
+
+PROJECTS
+OpenFlow based Firewall (Python, NodeJS)
+• Configured static rules using MD-SAL.
+• Engineered proactive rule evaluation system at OSI layer 7 using POX controller.
+
+SKILLS
+Client-Side: HTML, CSS, JS, Angular, React, Vue, Redux, TypeScript, Bootstrap
+Server-Side: Python, NumPy, SciPy, Scikit-learn, TensorFlow, MySQL, NodeJS, Redis, AWS, MongoDB
+DevOps: JUnit, Jest, Scrum, Agile, GIT, Azure DevOps
+
+EDUCATION
+M.S. in Computer Science | Stanford University (GPA 3.9/4.0)`,
+        summary: 'Seasoned Full Stack Developer with 10+ years across React, Java, Node.js, Python, and cloud infrastructure.'
     },
     {
         id: 'demo-datascience-student',
-        candidateName: 'David Kim',
-        headline: 'Data Science & Machine Learning Enthusiast | Applied Mathematics',
+        candidateName: 'Sebastian Martin',
+        headline: 'Aspiring Data Scientist | Data Analysis | Python & Tableau',
         targetRoleId: 'data-scientist',
         targetRoleTitle: 'Data Scientist / AI Engineer',
-        resumeFileName: 'David_Kim_DataScience_Resume.pdf',
-        resumeText: `DAVID KIM
-david.kim@ai-research.org | github.com/davidkim-ds | linkedin.com/in/davidkim-data | +1 (555) 432-1098
+        resumeFileName: 'New Resume (2) (1).pdf',
+        resumeText: `SEBASTIAN MARTIN
+Aspiring Data Scientist | Data Analysis | Python
++1-(234)-555-1234 | linkedin.com | Dallas, Texas
+
+SUMMARY
+Eager data science enthusiast with a solid foundation in statistical analysis and data visualization. Proficient in Python and familiar with Tableau, ready to contribute to impactful analytical initiatives.
+
+EXPERIENCE
+Data Analyst Volunteer | Analytics for Non-Profits (01/2026 - Present Remote)
+• Streamlined data analysis processes by introducing automated Python scripts, resulting in a 20% reduction in processing time.
+• Collaborated with a team of analysts to develop data visualization dashboards using Tableau, enhancing donor engagement.
+• Conducted statistical analysis on fundraising data, providing actionable insights to improve non-profit strategies significantly.
+
+Research Assistant | Texas Advanced Computing Center (06/2026 - 12/2026 Austin, Texas)
+• Assisted in the development of predictive modeling tools using R, contributing to a research project on climate projections.
+• Engaged in data preprocessing and cleaning techniques, improving the accuracy of project datasets by 15%.
+• Applied analytical skills to literature review on emerging data science trends.
+
+SKILLS
+Python, R, Statistical Analysis, Data Visualization, Tableau, Machine Learning, SQL
 
 EDUCATION
-B.S. in Applied Mathematics & Statistics | Tech Institute (2024)
-Honors: Dean's List, 3.9 GPA
+Bachelor of Science in Data Science | University of Texas at Dallas (2022 - 2026)
 
-TECHNICAL SKILLS
-Languages: Python (NumPy, Pandas, SciPy, Scikit-Learn), SQL, R, Bash
-Data & ML: Exploratory Data Analysis (EDA), Regression, Classification, Random Forests, XGBoost, Matplotlib, Seaborn
-Tools: Jupyter Notebooks, Git, GitHub, Google Colab, PostgreSQL, Docker (Basics)
-
-PROJECTS & RESEARCH
-• E-Commerce Customer Churn Prediction & Retention Modeling
-  - Analyzed 50,000+ customer records; engineered 12 custom behavioural features to isolate churn triggers.
-  - Trained and cross-validated Random Forest and XGBoost classifiers, achieving 88% ROC-AUC score.
-  - Generated SHAP summary plots to pinpoint feature importance for business stakeholder reporting.
-
-• Real Estate Price Valuation Engine (Python, Pandas, Scikit-Learn, Streamlit)
-  - Built automated data cleaning pipeline handling missing outliers and categorical one-hot encoding for 20,000+ properties.`,
-        summary: 'Strong analytical thinker with mathematical foundations in statistics, Python modeling, and exploratory data analysis aiming to master Deep Learning (PyTorch) and Production ML APIs.'
+TRAINING & CERTIFICATIONS
+• Data Science Specialization (Coursera)
+• Introduction to Machine Learning (edX)
+• Advanced Data Visualization with Tableau (LinkedIn Learning)`,
+        summary: 'Aspiring Data Scientist skilled in Python, R, Tableau dashboards, statistical modeling, and data analytics.'
     }
 ];
 

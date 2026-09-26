@@ -1,5 +1,3 @@
-// AI Resume Screening System - Main Server Entry Point
-// Copyright 2024 AI Recruiter
 require('dotenv').config({ path: require('path').join(__dirname, '..', '.env') });
 const express = require('express');
 const path = require('path');
@@ -7,11 +5,10 @@ const multer = require('multer');
 const cookieParser = require('cookie-parser');
 const jwt = require("jsonwebtoken");
 
-const connectdb = require("./config/db");
+const { connectDB, isDBConnected } = require("./config/db");
 const User = require("./models/usermodels");
 const Score = require("./models/scoreModel");
 
-// Import newly extracted routes
 const authRoutes = require('./routes/auth.routes');
 const resumeRoutes = require('./routes/resume.routes');
 const dashboardRoutes = require('./routes/dashboard.routes');
@@ -21,12 +18,11 @@ const edtechRoutes = require('./routes/edtech.routes');
 
 const JWT_SECRET = process.env.JWT_SECRET || "default_secret_change_in_production";
 
-connectdb();
+connectDB();
 const app = express();
 
 const securityHeaders = require('./middleware/securityHeaders');
 const requestLogger = require('./middleware/requestLogger');
-const mongoose = require('mongoose');
 
 const rateLimit = require('express-rate-limit');
 
@@ -60,24 +56,24 @@ app.use('/api/', apiLimiter);
 // Database connection status check middleware for data operations
 app.use((req, res, next) => {
     const isDataRoute = req.method !== 'GET' || req.path.startsWith('/api') || req.path === '/result';
-    if (mongoose.connection.readyState !== 1 && isDataRoute && req.path !== '/api/health') {
+    if (!isDBConnected() && isDataRoute && req.path !== '/api/health') {
         if (req.headers.accept && req.headers.accept.includes('application/json')) {
             return res.status(503).json({
-                error: "Database connection unavailable. Please verify MONGODB_URI environment variable on Render and whitelist 0.0.0.0/0 on MongoDB Atlas."
+                error: "Database connection unavailable. Please verify DATABASE_URL environment variable with your Neon PostgreSQL connection string."
             });
         } else {
             return res.status(503).send(`
                 <div style="font-family: Arial, sans-serif; text-align: center; padding: 50px; background-color: #0f172a; color: #f8fafc; min-height: 100vh;">
                     <div style="max-width: 600px; margin: 0 auto; background: #1e293b; padding: 40px; border-radius: 12px; border: 1px solid #334155; box-shadow: 0 10px 25px rgba(0,0,0,0.5);">
-                        <h2 style="color: #ef4444; margin-top: 0;">Database Connection Required</h2>
-                        <p style="color: #cbd5e1; font-size: 16px;">The server cannot process login or database operations because <strong>MONGODB_URI</strong> is not connected.</p>
+                        <h2 style="color: #ef4444; margin-top: 0;">Neon PostgreSQL Connection Required</h2>
+                        <p style="color: #cbd5e1; font-size: 16px;">The server cannot process login or database operations because <strong>DATABASE_URL</strong> is not connected.</p>
                         <hr style="border-color: #334155; margin: 20px 0;" />
-                        <h4 style="color: #38bdf8; text-align: left; margin-bottom: 8px;">Action Required on Render Dashboard:</h4>
+                        <h4 style="color: #38bdf8; text-align: left; margin-bottom: 8px;">Action Required:</h4>
                         <ol style="text-align: left; color: #94a3b8; line-height: 1.8;">
-                            <li>Open <strong>Render Dashboard</strong> &rarr; Select Web Service (<code>raisme-ai</code>).</li>
-                            <li>Go to <strong>Environment</strong> tab.</li>
-                            <li>Add <code>MONGODB_URI</code> = your MongoDB Atlas connection string.</li>
-                            <li>In MongoDB Atlas, ensure <code>0.0.0.0/0</code> is added under <strong>Network Access</strong>.</li>
+                            <li>Create a free database on <strong><a href="https://neon.tech" target="_blank" style="color: #38bdf8;">Neon.tech</a></strong>.</li>
+                            <li>Copy your connection string (e.g. <code>postgresql://neondb_owner:...@ep-xyz.neon.tech/neondb?sslmode=require</code>).</li>
+                            <li>Add <code>DATABASE_URL</code> to your <code>.env</code> file or hosting environment variables.</li>
+                            <li>Restart the server. Tables are auto-created on first run!</li>
                         </ol>
                         <a href="/" style="display: inline-block; margin-top: 20px; padding: 12px 24px; background: #3b82f6; color: white; text-decoration: none; border-radius: 6px; font-weight: bold;">Return to Home</a>
                     </div>
@@ -112,22 +108,32 @@ app.get('/result', async (req, res) => {
         let decoded = jwt.verify(token, JWT_SECRET);
         let user = await User.findOne({ email: decoded.email });
 
-        // Get latest score for this user
-        const latestScore = await Score.findOne({ userId: user._id })
-            .populate('resumeId')
-            .populate('jobId')
-            .sort({ createdDate: -1 });
+        let targetScore = null;
 
-        if (latestScore) {
+        // If a specific score ID is provided (e.g. from demo), load that score
+        const scoreId = req.query.id;
+        if (scoreId) {
+            targetScore = await Score.findById(scoreId);
+        }
+
+        // Fallback: load the latest score for this user
+        if (!targetScore) {
+            targetScore = await Score.findOne({ userId: user._id })
+                .populate('resumeId')
+                .populate('jobId')
+                .sort({ createdDate: -1 });
+        }
+
+        if (targetScore) {
             res.cookie('resultData', JSON.stringify({
-                matchScore: latestScore.matchScore,
-                status: latestScore.status,
-                fileName: (latestScore.resumeId && latestScore.resumeId.fileName) ? latestScore.resumeId.fileName : "Resume.pdf",
-                aiAnalysis: latestScore.aiAnalysis,
-                aiConfidence: latestScore.aiConfidence,
-                experience: latestScore.experience,
-                skills: latestScore.skills
-            }));
+                matchScore: targetScore.matchScore,
+                status: targetScore.status,
+                fileName: (targetScore.resumeId && targetScore.resumeId.fileName) ? targetScore.resumeId.fileName : "Resume.pdf",
+                aiAnalysis: targetScore.aiAnalysis,
+                aiConfidence: targetScore.aiConfidence,
+                experience: targetScore.experience,
+                skills: targetScore.skills
+            }), { maxAge: 60000, httpOnly: false });
         }
 
         res.sendFile(path.join(__dirname, '../frontend/html/result.html'));

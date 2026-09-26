@@ -1,52 +1,66 @@
-# AI Resume Screening System
+# AI-Powered Resume Screening & Recruitment System
 
-An AI-powered resume screening system that automatically analyzes and ranks candidates using advanced Natural Language Processing (NLP) and Large Language Models (LLM).
+A modern full-stack web application designed to automate resume screening, candidate ranking, skill gap analysis, and candidate profile evaluation.
 
-![AI Recruiter Dashboard](./dashboard.png)
+![Dashboard Preview](./dashboard.png)
 
-## Features
+---
 
-- **Automated Resume Parsing:** Extracts text from PDF resumes.
-- **AI Analysis:** Analyzes resume content using Google's Generative AI (Gemini) to evaluate candidate skills, experience, and suitability.
-- **Candidate Ranking:** Ranks candidates based on job descriptions and requirements.
-- **User Authentication:** Secure login and registration using JWT and bcrypt.
-- **Email Notifications:** Automated email communication using Nodemailer.
+## 📌 Features
 
-## Tech Stack
+- **Multi-Format Resume Parsing**: Fast text extraction from PDF and Word documents (`.pdf`, `.doc`, `.docx`).
+- **Smart Candidate Evaluation**: Scores and ranks candidates according to specific job descriptions with match confidence.
+- **Skill Gap & Career Roadmap**: Identifies matched and missing technical skills with structured learning paths and interview preparation questions.
+- **Job Board Aggregation & Sync**: Built-in job feeds with filters for platform, title, and location.
+- **Candidate Footprint Inspector**: Deep GitHub and LinkedIn technical profiling.
+- **Export & Analytics**: Recruiter metrics and CSV candidate data export.
+- **Secure Authentication**: Session security via JWT and bcrypt encryption.
+
+---
+
+## 🛠️ Tech Stack
 
 ### Backend
-- **Node.js & Express.js**
-- **MongoDB & Mongoose** (Database)
-- **@google/generative-ai** (AI Integration)
-- **pdf-parse** (PDF Extraction)
-- **jsonwebtoken & bcrypt** (Authentication)
-- **natural** (NLP tasks)
-- **nodemailer** (Email service)
+- **Runtime**: Node.js & Express.js
+- **Database**: PostgreSQL (Neon Cloud / Local)
+- **Natural Language Processing**: Natural NLP, PDF-Parse, Mammoth
+- **AI Engine**: Google Gemini API
+- **Authentication**: JSON Web Tokens (JWT) & HTTP-Only Secure Cookies
+- **Communication**: Nodemailer SMTP
 
 ### Frontend
-- The repository contains two frontend implementations:
-  - `frontend/`: Vanilla HTML, CSS, and JavaScript.
-  - `frontend-react/`: React.js based frontend.
+- **Interface**: HTML5, Vanilla JavaScript, CSS3, Tailwind utility styling
+- **Icons & Visuals**: FontAwesome, Chart.js, Canvas Confetti
 
-![NearHelp SOS Broadcast](./nearhelp-screenshot.png)
+---
 
-## Project Structure
+## 📁 Project Structure
 
 ```text
-├── backend/            # Express server, routes, controllers, and models
-├── frontend/           # Vanilla JS frontend
-├── frontend-react/     # React frontend
-├── package.json        # Project metadata and dependencies
-└── .env                # Environment variables configuration
+├── backend/
+│   ├── config/          # Database connection pool & multer config
+│   ├── controllers/     # Auth, Dashboard, EdTech, Job, Profile, and Resume logic
+│   ├── middleware/      # Auth verification, rate limiting, and security headers
+│   ├── models/          # PostgreSQL Data Access Layer (Users, Jobs, Resumes, Scores)
+│   ├── routes/          # Express API route definitions
+│   ├── utils/           # Resume parser, NLP analyzers, and PDF exports
+│   └── server.js        # Main server entry point
+├── frontend/
+│   ├── css/             # Stylesheets & animations
+│   ├── html/            # Application views (Dashboard, Jobs, Results, Settings)
+│   └── js/              # Frontend state management and API handlers
+├── package.json
+└── README.md
 ```
 
-## Getting Started
+---
+
+## 🚀 Getting Started
 
 ### Prerequisites
-
-- Node.js (v14 or higher)
+- Node.js (v16 or higher)
 - npm or yarn
-- MongoDB (Local or Atlas)
+- PostgreSQL connection string (Neon or Local)
 - Google Gemini API Key
 
 ### Installation
@@ -54,7 +68,7 @@ An AI-powered resume screening system that automatically analyzes and ranks cand
 1. **Clone the repository:**
    ```bash
    git clone https://github.com/MR-ARKO-JANA/-AI-Resume-Screening-System.git
-   cd "AI RESUME SCREENING SYSTEM - DONE/Coding Section"
+   cd "Coding Section"
    ```
 
 2. **Install dependencies:**
@@ -62,27 +76,27 @@ An AI-powered resume screening system that automatically analyzes and ranks cand
    npm install
    ```
 
-3. **Environment Setup:**
-   Create a `.env` file in the root directory and add the necessary environment variables (refer to `.env.example` if available, or configure the database, JWT secret, and API keys). Typical variables might include:
+3. **Configure Environment Variables:**
+   Create a `.env` file based on `.env.example`:
    ```env
    PORT=5000
-   MONGO_URI=your_mongodb_connection_string
+   NODE_ENV=development
+   DATABASE_URL=your_postgresql_neon_connection_string
    JWT_SECRET=your_jwt_secret_key
-   GEMINI_API_KEY=your_google_gemini_api_key
+   GEMINI_API_KEY=your_gemini_api_key
    ```
 
-4. **Start the backend server:**
+4. **Start the development server:**
    ```bash
-   # For development with nodemon
    npm run dev
-   
-   # For production
-   npm start
    ```
 
-5. **Start the frontend:**
-   - **For Vanilla JS:** Open `frontend/html/index.html` in your browser.
-   - **For React:** Navigate to `frontend-react/`, run `npm install`, and then `npm start`.
+5. **Open in your browser:**
+   ```
+   http://localhost:5000
+   ```
 
-## License
-MIT License
+---
+
+## 📄 License
+This project is licensed under the MIT License.

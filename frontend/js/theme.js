@@ -66,6 +66,93 @@
         .light-mode .chart-segment.experience { background-color: #14b8a6 !important; color: white !important; }
     `;
     
+    // Inject Global Typography & Readability CSS
+    const typographyStyle = document.createElement('style');
+    typographyStyle.id = 'typography-enhancement-styles';
+    typographyStyle.textContent = `
+        html {
+            font-size: 16.5px !important;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        body {
+            font-size: 1rem !important;
+            line-height: 1.55 !important;
+            letter-spacing: 0.01em;
+        }
+        .text-\\[9px\\], .text-\\[10px\\], .text-\\[11px\\], .text-\\[12px\\] {
+            font-size: 13px !important;
+            line-height: 1.35 !important;
+        }
+        .text-\\[13px\\] {
+            font-size: 14px !important;
+            line-height: 1.4 !important;
+        }
+        .text-\\[14px\\] {
+            font-size: 15px !important;
+            line-height: 1.45 !important;
+        }
+        .text-xs {
+            font-size: 0.88rem !important;
+            line-height: 1.35rem !important;
+        }
+        .text-sm {
+            font-size: 0.98rem !important;
+            line-height: 1.45rem !important;
+        }
+        .text-base {
+            font-size: 1.08rem !important;
+            line-height: 1.6rem !important;
+        }
+        .text-lg {
+            font-size: 1.25rem !important;
+            line-height: 1.65rem !important;
+        }
+        .text-xl {
+            font-size: 1.4rem !important;
+            line-height: 1.7rem !important;
+        }
+        .text-2xl {
+            font-size: 1.7rem !important;
+            line-height: 2rem !important;
+        }
+        .text-3xl {
+            font-size: 2.15rem !important;
+            line-height: 2.4rem !important;
+        }
+        input, select, textarea, button {
+            font-size: 15px !important;
+        }
+        input::placeholder, textarea::placeholder {
+            font-size: 14.5px !important;
+        }
+        aside nav a, .sidebar-link, nav ul li a {
+            font-size: 15px !important;
+        }
+        table th {
+            font-size: 13.5px !important;
+            font-weight: 600 !important;
+            letter-spacing: 0.03em !important;
+            padding-top: 12px !important;
+            padding-bottom: 12px !important;
+        }
+        table td {
+            font-size: 15px !important;
+            padding-top: 12px !important;
+            padding-bottom: 12px !important;
+        }
+        .stat-card .stat-value {
+            font-size: 2.15rem !important;
+        }
+        .stat-card .stat-change {
+            font-size: 13.5px !important;
+        }
+    `;
+
+    if (!document.getElementById('typography-enhancement-styles')) {
+        document.head.appendChild(typographyStyle);
+    }
+
     // Only append if it doesn't exist
     if (!document.getElementById('light-mode-styles')) {
         document.head.appendChild(lightModeStyle);
