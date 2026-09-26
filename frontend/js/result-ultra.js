@@ -14,10 +14,10 @@ function setupTabNavigation() {
     tabs.forEach(tab => {
         tab.addEventListener('click', () => {
             tabs.forEach(t => {
-                t.classList.remove('bg-indigo-500/20', 'text-indigo-300', 'border-indigo-500/30');
+                t.classList.remove('bg-white/10', 'text-white', 'border-white/30', 'bg-indigo-500/20', 'text-indigo-300', 'border-indigo-500/30');
                 t.classList.add('text-gray-400', 'border-transparent');
             });
-            tab.classList.add('bg-indigo-500/20', 'text-indigo-300', 'border-indigo-500/30');
+            tab.classList.add('bg-white/10', 'text-white', 'border-white/30');
             tab.classList.remove('text-gray-400', 'border-transparent');
 
             const targetId = tab.getAttribute('data-target');
@@ -293,17 +293,17 @@ function renderLearningRoadmap(data) {
 
     roadmapData.forEach(week => {
         const card = document.createElement('div');
-        card.className = 'glass-card p-5 rounded-2xl border border-white/10 flex flex-col justify-between hover:border-indigo-500/40 transition-colors';
+        card.className = 'glass-card p-5 rounded-2xl border border-white/10 flex flex-col justify-between hover:border-white/40 transition-colors';
 
         // Skills focus badges
         const skillsBadges = (week.skillsFocus || []).map(s =>
-            `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-indigo-500/10 text-indigo-300 border border-indigo-500/20">${capitalize(s)}</span>`
+            `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-white/10 text-white border border-white/20">${capitalize(s)}</span>`
         ).join(' ');
 
         // Resources links
         const resourcesHtml = (week.freeResources || []).map(r => `
             <a href="${escapeHtml(r.url)}" target="_blank" rel="noopener noreferrer" class="px-2.5 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-white text-[11px] font-medium border border-white/10 flex items-center justify-between transition-colors">
-                <span class="truncate pr-2"><i class="fas fa-external-link-alt text-[9px] text-indigo-400 mr-1.5"></i>${escapeHtml(r.name)}</span>
+                <span class="truncate pr-2"><i class="fas fa-external-link-alt text-[9px] text-zinc-300 mr-1.5"></i>${escapeHtml(r.name)}</span>
                 <span class="text-[9px] text-gray-400 shrink-0 font-mono-data">${escapeHtml(r.type || 'Free')}</span>
             </a>
         `).join('');
@@ -311,7 +311,7 @@ function renderLearningRoadmap(data) {
         // Milestones checklist
         const milestonesHtml = (week.milestones || []).map(m => `
             <label class="flex items-start gap-2.5 text-xs text-gray-300 cursor-pointer select-none group">
-                <input type="checkbox" class="milestone-checkbox mt-0.5 w-4 h-4 rounded text-indigo-600 focus:ring-0 bg-gray-900 border-gray-600 transition-colors" data-score-id="${data.scoreId}" data-milestone-id="${m.id}" ${m.completed ? 'checked' : ''}>
+                <input type="checkbox" class="milestone-checkbox mt-0.5 w-4 h-4 rounded text-white accent-white focus:ring-0 bg-gray-900 border-gray-600 transition-colors" data-score-id="${data.scoreId}" data-milestone-id="${m.id}" ${m.completed ? 'checked' : ''}>
                 <span class="${m.completed ? 'line-through text-gray-500' : 'group-hover:text-white'} transition-colors leading-tight">${escapeHtml(m.task)}</span>
             </label>
         `).join('');
@@ -319,7 +319,7 @@ function renderLearningRoadmap(data) {
         card.innerHTML = `
             <div>
                 <div class="flex items-center justify-between mb-2">
-                    <span class="text-xs font-bold font-mono-data text-indigo-400 uppercase tracking-wider">Week ${week.week}</span>
+                    <span class="text-xs font-bold font-mono-data text-white uppercase tracking-wider">Week ${week.week}</span>
                     <div class="flex flex-wrap gap-1">${skillsBadges}</div>
                 </div>
                 <h3 class="text-sm font-bold text-white font-outfit mb-1">${escapeHtml(week.title)}</h3>
@@ -327,7 +327,7 @@ function renderLearningRoadmap(data) {
 
                 <!-- Free Resources -->
                 <div class="mb-4">
-                    <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider block mb-1.5"><i class="fas fa-book-open mr-1 text-indigo-400"></i> Free Learning Resources:</span>
+                    <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider block mb-1.5"><i class="fas fa-book-open mr-1 text-white"></i> Free Learning Resources:</span>
                     <div class="flex flex-col gap-1.5">${resourcesHtml || '<span class="text-[11px] text-gray-500 italic">Curated guides linked in syllabus.</span>'}</div>
                 </div>
             </div>
@@ -410,13 +410,13 @@ function renderSuggestedProjects(projects) {
         card.className = 'p-4 rounded-xl bg-white/5 border border-white/10 flex flex-col justify-between';
 
         const skillsTags = (proj.skillsUsed || []).map(s =>
-            `<span class="px-1.5 py-0.5 rounded bg-indigo-500/10 text-indigo-300 border border-indigo-500/20 text-[9px] font-semibold">${escapeHtml(s)}</span>`
+            `<span class="px-1.5 py-0.5 rounded bg-white/10 text-white border border-white/20 text-[9px] font-semibold">${escapeHtml(s)}</span>`
         ).join(' ');
 
         card.innerHTML = `
             <div>
                 <div class="flex items-center justify-between mb-1.5">
-                    <span class="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 border border-purple-500/30">${escapeHtml(proj.difficulty || 'Intermediate')}</span>
+                    <span class="text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-zinc-800 text-zinc-200 border border-zinc-700">${escapeHtml(proj.difficulty || 'Intermediate')}</span>
                     <i class="fas fa-project-diagram text-gray-500 text-xs"></i>
                 </div>
                 <h4 class="text-xs font-bold text-white mb-1">${escapeHtml(proj.title)}</h4>
@@ -445,9 +445,9 @@ function renderResumeImprovements(data) {
         } else {
             keywords.forEach(kw => {
                 const tag = document.createElement('span');
-                tag.className = 'px-3 py-1 rounded-xl text-xs font-semibold bg-indigo-500/10 text-indigo-300 border border-indigo-500/20 inline-flex items-center gap-1.5 hover:bg-indigo-500/20 transition-colors cursor-copy';
+                tag.className = 'px-3 py-1 rounded-xl text-xs font-semibold bg-white/10 text-white border border-white/20 inline-flex items-center gap-1.5 hover:bg-white/20 transition-colors cursor-copy';
                 tag.title = 'Click to copy';
-                tag.innerHTML = `<i class="fas fa-plus text-[9px] text-indigo-400"></i> ${escapeHtml(kw)}`;
+                tag.innerHTML = `<i class="fas fa-plus text-[9px] text-white"></i> ${escapeHtml(kw)}`;
                 tag.onclick = () => {
                     navigator.clipboard.writeText(kw);
                     showSuccessToast(`Copied "${kw}" to clipboard!`);
@@ -481,7 +481,7 @@ function renderResumeImprovements(data) {
             card.className = 'p-4 rounded-xl bg-white/5 border border-white/10 space-y-2';
             card.innerHTML = `
                 <div class="flex items-center justify-between mb-1">
-                    <span class="text-[10px] font-bold uppercase tracking-wider text-indigo-400">${escapeHtml(stmt.category || 'Impact Example')}</span>
+                    <span class="text-[10px] font-bold uppercase tracking-wider text-white">${escapeHtml(stmt.category || 'Impact Example')}</span>
                     <span class="text-[10px] text-gray-500 font-mono-data">Google XYZ Formula</span>
                 </div>
                 <div class="p-2.5 rounded-lg bg-red-500/10 border border-red-500/20 text-xs text-red-200">
@@ -514,12 +514,12 @@ function renderMockQuestions(data) {
         item.className = 'p-4 rounded-xl bg-white/5 border border-white/10';
 
         const focusPoints = (q.keyFocusPoints || []).map(pt =>
-            `<li class="flex items-start gap-1.5 text-[11px] text-gray-300"><i class="fas fa-caret-right text-indigo-400 mt-0.5"></i> ${escapeHtml(pt)}</li>`
+            `<li class="flex items-start gap-1.5 text-[11px] text-gray-300"><i class="fas fa-caret-right text-white mt-0.5"></i> ${escapeHtml(pt)}</li>`
         ).join('');
 
         item.innerHTML = `
             <div class="flex items-center justify-between mb-1.5">
-                <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
+                <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-white/10 text-white border border-white/20">
                     Question ${idx + 1} • ${escapeHtml(q.type || 'Technical Concept')}
                 </span>
             </div>

@@ -21,7 +21,7 @@
 
 .templates-header h1 {
     font-size: 1.8rem;
-    color: #1e293b;
+    color: #f4f4f5;
     margin: 0;
 }
 
@@ -40,12 +40,12 @@
     left: 1rem;
     top: 50%;
     transform: translateY(-50%);
-    color: #94a3b8;
+    color: #a1a1aa;
 }
 
 .search-input-wrapper input {
     padding: 0.75rem 1rem 0.75rem 2.5rem;
-    border: 1px solid #e2e8f0;
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 8px;
     font-family: inherit;
     font-size: 0.95rem;
@@ -55,14 +55,14 @@
 
 .search-input-wrapper input:focus {
     outline: none;
-    border-color: #7c3aed;
-    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
+    border-color: #a1a1aa;
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
 }
 
 .btn-generate-ai {
-    background: #ede9fe;
-    border: 1px solid #c4b5fd;
-    color: #5b21b6;
+    background: #27272a;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #f4f4f5;
     padding: 0.75rem 1.5rem;
     border-radius: 8px;
     font-weight: 600;
@@ -74,12 +74,12 @@
 }
 
 .btn-generate-ai:hover {
-    background: #ddd6fe;
-    box-shadow: 0 2px 8px rgba(124, 58, 237, 0.15);
+    background: #3f3f46;
+    box-shadow: 0 2px 8px rgba(255, 255, 255, 0.1);
 }
 
 .btn-create-new {
-    background: #7c3aed;
+    background: #71717a;
     border: none;
     color: white;
     padding: 0.75rem 1.5rem;
@@ -93,8 +93,8 @@
 }
 
 .btn-create-new:hover {
-    background: #6d28d9;
-    box-shadow: 0 4px 12px rgba(124, 58, 237, 0.2);
+    background: #52525b;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 /* Tabs Section */
@@ -106,8 +106,8 @@
 }
 
 .tab-btn {
-    background: #f1f5f9;
-    border: 1px solid #e2e8f0;
+    background: #18181b;
+    border: 1px solid rgba(255, 255, 255, 0.1);
     padding: 0.75rem 1.5rem;
     font-size: 0.95rem;
     font-weight: 500;
@@ -118,17 +118,17 @@
 }
 
 .tab-btn:hover {
-    background: #ede9fe;
-    color: #7c3aed;
-    border-color: #c4b5fd;
+    background: #27272a;
+    color: #f4f4f5;
+    border-color: rgba(255, 255, 255, 0.2);
 }
 
 .tab-btn.active {
-    background: #ede9fe;
-    color: #5b21b6;
+    background: rgba(255, 255, 255, 0.08);
+    color: #ffffff;
     font-weight: 600;
-    border-color: #7c3aed;
-    box-shadow: 0 2px 8px rgba(124, 58, 237, 0.15);
+    border-color: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 2px 8px rgba(255, 255, 255, 0.1);
 }
 
 /* Grid Layout */
@@ -141,7 +141,7 @@
 /* Template Cards */
 .template-card {
     background: #ffffff;
-    border: 1px solid #e2e8f0;
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 12px;
     padding: 1.5rem;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
@@ -154,7 +154,7 @@
 .template-card:hover {
     transform: translateY(-4px);
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-    border-color: #ede9fe;
+    border-color: #18181b;
 }
 
 .card-header {
@@ -168,8 +168,8 @@
     width: 48px;
     height: 48px;
     border-radius: 10px;
-    background: #ede9fe;
-    color: #7c3aed;
+    background: #18181b;
+    color: #71717a;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -184,7 +184,7 @@
 .btn-actions {
     background: transparent;
     border: none;
-    color: #94a3b8;
+    color: #a1a1aa;
     cursor: pointer;
     padding: 0.5rem;
     border-radius: 50%;
@@ -192,16 +192,16 @@
 }
 
 .btn-actions:hover {
-    background: #f1f5f9;
-    color: #1e293b;
+    background: #18181b;
+    color: #f4f4f5;
 }
 
 .dropdown-menu {
     position: absolute;
     top: 100%;
     right: 0;
-    background: white;
-    border: 1px solid #e2e8f0;
+    background: #18181b;
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 8px;
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
     min-width: 150px;
@@ -238,8 +238,8 @@
 }
 
 .dropdown-item:hover {
-    background: #f8fafc;
-    color: #7c3aed;
+    background: #0c0c0e;
+    color: #71717a;
 }
 
 .dropdown-item.delete:hover {
@@ -254,12 +254,12 @@
 .template-card h3 {
     margin: 0 0 0.5rem 0;
     font-size: 1.15rem;
-    color: #1e293b;
+    color: #f4f4f5;
 }
 
 .template-card p {
     margin: 0;
-    color: #64748b;
+    color: #71717a;
     font-size: 0.95rem;
     line-height: 1.5;
     flex-grow: 1;
@@ -270,14 +270,14 @@
     padding-top: 1rem;
     border-top: 1px solid #f1f5f9;
     font-size: 0.85rem;
-    color: #94a3b8;
+    color: #a1a1aa;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
 .card-footer .template-type {
-    background: #f1f5f9;
+    background: #18181b;
     padding: 0.25rem 0.5rem;
     border-radius: 4px;
     color: #475569;

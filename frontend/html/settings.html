@@ -48,8 +48,8 @@
     .orb-2 { animation: pulse-glow 12s infinite alternate-reverse; }
     
     .input-focus-glow:focus-within {
-        box-shadow: 0 0 15px rgba(99, 102, 241, 0.3);
-        border-color: rgba(99, 102, 241, 0.8);
+        box-shadow: 0 0 15px rgba(255, 255, 255, 0.15);
+        border-color: rgba(255, 255, 255, 0.6);
     }
 
     /* Hide scrollbar */
@@ -64,10 +64,10 @@
     /* Toggle switch styling */
     .toggle-checkbox:checked {
         right: 0;
-        border-color: #6366f1;
+        border-color: #ffffff;
     }
     .toggle-checkbox:checked + .toggle-label {
-        background-color: #6366f1;
+        background-color: #ffffff;
     }
     .toggle-checkbox:disabled + .toggle-label {
         background-color: rgba(255, 255, 255, 0.1);
@@ -81,10 +81,10 @@
         theme: {
             extend: {
                 colors: {
-                    primary: "#6366f1",
-                    secondary: "#8b5cf6",
-                    surface: "#111827",
-                    "surface-light": "#1f2937",
+                    primary: "#ffffff",
+                    secondary: "#a1a1aa",
+                    surface: "#09090b",
+                    "surface-light": "#18181b",
                     "border-subtle": "rgba(255,255,255,0.1)",
                 },
                 fontFamily: {
@@ -99,17 +99,17 @@
 <body class="bg-[#0B0F19] text-gray-200 h-screen flex relative overflow-hidden">
     
 <!-- Background Animated Orbs -->
-<div class="orb-1 fixed top-[-10%] left-[-5%] w-[50vw] h-[50vw] rounded-full bg-gradient-to-br from-indigo-500/20 to-purple-600/20 blur-[120px] z-0 pointer-events-none"></div>
-<div class="orb-2 fixed bottom-[-10%] right-[-5%] w-[50vw] h-[50vw] rounded-full bg-gradient-to-tl from-blue-500/20 to-indigo-600/20 blur-[120px] z-0 pointer-events-none"></div>
+<div class="orb-1 fixed top-[-10%] left-[-5%] w-[50vw] h-[50vw] rounded-full bg-gradient-to-br from-zinc-700/20 to-zinc-800/20 blur-[120px] z-0 pointer-events-none"></div>
+<div class="orb-2 fixed bottom-[-10%] right-[-5%] w-[50vw] h-[50vw] rounded-full bg-gradient-to-tl from-zinc-600/20 to-zinc-900/20 blur-[120px] z-0 pointer-events-none"></div>
 
 <!-- SideNavBar Component -->
 <nav class="hidden md:flex flex-col h-screen p-4 glass-sidebar fixed left-0 top-0 w-[280px] z-20">
     <div class="mb-8 px-4 flex items-center gap-3">
-        <div class="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-600 text-white rounded-xl flex items-center justify-center text-xl shadow-[0_0_15px_rgba(99,102,241,0.4)] shrink-0">
+        <div class="w-10 h-10 bg-gradient-to-br from-zinc-800 to-zinc-900 text-white rounded-xl flex items-center justify-center text-xl shadow-[0_0_15px_rgba(255, 255, 255, 0.40)] shrink-0">
             <i class="fas fa-brain"></i>
         </div>
         <div>
-            <h1 class="text-[22px] font-bold text-white font-outfit leading-tight">Recruit<span class="text-indigo-400">AI</span></h1>
+            <h1 class="text-[22px] font-bold text-white font-outfit leading-tight">Recruit<span class="text-zinc-200">AI</span></h1>
             <p class="text-[10px] text-gray-400 font-semibold tracking-wider uppercase mt-0.5">Enterprise Intelligence</p>
         </div>
     </div>
@@ -139,8 +139,8 @@
             </a>
         </li>
         <li>
-            <a class="flex items-center gap-3 px-4 py-3 rounded-xl bg-gradient-to-r from-indigo-500/20 to-purple-500/10 border border-indigo-500/30 text-indigo-300 font-semibold shadow-[inset_0_0_20px_rgba(99,102,241,0.1)] transition-colors" href="/settings">
-                <i class="fas fa-cog w-5 text-center text-indigo-400"></i>
+            <a class="flex items-center gap-3 px-4 py-3 rounded-xl bg-gradient-to-r from-zinc-700/20 to-zinc-900/10 border border-zinc-600/30 text-zinc-200 font-semibold shadow-[inset_0_0_20px_rgba(255, 255, 255, 0.10)] transition-colors" href="/settings">
+                <i class="fas fa-cog w-5 text-center text-zinc-200"></i>
                 <span class="text-[14px]">Settings</span>
             </a>
         </li>
@@ -152,7 +152,7 @@
         </li>
     </ul>
     <div class="mt-auto pt-4 relative z-10">
-        <button class="w-full bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-semibold text-sm py-3 px-4 rounded-xl shadow-[0_10px_20px_-10px_rgba(99,102,241,0.6)] hover:shadow-[0_15px_25px_-10px_rgba(99,102,241,0.8)] hover:-translate-y-0.5 transition-all duration-300" onclick="window.location.href='/dashboard'">
+        <button class="w-full bg-gradient-to-r from-zinc-800 to-zinc-900 text-white font-semibold text-sm py-3 px-4 rounded-xl shadow-[0_10px_20px_-10px_rgba(255, 255, 255, 0.60)] hover:shadow-[0_15px_25px_-10px_rgba(255, 255, 255, 0.80)] hover:-translate-y-0.5 transition-all duration-300" onclick="window.location.href='/dashboard'">
             <i class="fas fa-file-upload mr-2"></i> Process Resumes
         </button>
     </div>
@@ -174,9 +174,9 @@
         <div class="flex items-center gap-4">
             <button class="p-2 text-gray-400 hover:text-white hover:bg-white/10 rounded-full transition-colors relative">
                 <i class="fas fa-bell text-lg"></i>
-                <span class="absolute top-1 right-1 w-2 h-2 bg-indigo-500 rounded-full shadow-[0_0_8px_rgba(99,102,241,0.8)]"></span>
+                <span class="absolute top-1 right-1 w-2 h-2 bg-zinc-800 rounded-full shadow-[0_0_8px_rgba(255, 255, 255, 0.80)]"></span>
             </button>
-            <div class="w-9 h-9 rounded-full overflow-hidden border-2 border-indigo-500/50 shrink-0">
+            <div class="w-9 h-9 rounded-full overflow-hidden border-2 border-zinc-600/50 shrink-0">
                 <img alt="User Avatar" class="w-full h-full object-cover" src="../images/user_img.webp"/>
             </div>
         </div>
@@ -188,13 +188,13 @@
             
             <!-- Page Header -->
             <div class="mb-8">
-                <h1 class="text-3xl font-bold tracking-tight text-white font-outfit flex items-center gap-3"><i class="fas fa-cog text-indigo-500"></i> Settings</h1>
+                <h1 class="text-3xl font-bold tracking-tight text-white font-outfit flex items-center gap-3"><i class="fas fa-cog text-zinc-200"></i> Settings</h1>
                 <p class="text-gray-400 mt-2 text-sm">Manage your account and application preferences</p>
             </div>
 
             <!-- Settings Navigation -->
             <div class="flex flex-wrap gap-3 mb-8 border-b border-white/10 pb-5">
-                <button class="settings-nav-btn active px-5 py-2.5 rounded-xl font-semibold text-sm transition-all bg-indigo-500 text-white shadow-[0_4px_15px_rgba(99,102,241,0.4)]" data-section="profile">
+                <button class="settings-nav-btn active px-5 py-2.5 rounded-xl font-semibold text-sm transition-all bg-zinc-800 text-white shadow-[0_4px_15px_rgba(255, 255, 255, 0.40)]" data-section="profile">
                     <i class="fas fa-user mr-2"></i> Profile
                 </button>
                 <button class="settings-nav-btn px-5 py-2.5 rounded-xl font-semibold text-sm text-gray-400 hover:bg-white/5 hover:text-white transition-all" data-section="security">
@@ -215,12 +215,12 @@
             <section class="settings-section block" id="profile">
                 <div class="glass-card rounded-2xl overflow-hidden">
                     <div class="p-6 border-b border-white/10 bg-black/20">
-                        <h2 class="text-xl font-bold text-white font-outfit flex items-center gap-2"><i class="fas fa-user-circle text-indigo-400"></i> Profile Information</h2>
+                        <h2 class="text-xl font-bold text-white font-outfit flex items-center gap-2"><i class="fas fa-user-circle text-zinc-200"></i> Profile Information</h2>
                         <p class="text-sm text-gray-400 mt-1">Update your personal and company details</p>
                     </div>
                     <div class="p-8">
                         <div class="flex flex-col sm:flex-row items-center gap-8 mb-8 pb-8 border-b border-white/10">
-                            <div class="relative w-28 h-28 rounded-full border-4 border-indigo-500/30 shadow-[0_0_20px_rgba(99,102,241,0.2)] overflow-hidden group cursor-pointer" onclick="document.getElementById('profileImageInput').click()">
+                            <div class="relative w-28 h-28 rounded-full border-4 border-zinc-600/30 shadow-[0_0_20px_rgba(255, 255, 255, 0.20)] overflow-hidden group cursor-pointer" onclick="document.getElementById('profileImageInput').click()">
                                 <img src="../images/user_img.webp" alt="Profile" id="profilePreview" class="w-full h-full object-cover transition-transform group-hover:scale-110">
                                 <div class="absolute inset-0 bg-black/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                                     <i class="fas fa-camera text-white text-2xl"></i>
@@ -239,25 +239,25 @@
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                             <div class="relative input-focus-glow rounded-xl transition-all duration-300">
-                                <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider mb-2"><i class="fas fa-user text-indigo-400 mr-1"></i> Full Name</label>
+                                <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider mb-2"><i class="fas fa-user text-zinc-200 mr-1"></i> Full Name</label>
                                 <input type="text" id="userName" placeholder="John Doe" class="w-full px-4 py-3 bg-gray-900/50 border border-gray-700/50 rounded-xl text-white placeholder-gray-600 focus:outline-none focus:ring-0 transition-colors text-sm">
                             </div>
                             <div class="relative rounded-xl transition-all duration-300">
-                                <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider mb-2"><i class="fas fa-envelope text-indigo-400 mr-1"></i> Email Address</label>
+                                <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider mb-2"><i class="fas fa-envelope text-zinc-200 mr-1"></i> Email Address</label>
                                 <input type="email" id="userEmail" placeholder="john@company.com" class="w-full px-4 py-3 bg-black/40 border border-gray-800 rounded-xl text-gray-500 cursor-not-allowed text-sm" disabled>
                                 <p class="text-[11px] text-gray-500 mt-1">Email cannot be changed</p>
                             </div>
                             <div class="relative input-focus-glow rounded-xl transition-all duration-300">
-                                <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider mb-2"><i class="fas fa-building text-indigo-400 mr-1"></i> Company Name</label>
+                                <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider mb-2"><i class="fas fa-building text-zinc-200 mr-1"></i> Company Name</label>
                                 <input type="text" id="companyName" placeholder="Your Company Inc." class="w-full px-4 py-3 bg-gray-900/50 border border-gray-700/50 rounded-xl text-white placeholder-gray-600 focus:outline-none focus:ring-0 transition-colors text-sm">
                             </div>
                             <div class="relative input-focus-glow rounded-xl transition-all duration-300">
-                                <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider mb-2"><i class="fas fa-briefcase text-indigo-400 mr-1"></i> Job Title</label>
+                                <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider mb-2"><i class="fas fa-briefcase text-zinc-200 mr-1"></i> Job Title</label>
                                 <input type="text" id="jobTitle" placeholder="HR Manager" class="w-full px-4 py-3 bg-gray-900/50 border border-gray-700/50 rounded-xl text-white placeholder-gray-600 focus:outline-none focus:ring-0 transition-colors text-sm">
                             </div>
                         </div>
 
-                        <button class="px-6 py-3 bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-bold rounded-xl shadow-[0_10px_20px_-10px_rgba(99,102,241,0.6)] hover:shadow-[0_15px_25px_-10px_rgba(99,102,241,0.8)] hover:-translate-y-0.5 transition-all duration-300" onclick="saveProfile()">
+                        <button class="px-6 py-3 bg-gradient-to-r from-zinc-800 to-zinc-900 text-white font-bold rounded-xl shadow-[0_10px_20px_-10px_rgba(255, 255, 255, 0.60)] hover:shadow-[0_15px_25px_-10px_rgba(255, 255, 255, 0.80)] hover:-translate-y-0.5 transition-all duration-300" onclick="saveProfile()">
                             <i class="fas fa-check mr-2"></i> Save Changes
                         </button>
                     </div>
@@ -268,28 +268,28 @@
             <section class="settings-section hidden" id="security">
                 <div class="glass-card rounded-2xl overflow-hidden">
                     <div class="p-6 border-b border-white/10 bg-black/20">
-                        <h2 class="text-xl font-bold text-white font-outfit flex items-center gap-2"><i class="fas fa-shield-alt text-indigo-400"></i> Security Settings</h2>
+                        <h2 class="text-xl font-bold text-white font-outfit flex items-center gap-2"><i class="fas fa-shield-alt text-zinc-200"></i> Security Settings</h2>
                         <p class="text-sm text-gray-400 mt-1">Manage your password and security preferences</p>
                     </div>
                     <div class="p-8">
                         <div class="max-w-md flex flex-col gap-6 mb-8">
                             <div class="relative input-focus-glow rounded-xl transition-all duration-300">
-                                <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider mb-2"><i class="fas fa-lock text-indigo-400 mr-1"></i> Current Password</label>
+                                <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider mb-2"><i class="fas fa-lock text-zinc-200 mr-1"></i> Current Password</label>
                                 <input type="password" id="currentPassword" placeholder="••••••••" class="w-full px-4 py-3 bg-gray-900/50 border border-gray-700/50 rounded-xl text-white placeholder-gray-600 focus:outline-none focus:ring-0 transition-colors text-sm">
                             </div>
                             <div class="relative input-focus-glow rounded-xl transition-all duration-300">
-                                <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider mb-2"><i class="fas fa-key text-indigo-400 mr-1"></i> New Password</label>
+                                <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider mb-2"><i class="fas fa-key text-zinc-200 mr-1"></i> New Password</label>
                                 <input type="password" id="newPassword" placeholder="••••••••" class="w-full px-4 py-3 bg-gray-900/50 border border-gray-700/50 rounded-xl text-white placeholder-gray-600 focus:outline-none focus:ring-0 transition-colors text-sm mb-3">
                                 <div class="w-full h-1.5 bg-gray-800 rounded-full overflow-hidden">
-                                    <div class="h-full bg-indigo-500 w-1/4 shadow-[0_0_10px_rgba(99,102,241,0.8)]"></div>
+                                    <div class="h-full bg-zinc-800 w-1/4 shadow-[0_0_10px_rgba(255, 255, 255, 0.80)]"></div>
                                 </div>
                             </div>
                             <div class="relative input-focus-glow rounded-xl transition-all duration-300">
-                                <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider mb-2"><i class="fas fa-check-circle text-indigo-400 mr-1"></i> Confirm New Password</label>
+                                <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider mb-2"><i class="fas fa-check-circle text-zinc-200 mr-1"></i> Confirm New Password</label>
                                 <input type="password" id="confirmPassword" placeholder="••••••••" class="w-full px-4 py-3 bg-gray-900/50 border border-gray-700/50 rounded-xl text-white placeholder-gray-600 focus:outline-none focus:ring-0 transition-colors text-sm">
                             </div>
                         </div>
-                        <button class="px-6 py-3 bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-bold rounded-xl shadow-[0_10px_20px_-10px_rgba(99,102,241,0.6)] hover:shadow-[0_15px_25px_-10px_rgba(99,102,241,0.8)] hover:-translate-y-0.5 transition-all duration-300" onclick="changePassword()">
+                        <button class="px-6 py-3 bg-gradient-to-r from-zinc-800 to-zinc-900 text-white font-bold rounded-xl shadow-[0_10px_20px_-10px_rgba(255, 255, 255, 0.60)] hover:shadow-[0_15px_25px_-10px_rgba(255, 255, 255, 0.80)] hover:-translate-y-0.5 transition-all duration-300" onclick="changePassword()">
                             <i class="fas fa-lock mr-2"></i> Update Password
                         </button>
                     </div>
@@ -300,13 +300,13 @@
             <section class="settings-section hidden" id="preferences">
                 <div class="glass-card rounded-2xl overflow-hidden">
                     <div class="p-6 border-b border-white/10 bg-black/20">
-                        <h2 class="text-xl font-bold text-white font-outfit flex items-center gap-2"><i class="fas fa-palette text-indigo-400"></i> Preferences</h2>
+                        <h2 class="text-xl font-bold text-white font-outfit flex items-center gap-2"><i class="fas fa-palette text-zinc-200"></i> Preferences</h2>
                         <p class="text-sm text-gray-400 mt-1">Customize your application experience</p>
                     </div>
                     <div class="p-0">
                         <div class="flex items-center justify-between p-6 border-b border-white/5 hover:bg-white/5 transition-colors">
                             <div class="flex items-center gap-4">
-                                <div class="w-12 h-12 rounded-xl bg-purple-500/20 text-purple-400 flex items-center justify-center text-xl shrink-0 border border-purple-500/30">
+                                <div class="w-12 h-12 rounded-xl bg-white/5 text-zinc-300 flex items-center justify-center text-xl shrink-0 border border-zinc-600/30">
                                     <i class="fas fa-envelope"></i>
                                 </div>
                                 <div>
@@ -322,7 +322,7 @@
 
                         <div class="flex items-center justify-between p-6 border-b border-white/5 hover:bg-white/5 transition-colors">
                             <div class="flex items-center gap-4">
-                                <div class="w-12 h-12 rounded-xl bg-blue-500/20 text-blue-400 flex items-center justify-center text-xl shrink-0 border border-blue-500/30">
+                                <div class="w-12 h-12 rounded-xl bg-white/5 text-zinc-200 flex items-center justify-center text-xl shrink-0 border border-blue-500/30">
                                     <i class="fas fa-archive"></i>
                                 </div>
                                 <div>
@@ -338,7 +338,7 @@
 
                         <div class="flex items-center justify-between p-6 border-b border-white/5 hover:bg-white/5 transition-colors">
                             <div class="flex items-center gap-4">
-                                <div class="w-12 h-12 rounded-xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center text-xl shrink-0 border border-indigo-500/30 shadow-[0_0_15px_rgba(99,102,241,0.3)]">
+                                <div class="w-12 h-12 rounded-xl bg-white/5 text-zinc-200 flex items-center justify-center text-xl shrink-0 border border-zinc-600/30 shadow-[0_0_15px_rgba(255, 255, 255, 0.30)]">
                                     <i class="fas fa-moon"></i>
                                 </div>
                                 <div>
@@ -347,13 +347,13 @@
                                 </div>
                             </div>
                             <div class="relative inline-block w-12 mr-2 align-middle select-none transition duration-200 ease-in">
-                                <input type="checkbox" name="toggle" id="darkMode" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer border-indigo-500 z-10 transition-transform duration-200 ease-in-out" checked/>
-                                <label for="darkMode" class="toggle-label block overflow-hidden h-6 rounded-full bg-indigo-500 cursor-pointer"></label>
+                                <input type="checkbox" name="toggle" id="darkMode" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer border-zinc-600 z-10 transition-transform duration-200 ease-in-out" checked/>
+                                <label for="darkMode" class="toggle-label block overflow-hidden h-6 rounded-full bg-zinc-800 cursor-pointer"></label>
                             </div>
                         </div>
 
                         <div class="p-6">
-                            <button class="px-6 py-3 bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-bold rounded-xl shadow-[0_10px_20px_-10px_rgba(99,102,241,0.6)] hover:shadow-[0_15px_25px_-10px_rgba(99,102,241,0.8)] hover:-translate-y-0.5 transition-all duration-300" onclick="savePreferences()">
+                            <button class="px-6 py-3 bg-gradient-to-r from-zinc-800 to-zinc-900 text-white font-bold rounded-xl shadow-[0_10px_20px_-10px_rgba(255, 255, 255, 0.60)] hover:shadow-[0_15px_25px_-10px_rgba(255, 255, 255, 0.80)] hover:-translate-y-0.5 transition-all duration-300" onclick="savePreferences()">
                                 <i class="fas fa-save mr-2"></i> Save Preferences
                             </button>
                         </div>
@@ -365,14 +365,14 @@
             <section class="settings-section hidden" id="scoring">
                 <div class="glass-card rounded-2xl overflow-hidden">
                     <div class="p-6 border-b border-white/10 bg-black/20">
-                        <h2 class="text-xl font-bold text-white font-outfit flex items-center gap-2"><i class="fas fa-brain text-indigo-400"></i> AI Scoring Configuration</h2>
+                        <h2 class="text-xl font-bold text-white font-outfit flex items-center gap-2"><i class="fas fa-brain text-zinc-200"></i> AI Scoring Configuration</h2>
                         <p class="text-sm text-gray-400 mt-1">Adjust AI scoring weights (Total must equal 100%)</p>
                     </div>
                     <div class="p-8">
                         <div class="mb-10">
                             <div class="h-8 w-full flex rounded-xl overflow-hidden shadow-[inset_0_0_10px_rgba(0,0,0,0.5)]">
-                                <div class="chart-segment skills bg-indigo-500 flex items-center justify-center text-white text-xs font-bold transition-all duration-300 shadow-[0_0_15px_rgba(99,102,241,0.5)]" style="width: 60%;">60%</div>
-                                <div class="chart-segment keywords bg-purple-500 flex items-center justify-center text-white text-xs font-bold transition-all duration-300 shadow-[0_0_15px_rgba(168,85,247,0.5)]" style="width: 30%;">30%</div>
+                                <div class="chart-segment skills bg-zinc-800 flex items-center justify-center text-white text-xs font-bold transition-all duration-300 shadow-[0_0_15px_rgba(255, 255, 255, 0.50)]" style="width: 60%;">60%</div>
+                                <div class="chart-segment keywords bg-zinc-800 flex items-center justify-center text-white text-xs font-bold transition-all duration-300 shadow-[0_0_15px_rgba(168,85,247,0.5)]" style="width: 30%;">30%</div>
                                 <div class="chart-segment experience bg-teal-500 flex items-center justify-center text-white text-xs font-bold transition-all duration-300 shadow-[0_0_15px_rgba(20,184,166,0.5)]" style="width: 10%;">10%</div>
                             </div>
                         </div>
@@ -380,16 +380,16 @@
                         <div class="flex flex-col gap-8 mb-10 max-w-xl">
                             <div>
                                 <div class="flex justify-between items-center mb-3">
-                                    <label class="font-semibold text-gray-300 uppercase tracking-wider text-xs"><i class="fas fa-code text-indigo-400 mr-2"></i> Skills Weight</label>
-                                    <span id="skillWeightValue" class="font-bold text-indigo-400 text-lg">60%</span>
+                                    <label class="font-semibold text-gray-300 uppercase tracking-wider text-xs"><i class="fas fa-code text-zinc-200 mr-2"></i> Skills Weight</label>
+                                    <span id="skillWeightValue" class="font-bold text-zinc-200 text-lg">60%</span>
                                 </div>
                                 <input type="range" id="skillWeight" min="0" max="100" value="60" class="w-full h-2.5 bg-gray-800 rounded-full appearance-none cursor-pointer accent-indigo-500 outline-none shadow-inner" oninput="updateWeights()">
                             </div>
 
                             <div>
                                 <div class="flex justify-between items-center mb-3">
-                                    <label class="font-semibold text-gray-300 uppercase tracking-wider text-xs"><i class="fas fa-key text-purple-400 mr-2"></i> Keywords Weight</label>
-                                    <span id="keywordWeightValue" class="font-bold text-purple-400 text-lg">30%</span>
+                                    <label class="font-semibold text-gray-300 uppercase tracking-wider text-xs"><i class="fas fa-key text-zinc-300 mr-2"></i> Keywords Weight</label>
+                                    <span id="keywordWeightValue" class="font-bold text-zinc-300 text-lg">30%</span>
                                 </div>
                                 <input type="range" id="keywordWeight" min="0" max="100" value="30" class="w-full h-2.5 bg-gray-800 rounded-full appearance-none cursor-pointer accent-purple-500 outline-none shadow-inner" oninput="updateWeights()">
                             </div>
@@ -405,10 +405,10 @@
 
                         <div class="flex items-center gap-3 mb-8 p-4 bg-white/5 rounded-xl border border-white/10 inline-flex shadow-sm">
                             <span class="font-semibold text-gray-400 uppercase tracking-wider text-sm">Total Weight:</span>
-                            <span id="totalWeight" class="font-bold text-indigo-400 text-2xl font-mono-data">100%</span>
+                            <span id="totalWeight" class="font-bold text-zinc-200 text-2xl font-mono-data">100%</span>
                         </div>
 
-                        <button class="block px-6 py-3 bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-bold rounded-xl shadow-[0_10px_20px_-10px_rgba(99,102,241,0.6)] hover:shadow-[0_15px_25px_-10px_rgba(99,102,241,0.8)] hover:-translate-y-0.5 transition-all duration-300" onclick="saveScoring()">
+                        <button class="block px-6 py-3 bg-gradient-to-r from-zinc-800 to-zinc-900 text-white font-bold rounded-xl shadow-[0_10px_20px_-10px_rgba(255, 255, 255, 0.60)] hover:shadow-[0_15px_25px_-10px_rgba(255, 255, 255, 0.80)] hover:-translate-y-0.5 transition-all duration-300" onclick="saveScoring()">
                             <i class="fas fa-check-circle mr-2"></i> Apply AI Configuration
                         </button>
                     </div>
@@ -455,7 +455,7 @@
         btn.addEventListener('click', () => {
             // Remove active class from all buttons and sections
             document.querySelectorAll('.settings-nav-btn').forEach(b => {
-                b.classList.remove('bg-indigo-500', 'text-white', 'active', 'shadow-[0_4px_15px_rgba(99,102,241,0.4)]');
+                b.classList.remove('bg-zinc-800', 'text-white', 'active', 'shadow-[0_4px_15px_rgba(255, 255, 255, 0.40)]');
                 b.classList.add('text-gray-400');
             });
             document.querySelectorAll('.settings-section').forEach(s => {
@@ -468,7 +468,7 @@
             if(btn.getAttribute('data-section') === 'danger') {
                  btn.classList.add('bg-red-600', 'text-white', 'active', 'border-red-500');
             } else {
-                 btn.classList.add('bg-indigo-500', 'text-white', 'active', 'shadow-[0_4px_15px_rgba(99,102,241,0.4)]');
+                 btn.classList.add('bg-zinc-800', 'text-white', 'active', 'shadow-[0_4px_15px_rgba(255, 255, 255, 0.40)]');
             }
 
             // Show corresponding section

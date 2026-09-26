@@ -110,6 +110,18 @@ function setupEventListeners() {
             // Form will submit normally to /resumedata
         });
     }
+
+    // View History button
+    const viewHistoryBtn = document.querySelector('.btn-secondary');
+    if (viewHistoryBtn && viewHistoryBtn.textContent.includes('History')) {
+        viewHistoryBtn.onclick = () => window.location.href = '/candidates';
+    }
+
+    // Settings navigation
+    const logoutBtn = document.querySelector('.btn-logout') || document.querySelector('.fa-sign-out-alt')?.parentElement;
+    if (logoutBtn) {
+        logoutBtn.onclick = () => window.location.href = '/logout';
+    }
 }
 
 const ROLE_SKILLS_DATA = {
@@ -152,7 +164,7 @@ function setupRoleSelector() {
 
         role.skills.forEach(skill => {
             const badge = document.createElement('span');
-            badge.className = 'text-[10px] font-semibold px-2 py-0.5 rounded-full bg-indigo-500/10 text-indigo-300 border border-indigo-500/20';
+            badge.className = 'text-[10px] font-semibold px-2 py-0.5 rounded-full bg-white/10 text-zinc-200 border border-white/20';
             badge.textContent = skill;
             container.appendChild(badge);
         });
@@ -211,18 +223,7 @@ async function runDemo(demoId) {
 window.runDemo = runDemo;
 
 
-    // View History button
-    const viewHistoryBtn = document.querySelector('.btn-secondary');
-    if (viewHistoryBtn && viewHistoryBtn.textContent.includes('History')) {
-        viewHistoryBtn.onclick = () => window.location.href = '/candidates';
-    }
 
-    // Settings navigation
-    const logoutBtn = document.querySelector('.btn-logout') || document.querySelector('.fa-sign-out-alt')?.parentElement;
-    if (logoutBtn) {
-        logoutBtn.onclick = () => window.location.href = '/logout';
-    }
-}
 
 async function loadDashboardStats() {
     try {

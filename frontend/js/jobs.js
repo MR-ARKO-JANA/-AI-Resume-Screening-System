@@ -248,26 +248,26 @@ async function fetchJobs() {
 
 function createJobCard(job) {
     const card = document.createElement('div');
-    card.className = 'bg-surface-container-lowest rounded-xl border border-border-subtle p-6 flex flex-col hover:border-[#2563EB] hover:shadow-md transition-all group';
+    card.className = 'bg-surface-container-lowest rounded-xl border border-border-subtle p-6 flex flex-col hover:border-white/50 hover:shadow-lg transition-all group';
 
     const sourceClass = (job.source || 'manual').toLowerCase();
     const initial = (job.company || 'U').trim().charAt(0).toUpperCase();
     const skills = job.skillsRequired || [];
-    const skillTags = skills.slice(0, 3).map(skill => `<span class="px-2 py-1 bg-surface-variant text-on-surface-variant text-xs font-semibold rounded">${skill}</span>`).join('');
-    const extraSkills = skills.length > 3 ? `<span class="px-2 py-1 bg-surface-variant text-on-surface-variant text-xs font-semibold rounded">+${skills.length - 3}</span>` : '';
+    const skillTags = skills.slice(0, 3).map(skill => `<span class="px-2 py-1 bg-white/10 text-zinc-300 border border-white/10 text-xs font-semibold rounded">${skill}</span>`).join('');
+    const extraSkills = skills.length > 3 ? `<span class="px-2 py-1 bg-white/10 text-zinc-300 border border-white/10 text-xs font-semibold rounded">+${skills.length - 3}</span>` : '';
 
     card.innerHTML = `
         <div class="flex items-center gap-4 mb-4">
-            <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-blue-100 to-indigo-100 text-blue-700 flex items-center justify-center font-bold text-xl shrink-0 shadow-sm border border-blue-200">
+            <div class="w-12 h-12 rounded-lg bg-zinc-800 text-white flex items-center justify-center font-bold text-xl shrink-0 shadow-sm border border-zinc-700">
                 ${initial}
             </div>
             <div>
-                <h3 class="font-bold text-primary text-lg leading-tight group-hover:text-[#2563EB] transition-colors line-clamp-1">${job.jobTitle}</h3>
-                <p class="text-sm font-semibold text-slate-gray mt-0.5 line-clamp-1">${job.company}</p>
+                <h3 class="font-bold text-white text-lg leading-tight group-hover:text-white transition-colors line-clamp-1">${job.jobTitle}</h3>
+                <p class="text-sm font-semibold text-zinc-400 mt-0.5 line-clamp-1">${job.company}</p>
             </div>
         </div>
         
-        <div class="flex flex-col gap-2 text-sm text-on-surface-variant mb-4 font-medium">
+        <div class="flex flex-col gap-2 text-sm text-zinc-300 mb-4 font-medium">
             <span class="flex items-center gap-2"><i class="fas fa-map-marker-alt w-4 text-center opacity-70"></i> ${job.location || 'India'}</span>
             <span class="flex items-center gap-2"><i class="fas fa-briefcase w-4 text-center opacity-70"></i> ${job.experience || 'Not specified'}</span>
             <span class="flex items-center gap-2"><i class="fas fa-wallet w-4 text-center opacity-70"></i> ${job.salary || 'Not specified'}</span>
@@ -279,8 +279,8 @@ function createJobCard(job) {
         </div>
         
         <div class="mt-auto grid grid-cols-2 gap-3 pt-4 border-t border-border-subtle">
-            <button class="px-4 py-2 border border-border-subtle text-primary text-sm font-bold rounded hover:bg-surface-variant transition-colors text-center" onclick="openDetailsModal('${job._id}')">Details</button>
-            <button class="px-4 py-2 bg-[#2563EB] text-white text-sm font-bold rounded hover:bg-opacity-90 transition-colors shadow-sm text-center" onclick="openApplyModal('${job._id}', '${job.jobTitle.replace(/'/g, "\\'")}', '${job.company.replace(/'/g, "\\'")}')">Apply</button>
+            <button class="px-4 py-2 border border-white/20 text-white text-sm font-bold rounded hover:bg-white/10 transition-colors text-center" onclick="openDetailsModal('${job._id}')">Details</button>
+            <button class="px-4 py-2 bg-white text-black text-sm font-bold rounded hover:bg-zinc-200 transition-colors shadow-sm text-center" onclick="openApplyModal('${job._id}', '${job.jobTitle.replace(/'/g, "\\'")}', '${job.company.replace(/'/g, "\\'")}')">Apply</button>
         </div>
     `;
 

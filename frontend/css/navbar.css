@@ -32,7 +32,7 @@
 .command-palette {
     width: 600px;
     max-width: 90vw;
-    background: white;
+    background: #18181b;
     border-radius: 16px;
     box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(226, 232, 240, 0.8);
     overflow: hidden;
@@ -49,11 +49,11 @@
     display: flex;
     align-items: center;
     gap: 12px;
-    border-bottom: 1px solid #e2e8f0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .command-palette-header i {
-    color: #94a3b8;
+    color: #a1a1aa;
     font-size: 18px;
 }
 
@@ -63,23 +63,23 @@
     outline: none;
     font-size: 16px;
     font-weight: 500;
-    color: #1e293b;
+    color: #f4f4f5;
     font-family: 'Inter', sans-serif;
     background: transparent;
 }
 
 .command-palette-header input::placeholder {
-    color: #94a3b8;
+    color: #a1a1aa;
 }
 
 .command-palette-header kbd {
     padding: 3px 7px;
-    background: #f1f5f9;
-    border: 1px solid #e2e8f0;
+    background: #18181b;
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 4px;
     font-size: 11px;
     font-weight: 600;
-    color: #64748b;
+    color: #71717a;
     font-family: 'Inter', sans-serif;
 }
 
@@ -101,7 +101,7 @@
 .command-group-label {
     font-size: 11px;
     font-weight: 700;
-    color: #94a3b8;
+    color: #a1a1aa;
     padding: 12px 12px 6px;
     letter-spacing: 0.5px;
     text-transform: uppercase;
@@ -121,7 +121,7 @@
 
 .command-item:hover,
 .command-item.active {
-    background: linear-gradient(135deg, rgba(99, 102, 241, 0.08), rgba(139, 92, 246, 0.08));
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.80), rgba(255, 255, 255, 0.05));
 }
 
 .command-item-icon {
@@ -135,12 +135,12 @@
     flex-shrink: 0;
 }
 
-.command-item-icon.purple { background: rgba(139, 92, 246, 0.1); color: #8b5cf6; }
-.command-item-icon.blue { background: rgba(59, 130, 246, 0.1); color: #3b82f6; }
-.command-item-icon.green { background: rgba(16, 185, 129, 0.1); color: #10b981; }
-.command-item-icon.orange { background: rgba(245, 158, 11, 0.1); color: #f59e0b; }
-.command-item-icon.red { background: rgba(239, 68, 68, 0.1); color: #ef4444; }
-.command-item-icon.indigo { background: rgba(99, 102, 241, 0.1); color: #6366f1; }
+.command-item-icon.purple,
+.command-item-icon.blue,
+.command-item-icon.green,
+.command-item-icon.orange,
+.command-item-icon.red,
+.command-item-icon.indigo { background: rgba(255, 255, 255, 0.1); color: #ffffff; border: 1px solid rgba(255, 255, 255, 0.15); }
 
 .command-item-text {
     flex: 1;
@@ -149,13 +149,13 @@
 .command-item-text h4 {
     font-size: 13px;
     font-weight: 600;
-    color: #1e293b;
+    color: #f4f4f5;
     margin-bottom: 1px;
 }
 
 .command-item-text p {
     font-size: 11px;
-    color: #94a3b8;
+    color: #a1a1aa;
 }
 
 .command-item-shortcut {
@@ -165,23 +165,23 @@
 
 .command-item-shortcut kbd {
     padding: 2px 6px;
-    background: #f1f5f9;
-    border: 1px solid #e2e8f0;
+    background: #18181b;
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 4px;
     font-size: 10px;
     font-weight: 600;
-    color: #94a3b8;
+    color: #a1a1aa;
     font-family: 'Inter', sans-serif;
 }
 
 .command-palette-footer {
     padding: 10px 16px;
-    border-top: 1px solid #e2e8f0;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
     display: flex;
     align-items: center;
     gap: 16px;
     font-size: 11px;
-    color: #94a3b8;
+    color: #a1a1aa;
 }
 
 .command-palette-footer span {
@@ -192,19 +192,19 @@
 
 .command-palette-footer kbd {
     padding: 1px 5px;
-    background: #f1f5f9;
-    border: 1px solid #e2e8f0;
+    background: #18181b;
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 3px;
     font-size: 10px;
     font-weight: 600;
-    color: #94a3b8;
+    color: #a1a1aa;
     font-family: 'Inter', sans-serif;
 }
 
 .command-no-results {
     padding: 32px 16px;
     text-align: center;
-    color: #94a3b8;
+    color: #a1a1aa;
 }
 
 .command-no-results i {
@@ -229,7 +229,7 @@
     top: calc(100% + 12px);
     right: -40px;
     width: 380px;
-    background: white;
+    background: #18181b;
     border-radius: 16px;
     box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(226, 232, 240, 0.8);
     z-index: 1000;
@@ -258,12 +258,12 @@
 .notif-header h3 {
     font-size: 15px;
     font-weight: 700;
-    color: #1e293b;
+    color: #f4f4f5;
 }
 
 .notif-header .notif-count {
-    background: linear-gradient(135deg, #6366f1, #8b5cf6);
-    color: white;
+    background: #ffffff;
+    color: #09090b;
     font-size: 11px;
     font-weight: 700;
     padding: 2px 8px;
@@ -272,7 +272,7 @@
 
 .notif-mark-read {
     font-size: 12px;
-    color: #6366f1;
+    color: #a1a1aa;
     background: none;
     border: none;
     cursor: pointer;
@@ -281,7 +281,7 @@
 }
 
 .notif-mark-read:hover {
-    color: #4f46e5;
+    color: #ffffff;
 }
 
 .notif-body {
@@ -294,7 +294,7 @@
 }
 
 .notif-body::-webkit-scrollbar-thumb {
-    background: #e2e8f0;
+    background: #27272a;
     border-radius: 2px;
 }
 
@@ -308,11 +308,11 @@
 }
 
 .notif-item:hover {
-    background: #f8fafc;
+    background: #0c0c0e;
 }
 
 .notif-item.unread {
-    background: rgba(99, 102, 241, 0.04);
+    background: rgba(255, 255, 255, 0.40);
 }
 
 .notif-item.unread::before {
@@ -323,7 +323,7 @@
     transform: translateY(-50%);
     width: 6px;
     height: 6px;
-    background: #6366f1;
+    background: #ffffff;
     border-radius: 50%;
 }
 
@@ -338,11 +338,11 @@
     flex-shrink: 0;
 }
 
-.notif-icon.success { background: rgba(16, 185, 129, 0.1); color: #10b981; }
-.notif-icon.warning { background: rgba(245, 158, 11, 0.1); color: #f59e0b; }
-.notif-icon.info { background: rgba(59, 130, 246, 0.1); color: #3b82f6; }
-.notif-icon.danger { background: rgba(239, 68, 68, 0.1); color: #ef4444; }
-.notif-icon.purple { background: rgba(139, 92, 246, 0.1); color: #8b5cf6; }
+.notif-icon.success { background: rgba(255, 255, 255, 0.06); color: #71717a; }
+.notif-icon.warning { background: rgba(255, 255, 255, 0.06); color: #71717a; }
+.notif-icon.info { background: rgba(255, 255, 255, 0.05); color: #d4d4d8; }
+.notif-icon.danger { background: rgba(255, 255, 255, 0.08); color: #ef4444; }
+.notif-icon.purple { background: rgba(255, 255, 255, 0.05); color: #a1a1aa; }
 
 .notif-content {
     flex: 1;
@@ -352,13 +352,13 @@
 .notif-content h4 {
     font-size: 13px;
     font-weight: 600;
-    color: #1e293b;
+    color: #f4f4f5;
     margin-bottom: 2px;
 }
 
 .notif-content p {
     font-size: 12px;
-    color: #64748b;
+    color: #71717a;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -366,7 +366,7 @@
 
 .notif-time {
     font-size: 11px;
-    color: #94a3b8;
+    color: #a1a1aa;
     white-space: nowrap;
     flex-shrink: 0;
     margin-top: 2px;
@@ -381,13 +381,13 @@
 .notif-footer a {
     font-size: 13px;
     font-weight: 600;
-    color: #6366f1;
+    color: #ffffff;
     text-decoration: none;
     transition: color 0.2s;
 }
 
 .notif-footer a:hover {
-    color: #4f46e5;
+    color: #d4d4d8;
 }
 
 /* ========== PROFILE DROPDOWN ========== */
@@ -400,7 +400,7 @@
     top: calc(100% + 12px);
     right: 0;
     width: 260px;
-    background: white;
+    background: #18181b;
     border-radius: 16px;
     box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(226, 232, 240, 0.8);
     z-index: 1000;
@@ -416,7 +416,7 @@
 .profile-dropdown-header {
     padding: 20px;
     text-align: center;
-    background: linear-gradient(135deg, rgba(99, 102, 241, 0.06), rgba(139, 92, 246, 0.06));
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.60), rgba(255, 255, 255, 0.05));
     border-bottom: 1px solid #f1f5f9;
 }
 
@@ -425,7 +425,7 @@
     height: 56px;
     border-radius: 14px;
     border: 3px solid white;
-    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.20);
     margin-bottom: 10px;
     object-fit: cover;
 }
@@ -433,13 +433,13 @@
 .profile-dropdown-header h4 {
     font-size: 15px;
     font-weight: 700;
-    color: #1e293b;
+    color: #f4f4f5;
     margin-bottom: 2px;
 }
 
 .profile-dropdown-header p {
     font-size: 12px;
-    color: #64748b;
+    color: #71717a;
 }
 
 .profile-dropdown-body {
@@ -465,8 +465,8 @@
 }
 
 .profile-menu-item:hover {
-    background: #f8fafc;
-    color: #6366f1;
+    background: #0c0c0e;
+    color: #09090b;
 }
 
 .profile-menu-item i {
@@ -477,7 +477,7 @@
 
 .profile-menu-divider {
     height: 1px;
-    background: #f1f5f9;
+    background: #18181b;
     margin: 4px 12px;
 }
 
@@ -496,8 +496,8 @@
 }
 
 .icon-btn.settings-nav-btn:hover {
-    background: var(--primary, #6366f1);
-    color: white;
+    background: #ffffff;
+    color: #09090b;
     transform: translateY(-2px);
 }
 

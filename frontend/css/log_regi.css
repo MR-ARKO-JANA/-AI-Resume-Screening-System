@@ -9,7 +9,7 @@
 
 body {
     min-height: 100vh;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: #09090b;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -60,7 +60,7 @@ body::before {
     width: 420px;
     max-width: 100%;
     padding: 40px;
-    background: rgba(255, 255, 255, 0.98);
+    background: rgba(18, 18, 20, 0.95);
     backdrop-filter: blur(10px);
     border-radius: 20px;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
@@ -70,13 +70,13 @@ body::before {
 .form-section h2 {
     font-size: 28px;
     font-weight: 700;
-    color: #2d3748;
+    color: #f4f4f5;
     margin-bottom: 8px;
 }
 
 .subtitle {
     font-size: 14px;
-    color: #718096;
+    color: #71717a;
     margin-bottom: 30px;
 }
 
@@ -100,13 +100,13 @@ body::before {
     outline: none;
     font-size: 15px;
     transition: all 0.3s ease;
-    background: #f7fafc;
+    background: #0c0c0e;
 }
 
 .input-group input:focus {
-    border-color: #667eea;
-    background: white;
-    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    border-color: #ffffff;
+    background: #18181b;
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.2);
 }
 
 .input-group input::placeholder {
@@ -119,18 +119,19 @@ body::before {
     border-radius: 12px;
     border: none;
     font-size: 16px;
-    font-weight: 600;
+    font-weight: 700;
     cursor: pointer;
-    color: white;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #09090b;
+    background: #ffffff;
     transition: all 0.3s ease;
     margin-top: 10px;
-    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
 }
 
 .btn-primary:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+    background: #e4e4e7;
+    box-shadow: 0 6px 20px rgba(255, 255, 255, 0.3);
 }
 
 .btn-primary:active {
@@ -141,18 +142,18 @@ body::before {
     text-align: center;
     margin-top: 24px;
     font-size: 14px;
-    color: #718096;
+    color: #71717a;
 }
 
 .switch-form a {
-    color: #667eea;
+    color: #ffffff;
     text-decoration: none;
     font-weight: 600;
     transition: color 0.3s ease;
 }
 
 .switch-form a:hover {
-    color: #764ba2;
+    color: #a1a1aa;
     text-decoration: underline;
 }
 
@@ -189,4 +190,92 @@ body::before {
     }
 }
 
+/* ── Light Mode — Teal-Accented Login Page ── */
+body.light-mode {
+    background: #f8fafc;
+}
+
+body.light-mode .brand {
+    color: #0f172a;
+}
+
+body.light-mode .brand h1 {
+    color: #0f172a;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+body.light-mode .brand p {
+    color: #64748b;
+}
+
+body.light-mode .form-section {
+    background: #ffffff;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.1), 0 4px 16px rgba(13,148,136,0.06);
+    border: 1px solid #e2e8f0;
+}
+
+body.light-mode .form-section h2 {
+    color: #0f172a;
+}
+
+body.light-mode .subtitle {
+    color: #64748b;
+}
+
+body.light-mode .input-group label {
+    color: #334155;
+}
+
+body.light-mode .input-group input {
+    border-color: #cbd5e1;
+    background: #f8fafc;
+    color: #0f172a;
+}
+
+body.light-mode .input-group input:focus {
+    border-color: #0d9488;
+    background: white;
+    box-shadow: 0 0 0 3px rgba(13,148,136,0.15);
+}
+
+body.light-mode .input-group input::placeholder {
+    color: #94a3b8;
+}
+
+body.light-mode .btn-primary {
+    background: linear-gradient(135deg, #0d9488, #0f766e);
+    color: #ffffff;
+    box-shadow: 0 4px 14px rgba(13,148,136,0.4);
+    border: none;
+}
+
+body.light-mode .btn-primary:hover {
+    background: linear-gradient(135deg, #0f766e, #0d9488);
+    box-shadow: 0 6px 20px rgba(13,148,136,0.5);
+    transform: translateY(-2px);
+}
+
+body.light-mode .switch-form {
+    color: #64748b;
+}
+
+body.light-mode .switch-form a {
+    color: #0d9488;
+    font-weight: 700;
+}
+
+body.light-mode .switch-form a:hover {
+    color: #0f766e;
+    text-decoration: underline;
+}
+
+/* Teal tinted orbs on login in light mode */
+body.light-mode .orb-1 {
+    background: radial-gradient(circle, rgba(13,148,136,0.1) 0%, transparent 70%) !important;
+    opacity: 0.8 !important;
+}
+body.light-mode .orb-2 {
+    background: radial-gradient(circle, rgba(13,148,136,0.06) 0%, transparent 70%) !important;
+    opacity: 0.6 !important;
+}
 

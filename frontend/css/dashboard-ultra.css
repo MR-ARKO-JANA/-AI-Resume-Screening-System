@@ -15,26 +15,27 @@ html { scroll-behavior: smooth; }
 }
 
 :root {
-    --primary: #6366f1;
-    --primary-dark: #4f46e5;
-    --secondary: #8b5cf6;
-    --success: #10b981;
-    --warning: #f59e0b;
+    --primary: #ffffff;
+    --primary-dark: #e4e4e7;
+    --secondary: #a1a1aa;
+    --success: #71717a;
+    --warning: #a1a1aa;
     --danger: #ef4444;
-    --info: #3b82f6;
-    --dark: #1e293b;
-    --light: #f8fafc;
-    --border: #e2e8f0;
-    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-    --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+    --info: #d4d4d8;
+    --dark: #09090b;
+    --light: #fafafa;
+    --border: #27272a;
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.6);
+    --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.7);
 }
 
 body {
     display: flex;
     min-height: 100vh;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: #09090b;
     position: relative;
     overflow-x: hidden;
+    color: #f4f4f5;
 }
 
 body::before {
@@ -43,9 +44,9 @@ body::before {
     width: 200%;
     height: 200%;
     background: 
-        radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.3), transparent 50%),
-        radial-gradient(circle at 80% 80%, rgba(138, 92, 246, 0.3), transparent 50%),
-        radial-gradient(circle at 40% 20%, rgba(99, 102, 241, 0.2), transparent 50%);
+        radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.02), transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.015), transparent 50%),
+        radial-gradient(circle at 40% 20%, rgba(255, 255, 255, 0.01), transparent 50%);
     animation: gradientShift 40s linear infinite;
     pointer-events: none;
     will-change: transform;
@@ -60,13 +61,14 @@ body::before {
 /* ========== SIDEBAR ========== */
 .sidebar {
     width: 280px;
-    background: rgba(255, 255, 255, 0.98);
+    background: #0c0c0e;
     backdrop-filter: blur(20px);
-    box-shadow: 4px 0 24px rgba(0, 0, 0, 0.08);
+    box-shadow: 4px 0 24px rgba(0, 0, 0, 0.6);
     display: flex;
     flex-direction: column;
     z-index: 100;
-    border-right: 1px solid rgba(226, 232, 240, 0.8);
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+    color: #f4f4f5;
 }
 
 .logo-section {
@@ -79,14 +81,15 @@ body::before {
     width: 56px;
     height: 56px;
     margin: 0 auto 12px;
-    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    background: linear-gradient(135deg, #27272a, #09090b);
     border-radius: 16px;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 28px;
     color: white;
-    box-shadow: 0 8px 16px rgba(99, 102, 241, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
     animation: float 3s ease-in-out infinite;
 }
 
@@ -98,14 +101,14 @@ body::before {
 .logo-section h2 {
     font-size: 20px;
     font-weight: 700;
-    color: var(--dark);
+    color: #f4f4f5;
     margin-bottom: 4px;
 }
 
 .version {
     font-size: 11px;
-    color: var(--primary);
-    background: rgba(99, 102, 241, 0.1);
+    color: #a1a1aa;
+    background: rgba(255, 255, 255, 0.08);
     padding: 2px 8px;
     border-radius: 4px;
     font-weight: 600;
@@ -124,7 +127,7 @@ body::before {
 .nav-label {
     font-size: 11px;
     font-weight: 700;
-    color: #94a3b8;
+    color: #a1a1aa;
     padding: 0 20px;
     margin-bottom: 8px;
     display: block;
@@ -144,7 +147,7 @@ body::before {
     display: flex;
     align-items: center;
     gap: 12px;
-    color: #64748b;
+    color: #71717a;
     font-size: 14px;
     font-weight: 500;
     position: relative;
@@ -160,15 +163,16 @@ body::before {
 }
 
 .nav-menu li:hover {
-    background: rgba(99, 102, 241, 0.08);
-    color: var(--primary);
+    background: rgba(255, 255, 255, 0.06);
+    color: #ffffff;
     transform: translateX(4px);
 }
 
 .nav-menu li.active {
-    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    background: rgba(255, 255, 255, 0.1);
     color: white;
-    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
 }
 
 .nav-menu li.active i {
@@ -185,24 +189,24 @@ body::before {
     border-radius: 12px;
     font-size: 11px;
     font-weight: 700;
-    background: rgba(239, 68, 68, 0.1);
+    background: rgba(255, 255, 255, 0.08);
     color: var(--danger);
 }
 
 .badge.success {
-    background: rgba(16, 185, 129, 0.1);
+    background: rgba(255, 255, 255, 0.06);
     color: var(--success);
 }
 
 .badge.new {
-    background: linear-gradient(135deg, #f59e0b, #f97316);
+    background: linear-gradient(135deg, #52525b, #3f3f46);
     color: white;
     animation: glow 2s ease-in-out infinite;
 }
 
 @keyframes glow {
-    0%, 100% { box-shadow: 0 0 5px rgba(245, 158, 11, 0.5); }
-    50% { box-shadow: 0 0 20px rgba(245, 158, 11, 0.8); }
+    0%, 100% { box-shadow: 0 0 5px rgba(255, 255, 255, 0.06); }
+    50% { box-shadow: 0 0 20px rgba(255, 255, 255, 0.06); }
 }
 
 .sidebar-footer {
@@ -221,12 +225,12 @@ body::before {
     margin-bottom: 8px;
     font-size: 13px;
     font-weight: 600;
-    color: var(--dark);
+    color: #f4f4f5;
 }
 
 .storage-bar {
     height: 6px;
-    background: #e2e8f0;
+    background: #27272a;
     border-radius: 10px;
     overflow: hidden;
     margin-bottom: 6px;
@@ -234,14 +238,14 @@ body::before {
 
 .storage-fill {
     height: 100%;
-    background: linear-gradient(90deg, var(--primary), var(--secondary));
+    background: linear-gradient(90deg, #ffffff, #a1a1aa);
     border-radius: 10px;
     transition: width 0.3s ease;
 }
 
 .storage-text {
     font-size: 11px;
-    color: #64748b;
+    color: #71717a;
 }
 
 .upgrade-btn {
@@ -249,7 +253,7 @@ body::before {
     padding: 12px;
     border: none;
     border-radius: 10px;
-    background: linear-gradient(135deg, #fbbf24, #f59e0b);
+    background: linear-gradient(135deg, #27272a, #18181b);
     color: white;
     font-weight: 700;
     font-size: 14px;
@@ -259,12 +263,12 @@ body::before {
     justify-content: center;
     gap: 8px;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
 }
 
 .upgrade-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(245, 158, 11, 0.4);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
 }
 
 /* ========== MAIN CONTENT ========== */
@@ -278,7 +282,7 @@ body::before {
 
 /* ========== NAVBAR ========== */
 .navbar {
-    background: rgba(255, 255, 255, 0.95);
+    background: rgba(18, 18, 20, 0.95);
     backdrop-filter: blur(20px);
     padding: 16px 24px;
     border-radius: 16px;
@@ -287,7 +291,7 @@ body::before {
     align-items: center;
     gap: 24px;
     margin-bottom: 24px;
-    border: 1px solid rgba(226, 232, 240, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .search-bar {
@@ -297,7 +301,7 @@ body::before {
     display: flex;
     align-items: center;
     gap: 12px;
-    background: #f8fafc;
+    background: #0c0c0e;
     padding: 12px 16px;
     border-radius: 12px;
     border: 2px solid transparent;
@@ -305,13 +309,13 @@ body::before {
 }
 
 .search-bar:focus-within {
-    background: white;
-    border-color: var(--primary);
-    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+    background: #18181b;
+    border-color: #ffffff;
+    box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.10);
 }
 
 .search-bar i {
-    color: #94a3b8;
+    color: #a1a1aa;
     font-size: 16px;
 }
 
@@ -321,17 +325,17 @@ body::before {
     background: none;
     outline: none;
     font-size: 14px;
-    color: var(--dark);
+    color: #f4f4f5;
 }
 
 .search-bar kbd {
     padding: 4px 8px;
-    background: white;
+    background: #18181b;
     border: 1px solid var(--border);
     border-radius: 4px;
     font-size: 11px;
     font-weight: 600;
-    color: #64748b;
+    color: #71717a;
 }
 
 .navbar-actions {
@@ -344,7 +348,7 @@ body::before {
     width: 40px;
     height: 40px;
     border: none;
-    background: #f8fafc;
+    background: #0c0c0e;
     border-radius: 10px;
     cursor: pointer;
     display: flex;
@@ -384,14 +388,14 @@ body::before {
     align-items: center;
     gap: 12px;
     padding: 8px 12px;
-    background: #f8fafc;
+    background: #0c0c0e;
     border-radius: 12px;
     cursor: pointer;
     transition: all 0.3s ease;
 }
 
 .user-profile:hover {
-    background: white;
+    background: #18181b;
     box-shadow: var(--shadow);
 }
 
@@ -410,12 +414,12 @@ body::before {
 .user-name {
     font-size: 14px;
     font-weight: 600;
-    color: var(--dark);
+    color: #f4f4f5;
 }
 
 .user-role {
     font-size: 12px;
-    color: #64748b;
+    color: #71717a;
 }
 
 /* ========== STATS GRID ========== */
@@ -427,7 +431,7 @@ body::before {
 }
 
 .stat-card {
-    background: rgba(255, 255, 255, 0.95);
+    background: rgba(18, 18, 20, 0.95);
     backdrop-filter: blur(20px);
     padding: 24px;
     border-radius: 16px;
@@ -435,7 +439,7 @@ body::before {
     display: flex;
     gap: 16px;
     transition: all 0.3s ease;
-    border: 1px solid rgba(226, 232, 240, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     position: relative;
     overflow: hidden;
 }
@@ -447,7 +451,7 @@ body::before {
     left: 0;
     right: 0;
     height: 3px;
-    background: linear-gradient(90deg, var(--primary), var(--secondary));
+    background: linear-gradient(90deg, #ffffff, #a1a1aa);
     transform: scaleX(0);
     transition: transform 0.3s ease;
 }
@@ -474,23 +478,23 @@ body::before {
 }
 
 .stat-icon.purple {
-    background: linear-gradient(135deg, #8b5cf6, #6366f1);
-    box-shadow: 0 8px 16px rgba(139, 92, 246, 0.3);
+    background: linear-gradient(135deg, #27272a, #18181b);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
 }
 
 .stat-icon.green {
-    background: linear-gradient(135deg, #10b981, #059669);
-    box-shadow: 0 8px 16px rgba(16, 185, 129, 0.3);
+    background: linear-gradient(135deg, #3f3f46, #27272a);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
 }
 
 .stat-icon.orange {
-    background: linear-gradient(135deg, #f59e0b, #f97316);
-    box-shadow: 0 8px 16px rgba(245, 158, 11, 0.3);
+    background: linear-gradient(135deg, #52525b, #3f3f46);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
 }
 
 .stat-icon.blue {
-    background: linear-gradient(135deg, #3b82f6, #2563eb);
-    box-shadow: 0 8px 16px rgba(59, 130, 246, 0.3);
+    background: linear-gradient(135deg, #52525b, #27272a);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
 }
 
 .stat-content {
@@ -499,7 +503,7 @@ body::before {
 
 .stat-label {
     font-size: 13px;
-    color: #64748b;
+    color: #71717a;
     font-weight: 500;
     display: block;
     margin-bottom: 8px;
@@ -508,7 +512,7 @@ body::before {
 .stat-value {
     font-size: 32px;
     font-weight: 800;
-    color: var(--dark);
+    color: #f4f4f5;
     margin-bottom: 8px;
 }
 
@@ -541,12 +545,12 @@ body::before {
 
 .upload-section,
 .activity-section {
-    background: rgba(255, 255, 255, 0.95);
+    background: rgba(18, 18, 20, 0.95);
     backdrop-filter: blur(20px);
     padding: 28px;
     border-radius: 16px;
     box-shadow: var(--shadow-lg);
-    border: 1px solid rgba(226, 232, 240, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .section-header {
@@ -559,7 +563,7 @@ body::before {
 .section-header h2 {
     font-size: 20px;
     font-weight: 700;
-    color: var(--dark);
+    color: #f4f4f5;
     display: flex;
     align-items: center;
     gap: 10px;
@@ -568,11 +572,11 @@ body::before {
 .btn-secondary {
     padding: 8px 16px;
     border: 2px solid var(--border);
-    background: white;
+    background: #18181b;
     border-radius: 8px;
     font-size: 13px;
     font-weight: 600;
-    color: var(--dark);
+    color: #f4f4f5;
     cursor: pointer;
     transition: all 0.3s ease;
     display: flex;
@@ -581,8 +585,8 @@ body::before {
 }
 
 .btn-secondary:hover {
-    border-color: var(--primary);
-    color: var(--primary);
+    border-color: #ffffff;
+    color: #ffffff;
     transform: translateY(-2px);
 }
 
@@ -593,57 +597,57 @@ body::before {
     padding: 48px 24px;
     text-align: center;
     transition: all 0.3s ease;
-    background: #f8fafc;
+    background: #0c0c0e;
     margin-bottom: 24px;
 }
 
 .upload-area.drag-over {
-    border-color: var(--primary);
-    background: rgba(99, 102, 241, 0.05);
+    border-color: #ffffff;
+    background: rgba(255, 255, 255, 0.50);
     transform: scale(1.02);
 }
 
 .upload-area.file-selected {
     border-color: var(--success);
-    background: rgba(16, 185, 129, 0.05);
+    background: rgba(255, 255, 255, 0.06);
 }
 
 .upload-icon {
     width: 80px;
     height: 80px;
     margin: 0 auto 20px;
-    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    background: linear-gradient(135deg, #27272a, #18181b);
     border-radius: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 40px;
     color: white;
-    box-shadow: 0 12px 24px rgba(99, 102, 241, 0.3);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.5);
 }
 
 .upload-area h3 {
     font-size: 20px;
     font-weight: 700;
-    color: var(--dark);
+    color: #f4f4f5;
     margin-bottom: 8px;
 }
 
 .upload-area p {
-    color: #64748b;
+    color: #71717a;
     margin-bottom: 20px;
 }
 
 .btn-browse {
     padding: 12px 32px;
     border: none;
-    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    background: linear-gradient(135deg, #27272a, #18181b);
     color: white;
     border-radius: 10px;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
     display: inline-flex;
     align-items: center;
     gap: 8px;
@@ -651,14 +655,14 @@ body::before {
 
 .btn-browse:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(99, 102, 241, 0.4);
+    box-shadow: 0 8px 20px rgba(255, 255, 255, 0.40);
 }
 
 .file-types {
     display: block;
     margin-top: 16px;
     font-size: 12px;
-    color: #94a3b8;
+    color: #a1a1aa;
 }
 
 /* ========== JOB DESCRIPTION ========== */
@@ -670,7 +674,7 @@ body::before {
     display: block;
     font-size: 14px;
     font-weight: 600;
-    color: var(--dark);
+    color: #f4f4f5;
     margin-bottom: 12px;
     display: flex;
     align-items: center;
@@ -687,14 +691,14 @@ body::before {
     line-height: 1.6;
     resize: vertical;
     transition: all 0.3s ease;
-    background: #f8fafc;
+    background: #0c0c0e;
 }
 
 .job-description-section textarea:focus {
     outline: none;
-    border-color: var(--primary);
-    background: white;
-    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+    border-color: #ffffff;
+    background: #18181b;
+    box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.10);
 }
 
 .job-actions {
@@ -706,7 +710,7 @@ body::before {
 .btn-link {
     background: none;
     border: none;
-    color: var(--primary);
+    color: #ffffff;
     font-size: 13px;
     font-weight: 600;
     cursor: pointer;
@@ -726,14 +730,14 @@ body::before {
     width: 100%;
     padding: 16px;
     border: none;
-    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    background: linear-gradient(135deg, #27272a, #18181b);
     color: white;
     border-radius: 12px;
     font-size: 16px;
     font-weight: 700;
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3);
+    box-shadow: 0 8px 20px rgba(255, 255, 255, 0.30);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -744,7 +748,7 @@ body::before {
 
 .btn-primary:hover {
     transform: translateY(-2px);
-    box-shadow: 0 12px 28px rgba(99, 102, 241, 0.4);
+    box-shadow: 0 12px 28px rgba(255, 255, 255, 0.40);
 }
 
 .btn-shine {
@@ -773,13 +777,13 @@ body::before {
     display: flex;
     gap: 16px;
     padding: 16px;
-    background: #f8fafc;
+    background: #0c0c0e;
     border-radius: 12px;
     transition: all 0.3s ease;
 }
 
 .activity-item:hover {
-    background: white;
+    background: #18181b;
     box-shadow: var(--shadow);
     transform: translateX(4px);
 }
@@ -796,11 +800,11 @@ body::before {
 }
 
 .activity-icon.success {
-    background: linear-gradient(135deg, var(--success), #059669);
+    background: linear-gradient(135deg, var(--success), #52525b);
 }
 
 .activity-icon.warning {
-    background: linear-gradient(135deg, var(--warning), #f97316);
+    background: linear-gradient(135deg, var(--warning), #71717a);
 }
 
 .activity-icon.danger {
@@ -810,19 +814,19 @@ body::before {
 .activity-content h4 {
     font-size: 14px;
     font-weight: 600;
-    color: var(--dark);
+    color: #f4f4f5;
     margin-bottom: 4px;
 }
 
 .activity-content p {
     font-size: 13px;
-    color: #64748b;
+    color: #71717a;
     margin-bottom: 6px;
 }
 
 .activity-time {
     font-size: 11px;
-    color: #94a3b8;
+    color: #a1a1aa;
 }
 
 /* ========== RESPONSIVE ========== */
@@ -900,13 +904,13 @@ body::before {
         width: 40px;
         height: 40px;
         border: none;
-        background: #f8fafc;
+        background: #0c0c0e;
         border-radius: 10px;
         cursor: pointer;
         align-items: center;
         justify-content: center;
         font-size: 20px;
-        color: var(--dark);
+        color: #f4f4f5;
         box-shadow: var(--shadow);
     }
 

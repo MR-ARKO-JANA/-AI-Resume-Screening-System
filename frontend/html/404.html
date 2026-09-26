@@ -43,11 +43,11 @@
         .error-code {
             font-size: 8rem;
             font-weight: 900;
-            background: linear-gradient(135deg, #6366f1, #8b5cf6, #ec4899);
+            background: linear-gradient(135deg, #27272a, #18181b);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             line-height: 1.1;
-            filter: drop-shadow(0 10px 20px rgba(99, 102, 241, 0.4));
+            filter: drop-shadow(0 10px 20px rgba(255, 255, 255, 0.40));
         }
 
         @media (min-width: 768px) {
@@ -61,8 +61,8 @@
 <body>
     
     <!-- Background Animated Orbs -->
-    <div class="orb-1 absolute top-[10%] left-[10%] w-[30vw] h-[30vw] rounded-full bg-gradient-to-br from-indigo-500/30 to-purple-600/30 blur-[100px] z-0 pointer-events-none"></div>
-    <div class="orb-2 absolute bottom-[10%] right-[10%] w-[35vw] h-[35vw] rounded-full bg-gradient-to-tl from-pink-500/20 to-purple-600/30 blur-[120px] z-0 pointer-events-none"></div>
+    <div class="orb-1 absolute top-[10%] left-[10%] w-[30vw] h-[30vw] rounded-full bg-gradient-to-br from-zinc-700/20 to-zinc-800/20 blur-[100px] z-0 pointer-events-none"></div>
+    <div class="orb-2 absolute bottom-[10%] right-[10%] w-[35vw] h-[35vw] rounded-full bg-gradient-to-tl from-pink-500/20 to-zinc-800/20 blur-[120px] z-0 pointer-events-none"></div>
 
     <div class="container mx-auto px-6 relative z-10 text-center max-w-2xl">
         <div class="glass-card rounded-3xl p-10 md:p-16 transform transition-transform duration-500 hover:scale-[1.02]">
@@ -70,7 +70,7 @@
             <h2 class="text-3xl md:text-4xl font-bold text-white font-outfit mb-4">Page Not Found</h2>
             <p class="text-gray-400 text-lg mb-10 max-w-md mx-auto">The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.</p>
             
-            <a href="/dashboard" class="inline-flex items-center justify-center gap-3 px-8 py-4 bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-bold rounded-xl shadow-[0_10px_20px_-10px_rgba(99,102,241,0.6)] hover:shadow-[0_15px_25px_-10px_rgba(99,102,241,0.8)] hover:-translate-y-1 transition-all duration-300">
+            <a href="/dashboard" class="inline-flex items-center justify-center gap-3 px-8 py-4 bg-gradient-to-r from-zinc-800 to-zinc-900 text-white font-bold rounded-xl shadow-[0_10px_20px_-10px_rgba(255, 255, 255, 0.60)] hover:shadow-[0_15px_25px_-10px_rgba(255, 255, 255, 0.80)] hover:-translate-y-1 transition-all duration-300">
                 <i class="fas fa-home"></i> Back to Dashboard
             </a>
         </div>

@@ -6,7 +6,7 @@
     align-items: center;
     gap: 8px;
     padding: 12px 20px;
-    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    background: linear-gradient(135deg, #27272a, #18181b);
     color: white;
     border: none;
     border-radius: 12px;
@@ -14,12 +14,12 @@
     font-size: 14px;
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.25);
+    box-shadow: 0 4px 15px rgba(255, 255, 255, 2.50);
 }
 
 .btn-sync:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(99, 102, 241, 0.35);
+    box-shadow: 0 8px 20px rgba(255, 255, 255, 3.50);
 }
 
 .btn-sync i {
@@ -32,12 +32,12 @@
 
 /* Filter Panel */
 .jobs-filter-panel {
-    background: rgba(255, 255, 255, 0.95);
+    background: rgba(18, 18, 20, 0.95);
     backdrop-filter: blur(20px);
     padding: 24px;
     border-radius: 20px;
     box-shadow: var(--shadow-lg);
-    border: 1px solid rgba(226, 232, 240, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     margin-bottom: 28px;
     display: flex;
     flex-direction: column;
@@ -56,7 +56,7 @@
     padding: 10px 20px;
     border: none;
     background: transparent;
-    color: #64748b;
+    color: #71717a;
     font-weight: 600;
     font-size: 14px;
     cursor: pointer;
@@ -70,12 +70,12 @@
 }
 
 .tab-btn:hover {
-    color: var(--primary);
+    color: #ffffff;
 }
 
 .tab-btn.active {
-    color: var(--primary);
-    border-bottom-color: var(--primary);
+    color: #ffffff;
+    border-bottom-color: #ffffff;
 }
 
 .filter-inputs {
@@ -99,7 +99,7 @@
 .search-box i, .location-box i {
     position: absolute;
     left: 16px;
-    color: #94a3b8;
+    color: #a1a1aa;
     font-size: 16px;
 }
 
@@ -109,16 +109,16 @@
     border: 2px solid var(--border);
     border-radius: 12px;
     font-size: 14px;
-    background: #f8fafc;
-    color: var(--dark);
+    background: #0c0c0e;
+    color: #f4f4f5;
     transition: all 0.3s ease;
 }
 
 .search-box input:focus, .location-box input:focus {
     outline: none;
-    border-color: var(--primary);
-    background: white;
-    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+    border-color: #ffffff;
+    background: #18181b;
+    box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.10);
 }
 
 /* Job Grid */
@@ -133,14 +133,14 @@
     grid-column: 1 / -1;
     text-align: center;
     padding: 60px 20px;
-    color: #64748b;
+    color: #71717a;
     font-size: 16px;
     font-weight: 500;
 }
 
 .jobs-loading i {
     font-size: 24px;
-    color: var(--primary);
+    color: #ffffff;
     margin-bottom: 12px;
     display: block;
 }
@@ -163,23 +163,23 @@
 
 .no-jobs-found h3 {
     font-size: 18px;
-    color: var(--dark);
+    color: #f4f4f5;
     margin-bottom: 8px;
 }
 
 .no-jobs-found p {
-    color: #64748b;
+    color: #71717a;
     font-size: 14px;
 }
 
 /* Job Cards */
 .job-card {
-    background: rgba(255, 255, 255, 0.95);
+    background: rgba(18, 18, 20, 0.95);
     backdrop-filter: blur(20px);
     border-radius: 20px;
     padding: 24px;
     box-shadow: var(--shadow);
-    border: 1px solid rgba(226, 232, 240, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -191,7 +191,7 @@
 .job-card:hover {
     transform: translateY(-6px);
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08);
-    border-color: var(--primary);
+    border-color: #ffffff;
 }
 
 .job-card-header {
@@ -205,8 +205,8 @@
     width: 48px;
     height: 48px;
     border-radius: 12px;
-    background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1));
-    color: var(--primary);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.10), rgba(255, 255, 255, 0.05));
+    color: #ffffff;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -226,12 +226,12 @@
 /* Custom platform colors */
 .source-badge.naukri {
     background: rgba(249, 115, 22, 0.1);
-    color: #f97316;
+    color: #71717a;
 }
 
 .source-badge.indeed {
     background: rgba(37, 99, 235, 0.1);
-    color: #2563eb;
+    color: #ffffff;
 }
 
 .source-badge.unstop {
@@ -240,8 +240,8 @@
 }
 
 .source-badge.manual {
-    background: rgba(99, 102, 241, 0.1);
-    color: var(--primary);
+    background: rgba(255, 255, 255, 0.10);
+    color: #ffffff;
 }
 
 .job-card-info {
@@ -251,14 +251,14 @@
 .job-card-info h3 {
     font-size: 16px;
     font-weight: 700;
-    color: var(--dark);
+    color: #f4f4f5;
     margin-bottom: 4px;
     line-height: 1.4;
 }
 
 .job-card-info .company-name {
     font-size: 14px;
-    color: var(--primary);
+    color: #ffffff;
     font-weight: 600;
     margin-bottom: 12px;
 }
@@ -268,7 +268,7 @@
     flex-wrap: wrap;
     gap: 12px;
     font-size: 12px;
-    color: #64748b;
+    color: #71717a;
     margin-bottom: 16px;
 }
 
@@ -279,7 +279,7 @@
 }
 
 .job-meta-details i {
-    color: var(--primary);
+    color: #ffffff;
 }
 
 .job-skills-tags {
@@ -290,7 +290,7 @@
 }
 
 .skill-tag {
-    background: #f1f5f9;
+    background: #18181b;
     color: #475569;
     padding: 3px 10px;
     border-radius: 20px;
@@ -309,7 +309,7 @@
     padding: 10px;
     border: 2px solid var(--border);
     background: transparent;
-    color: #64748b;
+    color: #71717a;
     border-radius: 10px;
     font-weight: 600;
     font-size: 13px;
@@ -319,8 +319,8 @@
 }
 
 .btn-details:hover {
-    background: #f8fafc;
-    color: var(--dark);
+    background: #0c0c0e;
+    color: #f4f4f5;
     border-color: #cbd5e1;
 }
 
@@ -335,13 +335,13 @@
     font-size: 13px;
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 10px rgba(99, 102, 241, 0.15);
+    box-shadow: 0 4px 10px rgba(255, 255, 255, 1.50);
     text-align: center;
 }
 
 .btn-apply-now:hover {
-    background: #4f46e5;
-    box-shadow: 0 6px 15px rgba(99, 102, 241, 0.25);
+    background: #e4e4e7;
+    box-shadow: 0 6px 15px rgba(255, 255, 255, 2.50);
 }
 
 /* ========== MODAL STYLING ========== */
@@ -371,7 +371,7 @@
 }
 
 .modal-content {
-    background: rgba(255, 255, 255, 0.95);
+    background: rgba(18, 18, 20, 0.95);
     border-radius: 24px;
     max-width: 650px;
     width: 100%;
@@ -395,13 +395,13 @@
     right: 24px;
     font-size: 28px;
     font-weight: 500;
-    color: #94a3b8;
+    color: #a1a1aa;
     cursor: pointer;
     transition: all 0.3s ease;
 }
 
 .close-btn:hover {
-    color: var(--dark);
+    color: #f4f4f5;
 }
 
 .modal-header {
@@ -417,13 +417,13 @@
 .modal-header h2 {
     font-size: 24px;
     font-weight: 800;
-    color: var(--dark);
+    color: #f4f4f5;
     margin-bottom: 6px;
 }
 
 .modal-header h3 {
     font-size: 18px;
-    color: var(--primary);
+    color: #ffffff;
     font-weight: 600;
     margin-bottom: 16px;
 }
@@ -433,7 +433,7 @@
     flex-wrap: wrap;
     gap: 20px;
     font-size: 14px;
-    color: #64748b;
+    color: #71717a;
 }
 
 .job-quick-meta span {
@@ -443,7 +443,7 @@
 }
 
 .job-quick-meta i {
-    color: var(--primary);
+    color: #ffffff;
     font-size: 16px;
 }
 
@@ -461,7 +461,7 @@
 .modal-body h4 {
     font-size: 15px;
     font-weight: 700;
-    color: var(--dark);
+    color: #f4f4f5;
     margin-bottom: 10px;
     margin-top: 20px;
 }
@@ -481,8 +481,8 @@
 }
 
 .modal-skills-list span {
-    background: rgba(99, 102, 241, 0.1);
-    color: var(--primary);
+    background: rgba(255, 255, 255, 0.10);
+    color: #ffffff;
     padding: 6px 14px;
     border-radius: 20px;
     font-size: 12px;
@@ -508,7 +508,7 @@
 }
 
 .btn-external:hover {
-    background: #f8fafc;
+    background: #0c0c0e;
     border-color: #cbd5e1;
 }
 
@@ -516,20 +516,20 @@
     flex: 1;
     padding: 12px 24px;
     border: none;
-    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    background: linear-gradient(135deg, #27272a, #18181b);
     color: white;
     border-radius: 12px;
     font-weight: 700;
     font-size: 14px;
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.25);
+    box-shadow: 0 4px 15px rgba(255, 255, 255, 2.50);
     text-align: center;
 }
 
 .btn-apply-trigger:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(99, 102, 241, 0.35);
+    box-shadow: 0 8px 24px rgba(255, 255, 255, 3.50);
 }
 
 /* ========== APPLY RESUME UPLOAD ========== */
@@ -542,25 +542,25 @@
     border-radius: 20px;
     padding: 40px 20px;
     text-align: center;
-    background: #f8fafc;
+    background: #0c0c0e;
     cursor: pointer;
     transition: all 0.3s ease;
     margin-bottom: 20px;
 }
 
 .apply-dropzone:hover, .apply-dropzone.drag-over {
-    border-color: var(--primary);
-    background: rgba(99, 102, 241, 0.03);
+    border-color: #ffffff;
+    background: rgba(255, 255, 255, 0.30);
 }
 
 .apply-dropzone.file-selected {
     border-color: var(--success);
-    background: rgba(16, 185, 129, 0.03);
+    background: rgba(255, 255, 255, 0.06);
 }
 
 .apply-dropzone .upload-icon {
     font-size: 40px;
-    color: var(--primary);
+    color: #ffffff;
     margin-bottom: 16px;
     transition: transform 0.3s ease;
 }
@@ -576,24 +576,24 @@
 .apply-dropzone h3 {
     font-size: 16px;
     font-weight: 700;
-    color: var(--dark);
+    color: #f4f4f5;
     margin-bottom: 6px;
 }
 
 .apply-dropzone p {
     font-size: 13px;
-    color: #64748b;
+    color: #71717a;
     margin-bottom: 16px;
 }
 
 .apply-dropzone .btn-browse {
     padding: 8px 16px;
-    background: white;
+    background: #18181b;
     border: 1px solid var(--border);
     border-radius: 8px;
     font-size: 12px;
     font-weight: 600;
-    color: var(--dark);
+    color: #f4f4f5;
     cursor: pointer;
     transition: all 0.3s ease;
     box-shadow: var(--shadow-sm);
@@ -601,14 +601,14 @@
 
 .apply-dropzone .btn-browse:hover {
     border-color: #cbd5e1;
-    background: #f8fafc;
+    background: #0c0c0e;
 }
 
 .apply-dropzone .file-types {
     display: block;
     margin-top: 12px;
     font-size: 11px;
-    color: #94a3b8;
+    color: #a1a1aa;
 }
 
 /* Selected File Box */
@@ -617,13 +617,13 @@
     align-items: center;
     justify-content: space-between;
     padding: 12px 18px;
-    background: rgba(16, 185, 129, 0.1);
+    background: rgba(255, 255, 255, 0.06);
     color: #065f46;
     border-radius: 12px;
     font-size: 13px;
     font-weight: 600;
     margin-bottom: 24px;
-    border: 1px solid rgba(16, 185, 129, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .selected-file-notice i {
@@ -652,19 +652,19 @@
     width: 100%;
     padding: 14px;
     border: none;
-    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    background: linear-gradient(135deg, #27272a, #18181b);
     color: white;
     border-radius: 12px;
     font-weight: 700;
     font-size: 14px;
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.25);
+    box-shadow: 0 4px 15px rgba(255, 255, 255, 2.50);
 }
 
 .btn-submit-app:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(99, 102, 241, 0.35);
+    box-shadow: 0 8px 20px rgba(255, 255, 255, 3.50);
 }
 
 /* Tooltip utility */

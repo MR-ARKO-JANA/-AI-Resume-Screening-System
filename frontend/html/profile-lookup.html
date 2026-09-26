@@ -49,8 +49,8 @@
     .orb-2 { animation: pulse-glow 12s infinite alternate-reverse; }
     
     .input-focus-glow:focus-within {
-        box-shadow: 0 0 15px rgba(99, 102, 241, 0.3);
-        border-color: rgba(99, 102, 241, 0.8);
+        box-shadow: 0 0 15px rgba(255, 255, 255, 0.15);
+        border-color: rgba(255, 255, 255, 0.6);
     }
 
     /* Hide scrollbar */
@@ -69,10 +69,10 @@
         theme: {
             extend: {
                 colors: {
-                    primary: "#6366f1",
-                    secondary: "#8b5cf6",
-                    surface: "#111827",
-                    "surface-light": "#1f2937",
+                    primary: "#ffffff",
+                    secondary: "#a1a1aa",
+                    surface: "#09090b",
+                    "surface-light": "#18181b",
                     "border-subtle": "rgba(255,255,255,0.1)",
                 },
                 fontFamily: {
@@ -87,17 +87,17 @@
 <body class="bg-[#0B0F19] text-gray-200 h-screen flex relative overflow-hidden">
     
 <!-- Background Animated Orbs -->
-<div class="orb-1 fixed top-[-10%] left-[-5%] w-[50vw] h-[50vw] rounded-full bg-gradient-to-br from-indigo-500/20 to-purple-600/20 blur-[120px] z-0 pointer-events-none"></div>
-<div class="orb-2 fixed bottom-[-10%] right-[-5%] w-[50vw] h-[50vw] rounded-full bg-gradient-to-tl from-blue-500/20 to-indigo-600/20 blur-[120px] z-0 pointer-events-none"></div>
+<div class="orb-1 fixed top-[-10%] left-[-5%] w-[50vw] h-[50vw] rounded-full bg-gradient-to-br from-zinc-700/20 to-zinc-800/20 blur-[120px] z-0 pointer-events-none"></div>
+<div class="orb-2 fixed bottom-[-10%] right-[-5%] w-[50vw] h-[50vw] rounded-full bg-gradient-to-tl from-zinc-600/20 to-zinc-900/20 blur-[120px] z-0 pointer-events-none"></div>
 
 <!-- SideNavBar Component -->
 <nav class="hidden md:flex flex-col h-screen p-4 glass-sidebar fixed left-0 top-0 w-[280px] z-20">
     <div class="mb-8 px-4 flex items-center gap-3">
-        <div class="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-600 text-white rounded-xl flex items-center justify-center text-xl shadow-[0_0_15px_rgba(99,102,241,0.4)] shrink-0">
+        <div class="w-10 h-10 bg-gradient-to-br from-zinc-800 to-zinc-900 text-white rounded-xl flex items-center justify-center text-xl shadow-[0_0_15px_rgba(255, 255, 255, 0.40)] shrink-0">
             <i class="fas fa-brain"></i>
         </div>
         <div>
-            <h1 class="text-[22px] font-bold text-white font-outfit leading-tight">Recruit<span class="text-indigo-400">AI</span></h1>
+            <h1 class="text-[22px] font-bold text-white font-outfit leading-tight">Recruit<span class="text-zinc-200">AI</span></h1>
             <p class="text-[10px] text-gray-400 font-semibold tracking-wider uppercase mt-0.5">Enterprise Intelligence</p>
         </div>
     </div>
@@ -121,8 +121,8 @@
             </a>
         </li>
         <li>
-            <a class="flex items-center gap-3 px-4 py-3 rounded-xl bg-gradient-to-r from-indigo-500/20 to-purple-500/10 border border-indigo-500/30 text-indigo-300 font-semibold shadow-[inset_0_0_20px_rgba(99,102,241,0.1)] transition-colors" href="/profile-lookup">
-                <i class="fas fa-search w-5 text-center text-indigo-400"></i>
+            <a class="flex items-center gap-3 px-4 py-3 rounded-xl bg-gradient-to-r from-zinc-700/20 to-zinc-900/10 border border-zinc-600/30 text-zinc-200 font-semibold shadow-[inset_0_0_20px_rgba(255, 255, 255, 0.10)] transition-colors" href="/profile-lookup">
+                <i class="fas fa-search w-5 text-center text-zinc-200"></i>
                 <span class="text-[14px]">Profile Lookup</span>
             </a>
         </li>
@@ -140,7 +140,7 @@
         </li>
     </ul>
     <div class="mt-auto pt-4 relative z-10">
-        <button class="w-full bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-semibold text-sm py-3 px-4 rounded-xl shadow-[0_10px_20px_-10px_rgba(99,102,241,0.6)] hover:shadow-[0_15px_25px_-10px_rgba(99,102,241,0.8)] hover:-translate-y-0.5 transition-all duration-300" onclick="window.location.href='/dashboard'">
+        <button class="w-full bg-gradient-to-r from-zinc-800 to-zinc-900 text-white font-semibold text-sm py-3 px-4 rounded-xl shadow-[0_10px_20px_-10px_rgba(255, 255, 255, 0.60)] hover:shadow-[0_15px_25px_-10px_rgba(255, 255, 255, 0.80)] hover:-translate-y-0.5 transition-all duration-300" onclick="window.location.href='/dashboard'">
             <i class="fas fa-file-upload mr-2"></i> Process Resumes
         </button>
     </div>
@@ -158,9 +158,9 @@
         <div class="flex items-center gap-4">
             <button class="p-2 text-gray-400 hover:text-white hover:bg-white/10 rounded-full transition-colors relative">
                 <i class="fas fa-bell text-lg"></i>
-                <span class="absolute top-1 right-1 w-2 h-2 bg-indigo-500 rounded-full shadow-[0_0_8px_rgba(99,102,241,0.8)]"></span>
+                <span class="absolute top-1 right-1 w-2 h-2 bg-zinc-800 rounded-full shadow-[0_0_8px_rgba(255, 255, 255, 0.80)]"></span>
             </button>
-            <div class="w-9 h-9 rounded-full overflow-hidden border-2 border-indigo-500/50 shrink-0">
+            <div class="w-9 h-9 rounded-full overflow-hidden border-2 border-zinc-600/50 shrink-0">
                 <img alt="User Avatar" class="w-full h-full object-cover" src="../images/user_img.webp"/>
             </div>
         </div>
@@ -172,24 +172,24 @@
             
             <!-- Page Header -->
             <div class="mb-8">
-                <h1 class="text-3xl font-bold tracking-tight text-white font-outfit flex items-center gap-3"><i class="fas fa-user-secret text-indigo-500"></i> Candidate Profile Lookup</h1>
+                <h1 class="text-3xl font-bold tracking-tight text-white font-outfit flex items-center gap-3"><i class="fas fa-user-secret text-zinc-200"></i> Candidate Profile Lookup</h1>
                 <p class="text-gray-400 mt-2 text-sm">Deep-dive into candidate's GitHub activity & LinkedIn profile using AI</p>
             </div>
 
             <!-- Input Section -->
             <div class="glass-card p-6 rounded-2xl mb-8 shadow-sm relative overflow-hidden">
-                <div class="absolute inset-0 bg-gradient-to-r from-indigo-500/5 to-purple-600/5 z-0 pointer-events-none"></div>
+                <div class="absolute inset-0 bg-gradient-to-r from-zinc-700/20 to-zinc-800/20 z-0 pointer-events-none"></div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6 relative z-10">
                     <div class="relative input-focus-glow rounded-xl transition-all duration-300">
                         <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider mb-2"><i class="fab fa-github text-gray-400"></i> GitHub Profile URL</label>
                         <input type="url" id="githubUrl" class="w-full px-4 py-3 bg-gray-900/50 border border-gray-700/50 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-0 transition-colors text-sm" placeholder="https://github.com/username" autocomplete="off">
                     </div>
                     <div class="relative input-focus-glow rounded-xl transition-all duration-300">
-                        <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider mb-2"><i class="fab fa-linkedin text-blue-400"></i> LinkedIn Profile URL</label>
+                        <label class="block text-xs font-semibold text-gray-300 uppercase tracking-wider mb-2"><i class="fab fa-linkedin text-zinc-200"></i> LinkedIn Profile URL</label>
                         <input type="url" id="linkedinUrl" class="w-full px-4 py-3 bg-gray-900/50 border border-gray-700/50 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-0 transition-colors text-sm" placeholder="https://linkedin.com/in/username" autocomplete="off">
                     </div>
                 </div>
-                <button class="w-full md:w-auto px-8 py-3.5 bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-bold rounded-xl shadow-[0_10px_20px_-10px_rgba(99,102,241,0.6)] hover:shadow-[0_15px_25px_-10px_rgba(99,102,241,0.8)] hover:-translate-y-0.5 transition-all duration-300 flex items-center justify-center gap-2 mx-auto relative z-10" id="checkBtn" onclick="checkProfile()">
+                <button class="w-full md:w-auto px-8 py-3.5 bg-gradient-to-r from-zinc-800 to-zinc-900 text-white font-bold rounded-xl shadow-[0_10px_20px_-10px_rgba(255, 255, 255, 0.60)] hover:shadow-[0_15px_25px_-10px_rgba(255, 255, 255, 0.80)] hover:-translate-y-0.5 transition-all duration-300 flex items-center justify-center gap-2 mx-auto relative z-10" id="checkBtn" onclick="checkProfile()">
                     <i class="fas fa-magic"></i> Check Candidate Profile
                 </button>
             </div>
@@ -204,8 +204,8 @@
             <div class="hidden flex-col items-center justify-center p-12 glass-card rounded-xl mb-8 text-center" id="loadingState">
                 <div class="relative w-16 h-16 mb-6">
                     <div class="absolute inset-0 border-4 border-white/10 rounded-full"></div>
-                    <div class="absolute inset-0 border-4 border-indigo-500 rounded-full border-t-transparent animate-spin"></div>
-                    <i class="fas fa-brain absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-indigo-400 text-xl"></i>
+                    <div class="absolute inset-0 border-4 border-zinc-600 rounded-full border-t-transparent animate-spin"></div>
+                    <i class="fas fa-brain absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-zinc-200 text-xl"></i>
                 </div>
                 <h3 class="text-xl font-bold text-white font-outfit mb-2">Analyzing Candidate Profile...</h3>
                 <p class="text-sm text-gray-400">Fetching GitHub data & running AI analysis</p>
@@ -217,13 +217,13 @@
                 <!-- GitHub Profile Card -->
                 <div class="glass-card rounded-2xl p-6 flex flex-col md:flex-row items-center md:items-start gap-6 relative overflow-hidden" id="githubProfileCard">
                     <!-- Accent blur -->
-                    <div class="absolute top-0 right-0 w-32 h-32 bg-indigo-500/20 blur-[50px] rounded-full pointer-events-none"></div>
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-white/5 blur-[50px] rounded-full pointer-events-none"></div>
                     
-                    <img class="w-24 h-24 rounded-full border-2 border-indigo-500/30 object-cover shadow-[0_0_15px_rgba(99,102,241,0.3)] shrink-0 md:ml-4 relative z-10" id="profileAvatar" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="Avatar">
+                    <img class="w-24 h-24 rounded-full border-2 border-zinc-600/30 object-cover shadow-[0_0_15px_rgba(255, 255, 255, 0.30)] shrink-0 md:ml-4 relative z-10" id="profileAvatar" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="Avatar">
                     
                     <div class="flex-1 text-center md:text-left relative z-10">
                         <h2 class="text-2xl font-bold text-white font-outfit mb-1" id="profileName"></h2>
-                        <p class="text-sm font-semibold text-indigo-400 mb-3" id="profileUsername"></p>
+                        <p class="text-sm font-semibold text-zinc-200 mb-3" id="profileUsername"></p>
                         <p class="text-sm text-gray-300 mb-4 max-w-2xl leading-relaxed" id="profileBio"></p>
                         
                         <div class="flex flex-wrap items-center justify-center md:justify-start gap-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">
@@ -241,7 +241,7 @@
                 <!-- Stats Grid -->
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
                     <div class="glass-card p-5 rounded-2xl flex flex-col items-center text-center hover:bg-white/5 transition-colors">
-                        <div class="w-12 h-12 rounded-xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center text-xl mb-4 border border-indigo-500/30"><i class="fas fa-code-branch"></i></div>
+                        <div class="w-12 h-12 rounded-xl bg-white/5 text-zinc-200 flex items-center justify-center text-xl mb-4 border border-zinc-600/30"><i class="fas fa-code-branch"></i></div>
                         <h3 class="text-3xl font-bold text-white font-mono-data mb-1" id="statRepos">0</h3>
                         <p class="text-[10px] text-gray-500 font-bold uppercase tracking-widest mt-1 block">Repositories</p>
                     </div>
@@ -256,7 +256,7 @@
                         <p class="text-[10px] text-gray-500 font-bold uppercase tracking-widest mt-1 block">Followers</p>
                     </div>
                     <div class="glass-card p-5 rounded-2xl flex flex-col items-center text-center hover:bg-white/5 transition-colors">
-                        <div class="w-12 h-12 rounded-xl bg-purple-500/20 text-purple-400 flex items-center justify-center text-xl mb-4 border border-purple-500/30"><i class="fas fa-user-plus"></i></div>
+                        <div class="w-12 h-12 rounded-xl bg-white/5 text-zinc-300 flex items-center justify-center text-xl mb-4 border border-zinc-600/30"><i class="fas fa-user-plus"></i></div>
                         <h3 class="text-3xl font-bold text-white font-mono-data mb-1" id="statFollowing">0</h3>
                         <p class="text-[10px] text-gray-500 font-bold uppercase tracking-widest mt-1 block">Following</p>
                     </div>
@@ -277,7 +277,7 @@
                     <!-- Commit Activity Graph -->
                     <div class="glass-card rounded-2xl flex flex-col">
                         <div class="p-5 border-b border-white/10 bg-black/20">
-                            <h3 class="font-bold text-white font-outfit flex items-center gap-2"><i class="fas fa-chart-area text-indigo-400"></i> Commit Activity (12 Months)</h3>
+                            <h3 class="font-bold text-white font-outfit flex items-center gap-2"><i class="fas fa-chart-area text-zinc-200"></i> Commit Activity (12 Months)</h3>
                         </div>
                         <div class="p-5 flex-1 relative h-64 bg-gray-900/30 rounded-b-2xl">
                             <canvas id="commitChart"></canvas>
@@ -287,7 +287,7 @@
                     <!-- Languages -->
                     <div class="glass-card rounded-2xl flex flex-col">
                         <div class="p-5 border-b border-white/10 bg-black/20">
-                            <h3 class="font-bold text-white font-outfit flex items-center gap-2"><i class="fas fa-code text-purple-400"></i> Languages Used</h3>
+                            <h3 class="font-bold text-white font-outfit flex items-center gap-2"><i class="fas fa-code text-zinc-300"></i> Languages Used</h3>
                         </div>
                         <div class="p-5 flex flex-wrap gap-3" id="langGrid">
                             <!-- Filled by JS -->
@@ -314,7 +314,7 @@
                         <div class="w-14 h-14 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-3xl text-white shadow-inner"><i class="fab fa-linkedin-in"></i></div>
                         <div>
                             <h3 class="text-2xl font-bold text-white font-outfit m-0" id="linkedinName">LinkedIn Insights</h3>
-                            <p class="text-blue-100 m-0 mt-1 text-sm font-medium" id="linkedinHeadline"></p>
+                            <p class="text-zinc-200 m-0 mt-1 text-sm font-medium" id="linkedinHeadline"></p>
                             <p class="text-white/80 font-semibold m-0 mt-2 text-xs uppercase tracking-widest" id="linkedinRole"></p>
                         </div>
                     </div>
@@ -343,7 +343,7 @@
                         <!-- Education -->
                         <div class="glass-card rounded-2xl flex flex-col">
                             <div class="p-5 border-b border-white/10 bg-black/20">
-                                <h3 class="font-bold text-white font-outfit flex items-center gap-2"><i class="fas fa-graduation-cap text-indigo-400"></i> Education</h3>
+                                <h3 class="font-bold text-white font-outfit flex items-center gap-2"><i class="fas fa-graduation-cap text-zinc-200"></i> Education</h3>
                             </div>
                             <div class="p-5 flex-1 flex flex-col gap-5" id="educationList">
                                 <!-- Filled by JS -->
@@ -359,7 +359,7 @@
                                 <div class="flex flex-col gap-3 mb-6 text-sm text-gray-300 leading-relaxed" id="highlightsList">
                                     <!-- Filled by JS -->
                                 </div>
-                                <h4 class="text-sm font-bold text-white font-outfit mb-4 flex items-center gap-2"><i class="fas fa-tags text-indigo-400"></i> Verified Skills</h4>
+                                <h4 class="text-sm font-bold text-white font-outfit mb-4 flex items-center gap-2"><i class="fas fa-tags text-zinc-200"></i> Verified Skills</h4>
                                 <div class="flex flex-wrap gap-2" id="skillsCloud">
                                     <!-- Filled by JS -->
                                 </div>

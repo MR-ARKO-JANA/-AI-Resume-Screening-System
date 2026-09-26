@@ -187,8 +187,8 @@ function renderProjects(projects) {
     container.innerHTML = projects.map((p, i) => `
         <a class="flex flex-col gap-2 p-3 bg-surface hover:bg-surface-variant transition-colors rounded-lg border border-border-subtle" href="${p.url}" target="_blank">
             <div class="flex items-center justify-between">
-                <span class="font-bold text-primary flex items-center gap-2"><i class="fas fa-folder-open text-[#2563EB]"></i> ${escapeHtml(p.name)}</span>
-                <span class="text-xs font-bold px-2 py-1 bg-blue-100 text-[#2563EB] rounded">#${i + 1}</span>
+                <span class="font-bold text-white flex items-center gap-2"><i class="fas fa-folder-open text-white"></i> ${escapeHtml(p.name)}</span>
+                <span class="text-xs font-bold px-2 py-1 bg-zinc-800 text-white border border-zinc-700 rounded">#${i + 1}</span>
             </div>
             <p class="text-sm text-on-surface-variant line-clamp-2">${escapeHtml(p.description)}</p>
             <div class="flex items-center gap-4 text-xs font-semibold text-slate-gray mt-1">
@@ -228,10 +228,10 @@ function renderCommitChart(commitActivity) {
                 backgroundColor: (ctx) => {
                     const chart = ctx.chart;
                     const { ctx: context, chartArea } = chart;
-                    if (!chartArea) return '#6366f1';
+                    if (!chartArea) return '#ffffff';
                     const gradient = context.createLinearGradient(0, chartArea.bottom, 0, chartArea.top);
-                    gradient.addColorStop(0, 'rgba(99, 102, 241, 0.3)');
-                    gradient.addColorStop(1, 'rgba(139, 92, 246, 0.9)');
+                    gradient.addColorStop(0, 'rgba(255, 255, 255, 0.2)');
+                    gradient.addColorStop(1, 'rgba(255, 255, 255, 0.9)');
                     return gradient;
                 },
                 borderRadius: 8,
